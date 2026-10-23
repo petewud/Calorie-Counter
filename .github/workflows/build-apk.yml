@@ -11,7 +11,6 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -32,54 +31,12 @@ jobs:
         with:
           gradle-version: '8.9'
 
-      - name: Unzip Android project
+      - name: Unzip original Android project
         run: unzip -o CalorieCounter.zip
 
-      - name: Apply recipe and food search update
-        run: python3 update_app.py
+      - name: Apply consolidated app update
+        run: python3 apply_update.py
 
-      - name: Add nutrition totals and history
-        run: python3 update_nutrition.py
-
-      - name: Repair Kotlin search file and launcher icon
-        run: |
-          python3 - <<'PY'
-          from pathlib import Path
-
-          root = Path("CalorieCounter")
-          path = root / "app/src/main/java/com/example/caloriecounter/ui/FoodPicker.kt"
-          text = path.read_text(encoding="utf-8")
-          newline = chr(10)
-          escaped_newline = chr(92) + "n"
-
-          if text.count(newline) < 5 and escaped_newline in text:
-              text = text.replace(escaped_newline, newline)
-
-          lines = text.splitlines()
-          replacement = '        if (!response.isSuccessful) error("Search failed (${response.code})")'
-          corrupted = sum("get_ipython" in line for line in lines)
-          if corrupted > 1:
-              raise SystemExit("Unexpected multiple notebook-code lines. Stopping for inspection.")
-
-          fixed = [replacement if "get_ipython" in line else line for line in lines]
-          result = newline.join(fixed) + newline
-          if len(result.splitlines()) < 50:
-              raise SystemExit("FoodPicker.kt still has too few lines. Stopping before compilation.")
-          if "get_ipython" in result:
-              raise SystemExit("Notebook code remains in FoodPicker.kt.")
-          path.write_text(result, encoding="utf-8")
-          print("FoodPicker.kt repaired. Line count:", len(result.splitlines()))
-          print(newline.join(result.splitlines()[:5]))
-
-          manifest = root / "app/src/main/AndroidManifest.xml"
-          contents = manifest.read_text(encoding="utf-8")
-          contents = contents.replace("@mipmap/ic_launcher", "@android:drawable/ic_menu_compass")
-          manifest.write_text(contents, encoding="utf-8")
-          PY
-
-      - name: Fix search response parsing
-        run: python3 fix_search_json.py
-        
       - name: Build debug APK
         run: gradle -p CalorieCounter assembleDebug --console=plain
 
