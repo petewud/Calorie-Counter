@@ -30,6 +30,9 @@ jobs:
       - name: Apply recipe and food search update
         run: python3 update_app.py
 
+      - name: Add nutrition totals and history
+        run: python3 update_nutrition.py
+
       - name: Fix missing launcher icon reference
         run: |
           sed -i 's|android:icon="@mipmap/ic_launcher"|android:icon="@android:drawable/ic_menu_compass"|' CalorieCounter/app/src/main/AndroidManifest.xml
