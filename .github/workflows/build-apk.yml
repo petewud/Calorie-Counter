@@ -33,6 +33,29 @@ jobs:
       - name: Add nutrition totals and history
         run: python3 update_nutrition.py
 
+      - name: Repair corrupted Kotlin search line
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+
+          path = Path("CalorieCounter/app/src/main/java/com/example/caloriecounter/ui/FoodPicker.kt")
+          text = path.read_text()
+          lines = text.splitlines()
+
+          replacement = '        if (!response.isSuccessful) error("Search failed (${response.code})")'
+          count = sum("get_ipython" in line for line in lines)
+
+          if count > 1:
+              raise SystemExit("Unexpected extra corrupted lines; stopping for inspection.")
+
+          fixed = [
+              replacement if "get_ipython" in line else line
+              for line in lines
+          ]
+          path.write_text("".join(fixed) + "")
+          print(f"Repaired {count} corrupted Kotlin line(s).")
+          PY
+
       - name: Fix missing launcher icon reference
         run: |
           sed -i 's|android:icon="@mipmap/ic_launcher"|android:icon="@android:drawable/ic_menu_compass"|' CalorieCounter/app/src/main/AndroidManifest.xml
