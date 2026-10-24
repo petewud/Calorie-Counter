@@ -8,6 +8,10 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: android-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -24,25 +28,39 @@ jobs:
       - name: Set up Android SDK
         uses: android-actions/setup-android@v3
         with:
-          packages: 'platform-tools'
+          packages: 'platform-tools platforms;android-35 build-tools;35.0.0'
 
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: '8.9'
 
-      - name: Unzip original Android project
-        run: unzip -o CalorieCounter.zip
+      - name: Restore persistent debug signing key
+        uses: actions/cache@v4
+        with:
+          path: ~/.android/debug.keystore
+          key: calorie-counter-debug-signing-v1
 
-      - name: Apply consolidated app update
-        run: python3 apply_update.py
+      - name: Extract complete project
+        run: |
+          rm -rf CalorieCounter
+          unzip -q CalorieCounter.zip
+          test -f CalorieCounter/settings.gradle.kts
 
-      - name: Build debug APK
-        run: gradle -p CalorieCounter assembleDebug --console=plain
+      - name: Test and build APK
+        run: gradle -p CalorieCounter testDebugUnitTest assembleDebug --console=plain
 
-      - name: Upload APK artifact
+      - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: calorie-counter-debug-apk
           path: CalorieCounter/app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
+
+      - name: Upload test reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: calculation-test-reports
+          path: CalorieCounter/app/build/reports/tests/testDebugUnitTest
+          if-no-files-found: ignore
