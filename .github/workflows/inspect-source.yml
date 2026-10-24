@@ -1,0 +1,49 @@
+name: Inspect archived app source
+
+on:
+  push:
+    paths:
+      - '.github/workflows/inspect-source.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Export source text from ZIP
+        run: |
+          python3 - <<'PY'
+          import json
+          import zipfile
+          from pathlib import Path
+          sources = {}
+          with zipfile.ZipFile('CalorieCounter.zip') as archive:
+              for entry in archive.infolist():
+                  path = Path(entry.filename)
+                  if entry.is_dir() or '__MACOSX' in entry.filename:
+                      continue
+                  if path.suffix not in {'.kt', '.kts', '.xml'} and path.name != 'gradle.properties':
+                      continue
+                  if entry.file_size > 500000:
+                      raise SystemExit('Source file unexpectedly large')
+                  sources[entry.filename] = archive.read(entry).decode('utf-8-sig')
+          if not sources:
+              raise SystemExit('No source files found')
+          text = json.dumps(sources, ensure_ascii=False, indent=2)
+          if len(text.encode('utf-8')) > 3000000:
+              raise SystemExit('Source export unexpectedly large')
+          Path('source-review.json').write_text(text, encoding='utf-8')
+          print('Exported', len(sources), 'source files')
+          PY
+      - name: Save source copy on separate branch
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git switch -c source-review
+          git add source-review.json
+          git commit -m 'Export archived source for app update review'
+          git push origin HEAD:refs/heads/source-review
