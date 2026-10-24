@@ -1,0 +1,85 @@
+name: Collect MenuTracker restaurant data
+
+on:
+  push:
+    branches: [ main ]
+    paths: [ '.github/workflows/collect-restaurants.yml' ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    steps:
+      - name: Checkout app repository
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Checkout MenuTracker
+        uses: actions/checkout@v4
+        with:
+          repository: intake24/Menu_Tracker
+          path: menutracker
+          persist-credentials: false
+      - name: Build collection container
+        timeout-minutes: 20
+        run: docker build -t personal-menutracker menutracker
+      - name: Collect available chains
+        continue-on-error: true
+        timeout-minutes: 32
+        run: |
+          mkdir -p collections
+          trap 'docker rm -f personal-menu-collection >/dev/null 2>&1 || true' EXIT
+          timeout --signal=TERM 30m docker run --name personal-menu-collection --rm --shm-size=1g --user "$(id -u):$(id -g)" -v "$PWD/collections:/app/collections" personal-menutracker Master_Compile.py personal_app --evidence-dir collections/evidence
+      - name: Prepare collected text and inventory
+        if: always()
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import json, hashlib, shutil, subprocess
+          folder = Path('restaurant-data')
+          folder.mkdir(exist_ok=True)
+          inventory = []
+          total = 0
+          for path in sorted(Path('collections').rglob('*')):
+              if not path.is_file():
+                  continue
+              rel = path.relative_to('collections')
+              size = path.stat().st_size
+              copied = False
+              if 'evidence' not in rel.parts and path.suffix.lower() in {'.json', '.csv'} and size <= 1000000 and total + size <= 20000000:
+                  destination = folder / 'raw' / rel
+                  destination.parent.mkdir(parents=True, exist_ok=True)
+                  shutil.copyfile(path, destination)
+                  total += size
+                  copied = True
+              inventory.append({'path': str(rel), 'bytes': size, 'text_copied': copied, 'sha256': hashlib.sha256(path.read_bytes()).hexdigest()})
+          result = subprocess.run(['git', '-C', 'menutracker', 'rev-parse', 'HEAD'], capture_output=True, text=True)
+          (folder / 'inventory.json').write_text(json.dumps({'source_commit': result.stdout.strip(), 'note': 'Raw collection, not a validated complete restaurant catalogue. PDFs need separate extraction. Non-commercial personal-use collection.', 'files': inventory}, indent=2), encoding='utf-8')
+          print('Collected files:', len(inventory), 'Copied text bytes:', total)
+          PY
+      - name: Save results on restaurant-data branch
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          test -f restaurant-data/inventory.json
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git switch -c restaurant-data
+          git add restaurant-data
+          git commit -m 'Save raw MenuTracker collection for validation'
+          git -c http.extraheader="AUTHORIZATION: basic $(printf 'x-access-token:%s' "$GH_TOKEN" | base64 -w0)" push origin HEAD:refs/heads/restaurant-data
+      - name: Upload raw collection and PDFs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: menutracker-raw-collection
+          path: |
+            collections/
+            restaurant-data/
+          retention-days: 3
+          if-no-files-found: warn
