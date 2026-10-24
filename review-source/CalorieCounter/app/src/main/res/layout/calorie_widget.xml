@@ -1,0 +1,6 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/widget_root" android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:background="@drawable/widget_bg">
+ <TextView android:id="@+id/widget_date" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Daily calories" android:textColor="#A3E4E4" android:textSize="13sp"/>
+ <TextView android:id="@+id/widget_used" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="0 kcal eaten" android:textColor="#FFFFFF" android:textSize="22sp"/>
+ <TextView android:id="@+id/widget_left" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Open app to set target" android:textColor="#FFFFFF" android:textSize="16sp"/>
+ <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Tap to open · automatic refresh" android:textColor="#B9D3D6" android:textSize="11sp"/>
+</LinearLayout>
