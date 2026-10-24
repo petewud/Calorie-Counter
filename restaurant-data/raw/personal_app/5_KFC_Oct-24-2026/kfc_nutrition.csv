@@ -1,0 +1,131 @@
+rest_name,collection_date,item_name,menu_section,allergens,vegan,vegetarian,serving_size,kj,kcal,fat,saturated_fat,carbohydrates,sugars,protein,salt
+KFC,Oct-24-2026,Original Recipe Chicken Keel,Just Chicken,"['Egg', 'Wheat Gluten', 'Milk', 'Sesame', 'Soya', 'Celery']",False,False,1,921,220,11.00,1.90,6.80,0.50,23.00,0.94
+KFC,Oct-24-2026,Original Recipe Chicken Drumstick,Just Chicken,"['Egg', 'Wheat Gluten', 'Milk', 'Sesame', 'Soya', 'Celery']",False,False,1,750,179,10.00,1.50,8.00,0.50,14.00,0.74
+KFC,Oct-24-2026,Original Recipe Chicken Thigh,Just Chicken,"['Egg', 'Wheat Gluten', 'Milk', 'Sesame', 'Soya', 'Celery']",False,False,1,1116,268,17.00,3.40,8.20,0.20,20.00,1.00
+KFC,Oct-24-2026,Original Recipe Chicken Rib,Just Chicken,"['Egg', 'Wheat Gluten', 'Milk', 'Sesame', 'Soya', 'Celery']",False,False,1,1296,310,15.00,2.50,11.00,0.50,33.10,1.31
+KFC,Oct-24-2026,Original Recipe Chicken Wing,Just Chicken,"['Egg', 'Wheat Gluten', 'Milk', 'Sesame', 'Soya', 'Celery']",False,False,1,762,182,10.30,1.70,6.80,0.50,16.00,0.67
+KFC,Oct-24-2026,Small Popcorn Chicken,Just Chicken,"['Egg', 'Wheat Gluten', 'Milk', 'Sesame', 'Soya', 'Celery']",False,False,1,592,142,8.30,0.80,8.30,0.20,8.30,0.64
+KFC,Oct-24-2026,Regular Popcorn Chicken,Just Chicken,"['Egg', 'Wheat Gluten', 'Milk', 'Sesame', 'Soya', 'Celery']",False,False,1,1283,307,18.00,1.80,18.00,0.50,18.00,1.30
+KFC,Oct-24-2026,Large Popcorn Chicken,Just Chicken,"['Egg', 'Wheat Gluten', 'Milk', 'Sesame', 'Soya', 'Celery']",False,False,1,1996,478,28.00,2.80,28.00,0.60,28.00,2.20
+KFC,Oct-24-2026,"Hot Wing (per piece, average)",Just Chicken,"['Egg', 'Wheat Gluten', 'Milk', 'Sesame', 'Soya', 'Celery']",False,False,1,380,91,6.20,0.90,3.80,0.50,4.90,0.35
+KFC,Oct-24-2026,"Tender (per piece, average)",Just Chicken,"['Egg', 'Wheat Gluten', 'Milk', 'Sesame', 'Soya', 'Celery']",False,False,1,524,125,5.40,0.60,5.80,0.50,13.10,0.87
+KFC,Oct-24-2026,Kansas BBQ Drip'd Bites,Just Chicken,"['Egg', 'Wheat Gluten', 'Milk', 'Sesame', 'Soya', 'Celery']",False,False,1,1267,301,10.80,1.20,34.70,18.00,15.80,1.50
+KFC,Oct-24-2026,Sweet Chilli Drip'd Bites,Just Chicken,"['Egg', 'Wheat Gluten', 'Milk', 'Sesame', 'Soya', 'Celery']",False,False,1,1462,348,13.50,1.50,36.80,21.00,19.10,1.50
+KFC,Oct-24-2026,Fillet Burger,Burgers,"['Spelt Gluten', 'Egg', 'Barley Gluten', 'Oat Gluten', 'Rye Gluten', 'Wheat Gluten', 'Milk', 'Mustard', 'Sesame', 'Soya', 'Celery']",False,False,1,1942,463,18.70,2.20,43.00,6.50,28.80,2.20
+KFC,Oct-24-2026,Zinger Burger,Burgers,"['Spelt Gluten', 'Egg', 'Barley Gluten', 'Oat Gluten', 'Rye Gluten', 'Wheat Gluten', 'Milk', 'Mustard', 'Sesame', 'Soya', 'Celery']",False,False,1,1962,468,22.00,2.20,43.00,6.50,23.00,2.00
+KFC,Oct-24-2026,Fillet Tower Burger,Burgers,"['Spelt Gluten', 'Egg', 'Barley Gluten', 'Oat Gluten', 'Rye Gluten', 'Wheat Gluten', 'Milk', 'Mustard', 'Sesame', 'Soya', 'Celery']",False,False,1,2531,604,27.00,4.30,55.50,11.00,32.10,3.30
+KFC,Oct-24-2026,Zinger Supercharger Tower Burger,Burgers,"['Spelt Gluten', 'Egg', 'Barley Gluten', 'Oat Gluten', 'Rye Gluten', 'Wheat Gluten', 'Milk', 'Mustard', 'Sesame', 'Soya', 'Celery']",False,False,1,2723,652,35.90,5.00,53.50,8.70,26.20,3.00
+KFC,Oct-24-2026,Mini Burger,Burgers,"['Spelt Gluten', 'Egg', 'Barley Gluten', 'Oat Gluten', 'Rye Gluten', 'Wheat Gluten', 'Milk', 'Mustard', 'Sesame', 'Soya', 'Celery']",False,False,1,1164,277,10.00,1.10,28.00,2.60,18.00,1.40
+KFC,Oct-24-2026,Kids Burger,Burgers,"['Spelt Gluten', 'Egg', 'Barley Gluten', 'Oat Gluten', 'Rye Gluten', 'Wheat Gluten', 'Milk', 'Mustard', 'Sesame', 'Soya', 'Celery']",False,False,1,1087,258,7.00,0.90,30.00,4.80,18.00,1.40
+KFC,Oct-24-2026,Zinger Stacker,Burgers,"['Spelt Gluten', 'Egg', 'Barley Gluten', 'Oat Gluten', 'Rye Gluten', 'Wheat Gluten', 'Milk', 'Mustard', 'Sesame', 'Soya', 'Celery']",False,False,1,3399,813,42.30,7.70,60.90,13.00,45.10,3.70
+KFC,Oct-24-2026,Chicken Fillet Roll (ROI only),Burgers,"['Spelt Gluten', 'Egg', 'Barley Gluten', 'Oat Gluten', 'Rye Gluten', 'Wheat Gluten', 'Milk', 'Mustard', 'Sesame', 'Soya', 'Celery']",False,False,1,2779,662,24.50,5.20,78.70,7.50,28.60,3.20
+KFC,Oct-24-2026,Zinger Fillet Roll (ROI only),Burgers,"['Spelt Gluten', 'Egg', 'Barley Gluten', 'Oat Gluten', 'Rye Gluten', 'Wheat Gluten', 'Milk', 'Mustard', 'Sesame', 'Soya', 'Celery']",False,False,1,3146,751,36.00,6.00,81.00,9.00,23.00,3.30
+KFC,Oct-24-2026,Vegan Burger ,Burgers,"['Spelt Gluten', 'Egg', 'Barley Gluten', 'Oat Gluten', 'Rye Gluten', 'Wheat Gluten', 'Milk', 'Mustard', 'Sesame']",True,True,1,1659,396,17.00,1.40,41.00,7.70,15.00,2.50
+KFC,Oct-24-2026,Kentucky Mayo Twister,Wraps,"['Spelt Gluten', 'Egg', 'Barley Gluten', 'Oat Gluten', 'Rye Gluten', 'Wheat Gluten', 'Milk', 'Mustard', 'Sesame', 'Soya', 'Celery']",False,False,1,2179,520,24.00,4.00,46.10,5.10,28.40,2.60
+KFC,Oct-24-2026,Sweet Chilli Twister,Wraps,"['Spelt Gluten', 'Egg', 'Barley Gluten', 'Oat Gluten', 'Rye Gluten', 'Wheat Gluten', 'Milk', 'Mustard', 'Sesame', 'Soya', 'Celery']",False,False,1,2068,492,17.60,3.30,53.10,11.00,28.70,2.60
+KFC,Oct-24-2026,Smokey BBQ Twister ,Wraps,"['Spelt Gluten', 'Egg', 'Barley Gluten', 'Oat Gluten', 'Rye Gluten', 'Wheat Gluten', 'Milk', 'Mustard', 'Sesame', 'Soya', 'Celery']",False,False,1,2027,482,17.40,3.30,51.20,9.00,28.70,2.60
+KFC,Oct-24-2026,Flamin' Mini Wrap,Wraps,"['Spelt Gluten', 'Egg', 'Barley Gluten', 'Oat Gluten', 'Rye Gluten', 'Wheat Gluten', 'Milk', 'Mustard', 'Sesame', 'Soya', 'Celery']",False,False,1,1360,325,15.30,2.50,28.50,2.90,17.60,1.10
+KFC,Oct-24-2026,BBQ Fillet Stacker Burger,Burgers,"['Spelt Gluten', 'Egg', 'Barley Gluten', 'Oat Gluten', 'Rye Gluten', 'Wheat Gluten', 'Milk', 'Mustard', 'Sesame', 'Soya', 'Celery']",False,False,1,3408,814,37.90,7.80,59.20,10.00,56.60,4.60
+KFC,Oct-24-2026,BBQ Fillet Tower Burger,Burgers,"['Spelt Gluten', 'Egg', 'Barley Gluten', 'Oat Gluten', 'Rye Gluten', 'Wheat Gluten', 'Milk', 'Mustard', 'Sesame', 'Soya', 'Celery']",False,False,1,2564,612,27.20,4.30,57.00,11.00,32.10,3.30
+KFC,Oct-24-2026,Supercharger Twister,Wraps,"['Spelt Gluten', 'Egg', 'Barley Gluten', 'Oat Gluten', 'Rye Gluten', 'Wheat Gluten', 'Milk', 'Mustard', 'Sesame', 'Soya', 'Celery']",False,False,1,2296,548,26.00,4.20,47.80,6.20,29.10,2.60
+KFC,Oct-24-2026,BBQ Mini Wrap,Wraps,"['Spelt Gluten', 'Egg', 'Barley Gluten', 'Oat Gluten', 'Rye Gluten', 'Wheat Gluten', 'Milk', 'Mustard', 'Sesame', 'Soya', 'Celery']",False,False,1,1235,294,10.80,2.20,30.90,4.50,17.60,1.10
+KFC,Oct-24-2026,Original Ranch Rice Bowl ,Salad Boxes & Riceboxes,"['Egg', 'Wheat Gluten', 'Milk', 'Sesame', 'Soya', 'Celery']",False,False,1,2342,558,19.70,2.50,62.80,7.40,28.80,2.90
+KFC,Oct-24-2026,Zinger Ranch Rice Bowl ,Salad Boxes & Riceboxes,"['Egg', 'Wheat Gluten', 'Milk', 'Sesame', 'Soya', 'Celery']",False,False,1,2278,543,21.30,2.40,61.60,6.50,23.00,2.60
+KFC,Oct-24-2026,Veggie Ranch Rice Bowl ,Salad Boxes & Riceboxes,"['Egg', 'Wheat Gluten', 'Milk', 'Sesame']",True,True,1,1560,371,9.50,1.30,59.70,8.80,7.50,1.20
+KFC,Oct-24-2026,Regular Fries,Sides & Dips,"['Wheat Gluten', 'Milk', 'Soya', 'Celery']",False,False,1,1096,261,9.80,0.80,38.00,0.50,3.10,0.74
+KFC,Oct-24-2026,Apple Tango - Large,Drinks,[],True,True,1,68,18,0.00,0.00,2.30,2.30,0.00,0.45
+KFC,Oct-24-2026,Dirty Loaded Fries,Sides & Dips,"['Egg', 'Wheat Gluten', 'Milk', 'Sesame', 'Soya', 'Celery']",False,False,1,2031,485,24.00,2.00,53.00,5.50,12.00,1.70
+KFC,Oct-24-2026,Apple Tango - Regular,Drinks,[],True,True,1,30,12,0.00,0.00,1.50,1.50,0.00,0.30
+KFC,Oct-24-2026,Texas BBQ Dip Pot,Sides & Dips,[],True,True,1,297,70,0.50,0.10,16.60,15.00,0.50,0.52
+KFC,Oct-24-2026,Sweet Teriyaki Dip Pot,Sides & Dips,"['Sesame', 'Soya']",True,True,1,222,52,0.50,0.10,11.40,9.20,0.60,0.52
+KFC,Oct-24-2026,Kentucky Original Wrap,Wraps,"['Spelt Gluten', 'Egg', 'Barley Gluten', 'Oat Gluten', 'Rye Gluten', 'Wheat Gluten', 'Milk', 'Mustard', 'Sesame', 'Soya', 'Celery']",False,False,1,2162,516,23.30,3.50,44.30,3.10,31.20,2.40
+KFC,Oct-24-2026,Mozzamelt Zinger Burger,Burgers,"['Spelt Gluten', 'Egg', 'Barley Gluten', 'Oat Gluten', 'Rye Gluten', 'Wheat Gluten', 'Milk', 'Mustard', 'Sesame', 'Soya', 'Celery']",False,False,1,3006,718,35.30,7.60,63.00,9.80,34.80,2.70
+KFC,Oct-24-2026,Mozzamelt Fillet Burger,Burgers,"['Spelt Gluten', 'Egg', 'Barley Gluten', 'Oat Gluten', 'Rye Gluten', 'Wheat Gluten', 'Milk', 'Mustard', 'Sesame', 'Soya', 'Celery']",False,False,1,3107,742,34.00,8.10,64.60,10.00,41.80,3.30
+KFC,Oct-24-2026,3 Mega Mozza Sticks,Limited Time Offer,"['Egg', 'Wheat Gluten', 'Milk', 'Sesame', 'Soya', 'Celery']",False,True,1,1391,333,17.70,5.60,27.60,2.10,14.90,0.70
+KFC,Oct-24-2026,Dirty Millionaire Shake,Drinks,"['Egg', 'Wheat Gluten', 'Milk', 'Soya']",False,True,1,2571,611,17.90,11.00,103.20,83.00,8.30,0.99
+KFC,Oct-24-2026,Supercharger Dip Pot,Sides & Dips,"['Egg', 'Milk']",False,True,1,781,189,19.00,1.40,3.90,2.90,0.60,0.72
+KFC,Oct-24-2026,Original Sauce Dip Pot,Sides & Dips,"['Egg', 'Mustard', 'Sulphites']",False,True,1,652,158,15.60,1.10,3.30,3.00,0.70,0.60
+KFC,Oct-24-2026,Mango Masala Dip Pot,Sides & Dips,['Sulphites'],True,True,1,266,63,0.50,0.10,15.00,14.00,0.50,0.48
+KFC,Oct-24-2026,Jalapeno Ranch Dip Pot,Sides & Dips,"['Egg', 'Milk', 'Mustard', 'Sulphites']",False,True,1,639,155,15.40,1.10,3.40,1.80,0.60,0.48
+KFC,Oct-24-2026,Hot Honey Habanero Dip Pot,Sides & Dips,[],False,True,1,391,92,0.50,0.10,22.40,19.00,0.50,0.31
+KFC,Oct-24-2026,Honey Mustard Dip Pot,Sides & Dips,"['Egg', 'Milk', 'Mustard', 'Sulphites']",False,True,1,804,194,17.10,1.20,9.30,8.40,0.70,0.38
+KFC,Oct-24-2026,Garlic Parm Dip Pot,Sides & Dips,"['Egg', 'Milk', 'Mustard']",False,False,1,793,193,19.70,1.60,3.20,2.00,0.50,0.36
+KFC,Oct-24-2026,Large Fries,Sides & Dips,"['Wheat Gluten', 'Milk', 'Soya', 'Celery']",False,False,1,1559,372,14.00,1.10,54.00,0.50,4.40,1.00
+KFC,Oct-24-2026,Regular BBQ Beans,Sides & Dips,"['Barley Gluten', 'Mustard', 'Celery']",True,True,1,393,93,0.60,0.09,15.00,5.90,4.70,0.63
+KFC,Oct-24-2026,Large BBQ Beans,Sides & Dips,"['Barley Gluten', 'Mustard', 'Celery']",True,True,1,841,199,1.40,0.20,31.00,13.00,10.00,1.40
+KFC,Oct-24-2026,Regular Coleslaw,Sides & Dips,['Egg'],False,True,1,619,150,13.00,1.00,6.10,5.30,1.10,0.57
+KFC,Oct-24-2026,Large Coleslaw,Sides & Dips,['Egg'],False,True,1,1235,299,26.00,2.00,12.00,11.00,2.20,1.10
+KFC,Oct-24-2026,Corn Cobette,Sides & Dips,['Sesame'],True,True,1,240,57,1.30,0.20,8.10,1.90,2.20,0.01
+KFC,Oct-24-2026,Hashbrown (per piece average),Sides & Dips,"['Egg', 'Wheat Gluten', 'Milk', 'Sesame', 'Soya', 'Celery']",False,False,per piece average,381,92,5.50,0.20,8.80,0.70,0.90,0.55
+KFC,Oct-24-2026,Cheese Slice (per slice average),Sides & Dips,"['Egg', 'Wheat Gluten', 'Milk', 'Sesame', 'Soya', 'Celery']",False,True,per slice ,159,38,3.10,2.00,0.50,0.50,2.20,0.16
+KFC,Oct-24-2026,Large Signature Fries,Sides & Dips,"['Wheat Gluten', 'Milk', 'Soya', 'Celery']",False,False,1,1559,372,14.00,1.10,54.00,0.50,4.40,1.00
+KFC,Oct-24-2026,Regular Signature Fries,Sides & Dips,"['Wheat Gluten', 'Milk', 'Soya', 'Celery']",False,False,1,1069,261,9.80,0.80,38.00,0.50,3.10,0.74
+KFC,Oct-24-2026,2 Corn Cobettes (Large),Sides & Dips,['Sesame'],True,True,1,481,115,2.70,0.40,16.00,3.80,4.40,0.01
+KFC,Oct-24-2026,Regular Gravy,Sides & Dips,"['Egg', 'Barley Gluten', 'Wheat Gluten', 'Milk', 'Soya', 'Celery']",False,False,1,306,73,3.50,0.30,8.40,0.50,1.70,1.20
+KFC,Oct-24-2026,Large Gravy,Sides & Dips,"['Egg', 'Barley Gluten', 'Wheat Gluten', 'Milk', 'Soya', 'Celery']",False,False,1,696,166,8.00,0.80,19.00,0.80,3.90,2.80
+KFC,Oct-24-2026,Regular Creamy Mash,Sides & Dips,['Milk'],False,True,1,523,124,3.40,2.10,20.00,1.00,2.40,0.88
+KFC,Oct-24-2026,Cajun Dirty Rice,Sides & Dips,"['Egg', 'Wheat Gluten', 'Milk', 'Sesame', 'Soya', 'Celery']",True,True,1,917,217,2.60,0.50,43.00,2.40,3.80,0.66
+KFC,Oct-24-2026,Side Salad,Sides & Dips,"['Egg', 'Wheat Gluten', 'Milk', 'Sesame', 'Soya', 'Celery']",True,True,1,232,56,3.60,0.30,4.70,2.09,0.80,0.20
+KFC,Oct-24-2026,Large Creamy Mash,Sides & Dips,['Milk'],False,True,1,1045,248,6.80,4.30,40.00,2.00,4.80,1.80
+KFC,Oct-24-2026,Heinz Tomato Ketchup Sachet,Sides & Dips,['Celery'],True,True,1,42,10,0.50,0.10,2.30,2.30,0.50,0.18
+KFC,Oct-24-2026,Mini Chocolate Sundae,Krushems & Desserts,['Milk'],False,True,1,580,138,5.30,3.40,20.00,16.00,2.50,0.20
+KFC,Oct-24-2026,Milk Chocolate Cookie,Krushems & Desserts,"['Egg', 'Wheat Gluten', 'Milk', 'Soya']",False,True,1,1250,300,14.40,6.40,40.10,20.50,3.00,0.39
+KFC,Oct-24-2026,White Chocolate Cookie,Krushems & Desserts,"['Egg', 'Wheat Gluten', 'Milk', 'Soya']",False,True,1,1186,283,14.00,5.90,36.00,21.00,2.70,0.36
+KFC,Oct-24-2026,Bottle of Still Water,Drinks,[],True,True,1,0,0,0.00,0.00,0.00,0.00,0.00,0.00
+KFC,Oct-24-2026, Fruit Shoot Robinsons Blackcurrant & Apple ,Drinks,[],True,True,1,40,10,0.00,0.00,1.60,1.40,0.00,0.06
+KFC,Oct-24-2026, Fruit Shoot Robinsons Orange ,Drinks,[],True,True,1,50,10,0.00,0.00,1.60,1.40,0.00,0.06
+KFC,Oct-24-2026,Pepsi - Regular,Drinks,[],True,True,1,561,130,0.00,0.00,32.10,31.80,0.00,0.00
+KFC,Oct-24-2026,Pepsi - Large,Drinks,[],True,True,1,782,180,0.00,0.00,44.90,44.50,0.00,0.00
+KFC,Oct-24-2026,Pepsi Max - Regular,Drinks,[],True,True,1,8,2,0.00,0.00,0.00,0.00,0.30,0.00
+KFC,Oct-24-2026,Pepsi Max - Large,Drinks,[],True,True,1,10,2,0.00,0.00,0.00,0.00,0.40,0.00
+KFC,Oct-24-2026,Diet Pepsi - Regular,Drinks,[],False,True,1,8,2,0.00,0.00,0.00,0.00,0.00,0.00
+KFC,Oct-24-2026,Diet Pepsi - Large,Drinks,[],False,True,1,10,2,0.00,0.00,0.00,0.00,0.00,0.00
+KFC,Oct-24-2026,Pepsi Max Cherry - Regular ,Drinks,[],True,True,1,6,2,0.00,0.00,0.00,0.00,0.00,0.01
+KFC,Oct-24-2026,Yoyo Bear (Strawberry),Krushems & Desserts,[],True,True,1,243,58,0.50,0.10,13.00,8.40,0.50,0.01
+KFC,Oct-24-2026,Pepsi Max Cherry - Large ,Drinks,[],True,True,1,6,2,0.00,0.00,0.00,0.00,0.00,0.01
+KFC,Oct-24-2026,7Up Free - Regular ,Drinks,[],True,True,1,27,6,0.00,0.00,0.30,0.00,0.30,0.00
+KFC,Oct-24-2026,7Up Free- Large,Drinks,[],True,True,1,38,9,0.00,0.00,0.30,0.00,0.40,0.00
+KFC,Oct-24-2026,Robinsons Apple & Blackcurrant- Regular,Drinks,['Sulphites'],True,True,1,20,5,0.00,0.00,0.00,0.00,0.00,0.02
+KFC,Oct-24-2026,Robinsons Apple & Blackcurrant- Large ,Drinks,['Sulphites'],True,True,1,27,6,0.00,0.00,0.00,0.00,0.00,0.02
+KFC,Oct-24-2026,1.25L Pepsi Max Bottle ,Drinks,[],True,True,per 100ml,25,5,0.00,0.00,1.50,0.00,1.50,0.00
+KFC,Oct-24-2026,1.25L Diet Pepsi Bottle,Drinks,[],False,True,per bottle,40,10,0.00,0.00,0.00,0.00,0.00,0.00
+KFC,Oct-24-2026,Oreo Sundae,Krushems & Desserts,"['Wheat Gluten', 'Milk', 'Soya']",False,True,1,1077,256,9.60,5.60,38.00,29.00,4.10,0.38
+KFC,Oct-24-2026,1.25L Tango Bottle,Drinks,[],True,True,per bottle,1190,285,0.00,0.00,63.00,63.00,1.50,0.00
+KFC,Oct-24-2026,1.25L 7up Free Bottle,Drinks,[],True,True,per bottle,120,30,0.00,0.00,1.50,0.00,1.50,0.00
+KFC,Oct-24-2026,1.25L Pepsi Bottle,Drinks,[],True,True,per bottle,940,225,0.00,0.00,57.50,57.50,0.00,0.00
+KFC,Oct-24-2026,Tango Orange Sugar Free - Regular,Drinks,[],True,True,1,15,3,0.00,0.00,0.00,0.00,0.00,0.03
+KFC,Oct-24-2026,Tango Orange Sugar Free - Large ,Drinks,[],True,True,1,21,4,0.00,0.00,0.00,0.00,0.00,0.05
+KFC,Oct-24-2026,Lipton Ice Tea - Regular ,Drinks,[],True,True,1,240,55,1.50,0.30,13.80,13.50,1.50,0.00
+KFC,Oct-24-2026,Lipton Ice Tea - Large,Drinks,[],True,True,1,335,80,2.10,0.40,19.30,18.90,2.10,0.00
+KFC,Oct-24-2026,Club Orange - Regular  (NI & ROI only),Drinks,['Sulphites'],True,True,1,680,160,0.00,0.00,39.00,39.00,0.00,0.15
+KFC,Oct-24-2026,Club Orange - Large (NI & ROI only),Drinks,['Sulphites'],True,True,1,950,225,0.00,0.00,54.60,54.60,0.00,0.21
+KFC,Oct-24-2026,Club Orange Zero - Regular,Drinks,[],True,True,1,40,10,0.00,0.00,0.00,0.00,0.00,0.23
+KFC,Oct-24-2026,7UP Free Watermelon - Large,Drinks,[],True,True,1,38,9,0.00,0.00,0.00,0.00,0.00,0.38
+KFC,Oct-24-2026,7UP Free Watermelon - Regular,Drinks,[],True,True,1,27,6,0.00,0.00,0.00,0.00,0.00,0.27
+KFC,Oct-24-2026,Pepsi Max Vanilla - Large,Drinks,[],True,True,1,10,2,0.00,0.00,0.00,0.00,0.00,0.21
+KFC,Oct-24-2026,Pepsi Max Vanilla - Regular,Drinks,[],True,True,1,8,2,0.00,0.00,0.00,0.00,0.00,0.18
+KFC,Oct-24-2026,Pepsi Max Blueberry - Large,Drinks,[],True,True,1,10,2,0.00,0.00,0.00,0.00,0.00,0.21
+KFC,Oct-24-2026,Pepsi Max Blueberry - Regular,Drinks,[],True,True,1,8,2,0.00,0.00,0.00,0.00,0.00,0.18
+KFC,Oct-24-2026,Club Orange Zero - Large ,Drinks,[],True,True,1,55,13,0.00,0.00,0.00,0.00,0.00,0.13
+KFC,Oct-24-2026,Tropicana Orange Juice,Drinks,[],True,True,1,430,105,0.00,0.00,23.30,21.70,2.00,0.00
+KFC,Oct-24-2026,1.25L Club Orange (ROI only),Drinks,['Sulphites'],True,True,,3450,810,0.00,0.00,195.00,195.00,0.00,0.00
+KFC,Oct-24-2026,1.25L Club Orange Zero (ROI only),Drinks,['Sulphites'],True,True,,210,45,0.00,0.00,0.00,0.00,0.00,0.45
+KFC,Oct-24-2026,Iced Latte,Drinks,['Milk'],False,True,1,428,102,3.10,1.70,11.80,11.00,6.60,0.22
+KFC,Oct-24-2026,Oatly Strawberry Shortcake Iced Matcha,Drinks,"['Spelt Gluten', 'Barley Gluten', 'Oat Gluten', 'Rye Gluten', 'Wheat Gluten']",False,True,1,1191,283,8.40,2.50,47.50,33.00,3.50,0.30
+KFC,Oct-24-2026,Oatly Iced Vanilla Latte,Drinks,"['Spelt Gluten', 'Barley Gluten', 'Oat Gluten', 'Rye Gluten', 'Wheat Gluten']",True,True,1,562,134,5.50,0.50,18.30,8.20,2.10,0.23
+KFC,Oct-24-2026,Iced Vanilla Latte,Drinks,['Milk'],False,True,1,469,111,3.20,1.80,14.20,11.00,6.40,0.27
+KFC,Oct-24-2026,Oatly Vanilla Iced Matcha,Drinks,"['Spelt Gluten', 'Barley Gluten', 'Oat Gluten', 'Rye Gluten', 'Wheat Gluten']",True,True,1,467,112,4.90,0.40,13.50,5.40,2.70,0.18
+KFC,Oct-24-2026,Strawberry Shortcake Iced Matcha,Drinks,"['Egg', 'Wheat Gluten', 'Milk', 'Soya']",False,True,1,1114,264,6.40,3.50,44.00,35.00,7.40,0.30
+KFC,Oct-24-2026,Vanilla Iced Matcha,Drinks,['Milk'],False,True,1,367,87,2.70,1.80,9.40,7.60,6.30,0.18
+KFC,Oct-24-2026,Caramel Krunch Shake ,Drinks,"['Egg', 'Wheat Gluten', 'Milk', 'Soya']",False,True,1,2965,490,14.30,9.10,82.90,69.00,6.90,0.86
+KFC,Oct-24-2026,Chocolate Krunch Shake,Drinks,"['Egg', 'Wheat Gluten', 'Milk', 'Soya']",False,True,1,2038,484,13.80,8.90,82.40,71.00,6.90,0.84
+KFC,Oct-24-2026,Cherry Boba Refresher,Drinks,[],True,True,1,486,114,0.50,0.10,27.30,27.00,0.50,0.30
+KFC,Oct-24-2026,Sparkling Raspberry Lemonade,Drinks,[],True,True,1,421,99,0.50,0.10,21.90,22.00,0.50,0.24
+KFC,Oct-24-2026,Strawberry Boba Refresher,Drinks,[],True,True,1,628,148,0.50,0.10,35.30,34.00,0.50,0.30
+KFC,Oct-24-2026,Sparkling Cloudy Lemonade,Drinks,['Sulphites'],True,True,1,103,24,0.50,0.10,4.30,3.80,0.50,0.24
+KFC,Oct-24-2026,Iced Tiramisu Latte,Drinks,['Milk'],False,True,1,909,215,3.30,1.90,39.20,38.00,7.10,0.24
+KFC,Oct-24-2026,Iced Caramel Latte,Drinks,['Milk'],False,True,1,702,166,3.20,1.80,27.90,27.00,6.40,0.23
+KFC,Oct-24-2026,Oatly Iced Latte,Drinks,"['Barley Gluten', 'Oat Gluten', 'Rye Gluten', 'Wheat Gluten']",True,True,1,510,122,5.50,0.50,15.30,5.10,2.80,0.20
+KFC,Oct-24-2026,Oatly Iced Caramel Latte,Drinks,"['Barley Gluten', 'Oat Gluten', 'Rye Gluten', 'Wheat Gluten', 'Milk']",False,True,1,1030,244,6.30,1.00,43.80,35.00,2.40,0.24
+KFC,Oct-24-2026,Strawberry Shortcake Krunch Shake,Drinks,"['Egg', 'Wheat Gluten', 'Milk', 'Soya']",False,True,1,2026,481,13.30,8.90,83.10,69.00,6.60,0.79
+KFC,Oct-24-2026,Oatly Iced Tiramisu Latte,Drinks,"['Barley Gluten', 'Oat Gluten', 'Rye Gluten', 'Wheat Gluten']",True,True,1,736,175,5.70,0.90,27.40,19.00,2.80,0.24

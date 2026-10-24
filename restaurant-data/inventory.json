@@ -1,0 +1,1260 @@
+{
+  "source_commit": "2ea01962a04d781ecce96f90468d1126ed3fe8e3",
+  "note": "Raw collection, not a validated complete restaurant catalogue. PDFs need separate extraction. Non-commercial personal-use collection.",
+  "files": [
+    {
+      "path": "evidence/evidence_log.json",
+      "bytes": 2313,
+      "text_copied": false,
+      "sha256": "1ba4938050d1eb489d446779c2a1eeae196577820a133f932f0ee55f260788a2"
+    },
+    {
+      "path": "personal_app/10_Nandos_Oct-24-2026/nandos_nutrition.csv",
+      "bytes": 23969,
+      "text_copied": true,
+      "sha256": "7e1894bfd259bcc2893cd09b7103370d6b6daa62b03e977f3435de3a669fa337"
+    },
+    {
+      "path": "personal_app/10_Nandos_Oct-24-2026/nandos_nutrition.json",
+      "bytes": 89706,
+      "text_copied": true,
+      "sha256": "4d237bf431df29998f161240a4acc9d53d465aea6702e9722ffd20e65d82d08c"
+    },
+    {
+      "path": "personal_app/11_PizzaExpress_Oct-24-2026/09b9f0b4a78c5d7e562b74fa14344cf248dce4f5.pdf",
+      "bytes": 457163,
+      "text_copied": false,
+      "sha256": "f5a6090bec5fb6eaa8b5dec23b270fa7b1be329a8f3a446fb6f07bc1315062d5"
+    },
+    {
+      "path": "personal_app/11_PizzaExpress_Oct-24-2026/170a48945a93010c2a659011a25b14c1f976e735.pdf",
+      "bytes": 315763,
+      "text_copied": false,
+      "sha256": "4939afa6413ffd4db97d17dc588ef641b31128ab1359c50d5160658e11028aaa"
+    },
+    {
+      "path": "personal_app/11_PizzaExpress_Oct-24-2026/1bebca8ed0449d8ab63c706b9f2450da4addd802.pdf",
+      "bytes": 214697,
+      "text_copied": false,
+      "sha256": "3bb5e7feb451c51d3dca9e423a82faaee40db0fc5131118c2d02ba2907e55037"
+    },
+    {
+      "path": "personal_app/11_PizzaExpress_Oct-24-2026/249d05c98e46020bdd58394243c827e32870cf22.pdf",
+      "bytes": 313975,
+      "text_copied": false,
+      "sha256": "7289c4f9580dc216c2de5e765de770a6a1149175f58a12b114255592574f3711"
+    },
+    {
+      "path": "personal_app/11_PizzaExpress_Oct-24-2026/4248f3d3421884e5e6206910b11c9bbe2776a89f.pdf",
+      "bytes": 216530,
+      "text_copied": false,
+      "sha256": "1b1db264e0e7b9fb53821a64d32161955533c3342f0f6c9ee7be218f72deb11b"
+    },
+    {
+      "path": "personal_app/11_PizzaExpress_Oct-24-2026/8be0d5b8be414b006c431279e7e39e4287fc3b2c.pdf",
+      "bytes": 278475,
+      "text_copied": false,
+      "sha256": "424d04d18d30b7f294426d6b5d9f3ffb2a61da61c4ab4c35132cee18527692d3"
+    },
+    {
+      "path": "personal_app/11_PizzaExpress_Oct-24-2026/8c18c704dcfad251d790797da31bdf4662bdc596.pdf",
+      "bytes": 1228609,
+      "text_copied": false,
+      "sha256": "7e51559f5f2b0d3c49ff69dcacbb25571915909a4d56797e0960c6abbcaeb4ab"
+    },
+    {
+      "path": "personal_app/11_PizzaExpress_Oct-24-2026/a9adac8b5712c5d922c561187d4f86f78566c18e.pdf",
+      "bytes": 214697,
+      "text_copied": false,
+      "sha256": "8c23e057b0dcc9dadca2195db8ffacda59d2c6dcfeb4f315c15a984132f9035d"
+    },
+    {
+      "path": "personal_app/11_PizzaExpress_Oct-24-2026/b2b3aa97cfa7e3c93101b3fe54d82bafafc344a1.pdf",
+      "bytes": 472333,
+      "text_copied": false,
+      "sha256": "9ae09b2567250f289850589e7d1cbf6f5e3cfd3579f194e0cddcdc7527cf17bd"
+    },
+    {
+      "path": "personal_app/11_PizzaExpress_Oct-24-2026/b72a05d52e0a11e8b6c37620bbf93cc170595598.pdf",
+      "bytes": 1478302,
+      "text_copied": false,
+      "sha256": "0f9d9ae2de1babd73cbb64855cbd4d71a2bf0219642d69ec15aea9382e24cde4"
+    },
+    {
+      "path": "personal_app/11_PizzaExpress_Oct-24-2026/c93d88dbc7a9f0e6cdc6a0b0a6747eef60089d78.pdf",
+      "bytes": 1806283,
+      "text_copied": false,
+      "sha256": "b30304f086e99a11ee7930323efe11997e74cf0f3e0951552750ca1edf25e512"
+    },
+    {
+      "path": "personal_app/11_PizzaExpress_Oct-24-2026/f82aec318acd2de91a81857a7bdb2c45eb957d43.pdf",
+      "bytes": 155646,
+      "text_copied": false,
+      "sha256": "16b890f6c252472576aef48248203b233a36d2e898a0db969a14f85b2352c780"
+    },
+    {
+      "path": "personal_app/11_PizzaExpress_Oct-24-2026/faaf61f6c002c858ad9a49a2293c9c08536a8ece.pdf",
+      "bytes": 322837,
+      "text_copied": false,
+      "sha256": "05b8ef87a514210dcb0368bb19f304b9c607d5b6ad31e68adb9847de464ce94c"
+    },
+    {
+      "path": "personal_app/12_BurgerKing_Oct-24-2026/burgerking_nutrition.csv",
+      "bytes": 68954,
+      "text_copied": true,
+      "sha256": "f5473f0d9af2cb7b64e65b8f9305190969b6d49cf012bebbd7551ef9b7ebbc03"
+    },
+    {
+      "path": "personal_app/12_BurgerKing_Oct-24-2026/burgerking_nutrition.json",
+      "bytes": 175513,
+      "text_copied": true,
+      "sha256": "46e57c8ecb991f1549002e75c49843e1332d6f4595245f4482885d2aaffe832c"
+    },
+    {
+      "path": "personal_app/13_Pret_Oct-24-2026/pret_nutrition.csv",
+      "bytes": 230668,
+      "text_copied": true,
+      "sha256": "add4627a6854a9bc788a3511013a97924a3ea2d4431d29aa8485d165a6369d37"
+    },
+    {
+      "path": "personal_app/13_Pret_Oct-24-2026/pret_nutrition.json",
+      "bytes": 441714,
+      "text_copied": true,
+      "sha256": "869041fb558324de4860bd2f42b47887211848d57108379211ddfb0b010a788c"
+    },
+    {
+      "path": "personal_app/14_CaffeNero_Oct-24-2026/caffenero_items.csv",
+      "bytes": 101414,
+      "text_copied": true,
+      "sha256": "5a22bea9fc3128f5b149c455efd0fffffab5558a5a70ede8654da0c3b3e4cf78"
+    },
+    {
+      "path": "personal_app/14_CaffeNero_Oct-24-2026/caffenero_items.json",
+      "bytes": 419115,
+      "text_copied": true,
+      "sha256": "931abbbcdfe42184fa742dd541a8e7b0fd64401a6913283bdfa5e058acd54c59"
+    },
+    {
+      "path": "personal_app/15_Wagamama_Oct-24-2026/wagamama_nutrition.csv",
+      "bytes": 45850,
+      "text_copied": true,
+      "sha256": "a083ffb009b3e33e759dd103be6b2588dcbf466858296a88aed5caf39be9de51"
+    },
+    {
+      "path": "personal_app/15_Wagamama_Oct-24-2026/wagamama_nutrition.json",
+      "bytes": 159625,
+      "text_copied": true,
+      "sha256": "4c2a1dceadccf1b340f59d00fa229c76d06848a6a2860772881c857acc0dd945"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200000.json",
+      "bytes": 7967,
+      "text_copied": true,
+      "sha256": "0e35cf594995ebccc50e943108768bf3cd8d693fc2635b80d18cdf3a0de52b12"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200002.json",
+      "bytes": 5478,
+      "text_copied": true,
+      "sha256": "24cda86033f7978cc171ad2958ade56c6e03b7a29ba6f6d1457c065dbcbd7831"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200003.json",
+      "bytes": 7238,
+      "text_copied": true,
+      "sha256": "13efb8ad6c0deefafcfce9ec930a4a456d99c66800cef7a4ddb1e23a21ee5766"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200004.json",
+      "bytes": 7202,
+      "text_copied": true,
+      "sha256": "2c13166ab30361e99a1286302d54eb5f509e06d90069ef481217cab011c16a5c"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200005.json",
+      "bytes": 8587,
+      "text_copied": true,
+      "sha256": "e65f0c771e00aa3d7f7a0d18a511440515bff7f4fe41641b1186cba8ede44c20"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200006.json",
+      "bytes": 8585,
+      "text_copied": true,
+      "sha256": "be59925d7fa1d0ff954449d8bab1a9b764de280aaf360c8ba4479c2ef50d3b3f"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200007.json",
+      "bytes": 9693,
+      "text_copied": true,
+      "sha256": "3a2fcbf4a5ef676febf65a88c3ce7a7011d7bde2cdae912bdfc08e2d836f01ed"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200008.json",
+      "bytes": 9638,
+      "text_copied": true,
+      "sha256": "ef37ee371429798d01353b485e8e774596067ce76fcb096736ce8f937fcc93d8"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200009.json",
+      "bytes": 8824,
+      "text_copied": true,
+      "sha256": "e7822a288acb01f6a72104ab6c34f03ff3e02d520c7e8aee1c59c82aef10535a"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200010.json",
+      "bytes": 8724,
+      "text_copied": true,
+      "sha256": "f7c276bacc69dd0d3c99c3870a4aad1a89ab0cd9bcfd23be65d05daa4c0d772e"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200012.json",
+      "bytes": 7675,
+      "text_copied": true,
+      "sha256": "5d61fa4eaa2ba9c403ee8d91484613746d26d006b12df917ca426478bec315d0"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200013.json",
+      "bytes": 7366,
+      "text_copied": true,
+      "sha256": "246d2e95fb0586e5e23dce7d1320d0728d3b8ae442350b8a49cd677a59d51cd3"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200014.json",
+      "bytes": 5882,
+      "text_copied": true,
+      "sha256": "a649b3b6a34cc8ca80ead21a0d62e3f5f3e66ff57809eccce3570426e6231fae"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200019.json",
+      "bytes": 5942,
+      "text_copied": true,
+      "sha256": "51c920c0434463f002319d968c90379e32d551d1c2bece40a1b4f30a2a2c5f19"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200024.json",
+      "bytes": 19357,
+      "text_copied": true,
+      "sha256": "b606b81e5234da0c7bfb262a39f99de250d944949d4db036a74c080b96e38602"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200025.json",
+      "bytes": 19770,
+      "text_copied": true,
+      "sha256": "07d5886cb5a2e7a7b10537790ddcbd78846a94c192cdc176a741a1ac30d78622"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200031.json",
+      "bytes": 12890,
+      "text_copied": true,
+      "sha256": "8a784d414188cced080e1527a9b2f2c41a2562b00cba736f68e1ebc61c74bfdc"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200033.json",
+      "bytes": 12873,
+      "text_copied": true,
+      "sha256": "803048a775ae55a3fe4ce50aace2d9ee5063a18f5095b27945fad038dfe416c8"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200038.json",
+      "bytes": 8847,
+      "text_copied": true,
+      "sha256": "cac694976d258f4d73e0ff73f7765a6f207a3b880d62393210f0bab3226b3a2e"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200045.json",
+      "bytes": 8859,
+      "text_copied": true,
+      "sha256": "b0a1d841b18e1251ad8a3372d250b46566a3f596be8fe7d6564877e88eb381ca"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200048.json",
+      "bytes": 6040,
+      "text_copied": true,
+      "sha256": "49850d888050f26e71329457b4f1e5f3dd346651b892c29a032b6c810e65379a"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200049.json",
+      "bytes": 16567,
+      "text_copied": true,
+      "sha256": "80dc7e3898fe6fe6c014530b41202408a0c5ef11c686cb8407f35e40eff833a0"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200057.json",
+      "bytes": 9905,
+      "text_copied": true,
+      "sha256": "3cd82f2bbc4c84c825147c792cf64c95169a878c290b38b8f93ad318b535f81e"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200058.json",
+      "bytes": 9390,
+      "text_copied": true,
+      "sha256": "22f48e36d2cd15870d84389a2f6370cb1e371edca89041c0918a1464fb4079b1"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200059.json",
+      "bytes": 9559,
+      "text_copied": true,
+      "sha256": "0cfc77c377b576cadfd2c644d3a488bed923ea9f65d614a9253b8780a0f29045"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200060.json",
+      "bytes": 9537,
+      "text_copied": true,
+      "sha256": "2c79f2460c07a1713fa9a9e9021747e5ac2642275dda8b43bbab8d14fd34d159"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200061.json",
+      "bytes": 9909,
+      "text_copied": true,
+      "sha256": "7c3742fee17474053c031fb2bc9e73003667b0e520ca7e74644328d7906f935f"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200062.json",
+      "bytes": 9368,
+      "text_copied": true,
+      "sha256": "30ae6fed168002c94776fd2ea3e02da4ecb28311e1771c179748522b27df116c"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200063.json",
+      "bytes": 9450,
+      "text_copied": true,
+      "sha256": "c4af86a2699b8e946dd5f266c6da14c69efda8d74e09ffd1a546ec00f3effe9e"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200065.json",
+      "bytes": 9446,
+      "text_copied": true,
+      "sha256": "548b277700fe97c83242b86c8f7611533214ff058374f222de4b80a3a642ee2c"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200074.json",
+      "bytes": 6081,
+      "text_copied": true,
+      "sha256": "9fc30f684fbbdf98bc36c3df4061f7cceed45ca4eb20ca0fd99ade6b8e2d5ad7"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200078.json",
+      "bytes": 17875,
+      "text_copied": true,
+      "sha256": "2d0d2eb422fb385afa43aba967391219276135f89e4b11f625cf56cd0197c64b"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200080.json",
+      "bytes": 20626,
+      "text_copied": true,
+      "sha256": "4cc4aacf3f6f93e20fa0791ec3a4277130e72b87f6372d15301c6e60069e97fc"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200082.json",
+      "bytes": 7431,
+      "text_copied": true,
+      "sha256": "f23d60a92d68f1aa6c874802dfef64428dfcb2ab2f9a909120b609807eabe026"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200089.json",
+      "bytes": 7974,
+      "text_copied": true,
+      "sha256": "50e0d261668c30c8e5ec56c9aa48ffd8da6444c60126af0a2f253ac9b2638564"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200104.json",
+      "bytes": 5980,
+      "text_copied": true,
+      "sha256": "cc26101adc34df1b1b0e9a6f9e1fb7173f13d7c3593ac3ea7b15cec0d0908365"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200105.json",
+      "bytes": 5963,
+      "text_copied": true,
+      "sha256": "fec20d6e53c8a095f47dabe33afd63087d67ce198f9741ac92f5738a99c3a491"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200106.json",
+      "bytes": 7878,
+      "text_copied": true,
+      "sha256": "0f2f28b61be6b795ba1bb1861100af77db7d0a1f0f0e2360cd854042cc9ee7c4"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200107.json",
+      "bytes": 7792,
+      "text_copied": true,
+      "sha256": "ceef248f2387a3896f924607edd723cb92f30e53196514c0a22813dce34f3855"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200108.json",
+      "bytes": 7696,
+      "text_copied": true,
+      "sha256": "bd01042245388c7ba3e0b80f5e865fc184b3addcd5473715b4c84a65709693ae"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200109.json",
+      "bytes": 7626,
+      "text_copied": true,
+      "sha256": "6b6f77aea101e7e8e7b5855af325c44f0305bce1aea982d2414234810a92c7b4"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200115.json",
+      "bytes": 7336,
+      "text_copied": true,
+      "sha256": "2b8518c7b1a050581e7769817481adb8cad3d963ec0b7ac214ed68ed0b67ae88"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200121.json",
+      "bytes": 7431,
+      "text_copied": true,
+      "sha256": "bcfc901c0b7611a77027af53ad6e8e1257a0dc3a238138a482a6160fe5434957"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200124.json",
+      "bytes": 17118,
+      "text_copied": true,
+      "sha256": "0d1fd47ff025a50ec685db725a72ffdeefc88ce5c2b4bc2c31c01099e2095eb2"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200125.json",
+      "bytes": 17199,
+      "text_copied": true,
+      "sha256": "d585a2ce95e2ff112e95b9300a005170fe945fe2da5701d971e8685284f56af4"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200127.json",
+      "bytes": 16869,
+      "text_copied": true,
+      "sha256": "a2d2d17e55d19b4d5170ce845d66155c2463ecd1f9f6cc21ea09b2a2553e9094"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200131.json",
+      "bytes": 9671,
+      "text_copied": true,
+      "sha256": "626a2e71e47bc01ef45794d284021d27849513c1005269c600352a1921d9bdbc"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200132.json",
+      "bytes": 13006,
+      "text_copied": true,
+      "sha256": "d1979ae6777820bdb8cb9d883776991f87c38dfc2fdf7e1c86cbbef8580e320a"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200137.json",
+      "bytes": 5994,
+      "text_copied": true,
+      "sha256": "b7d4cb8c10fd93e8c148ca6399867972c12a91070a808a40fa313b98fc9e3f36"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200139.json",
+      "bytes": 4691,
+      "text_copied": true,
+      "sha256": "34c7fa2e0a93b9accf11e612c5412470d1d29225512aa58f2c9308dfaa96391e"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200143.json",
+      "bytes": 8352,
+      "text_copied": true,
+      "sha256": "c9ba5ba8601a74f6f575990d89fc1b79265fdde3d7aba5f667448cd3b58fc1fc"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200145.json",
+      "bytes": 8301,
+      "text_copied": true,
+      "sha256": "418be443b52b15a93f2f87f5809bde5ffa3d5072830d4cf3c4fcfea60bac0f6d"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200146.json",
+      "bytes": 8294,
+      "text_copied": true,
+      "sha256": "958f7631635f01aec927cb14ba378f744eb2f20cc2d08be9b96dff270af4ba98"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200149.json",
+      "bytes": 6697,
+      "text_copied": true,
+      "sha256": "e9f05eeec7fecf6ce4093c93fee891da81042062d4a1bcc53d92437d350cc337"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200151.json",
+      "bytes": 11147,
+      "text_copied": true,
+      "sha256": "315ca3b45d4276dc5e03d9a6a6d6bf44753889709fab6c4f5bf3fa8217c68ed5"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200153.json",
+      "bytes": 8695,
+      "text_copied": true,
+      "sha256": "03776b8bd02417f5924e5f285a45d6c1f70da401625138a1caf8804ea47c3060"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200155.json",
+      "bytes": 7496,
+      "text_copied": true,
+      "sha256": "fcaa7ad3d6c44c842ca81b4e1b7c5af0bfae59f0b56a9df45c37af9487cf8549"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200157.json",
+      "bytes": 5816,
+      "text_copied": true,
+      "sha256": "481624e1c1233dad45a1894c86414dc9404ee191ec7294d4834eaa3cec8b7806"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200158.json",
+      "bytes": 9607,
+      "text_copied": true,
+      "sha256": "54fa68e62154eeb2332bac8d4920ed6ee984bb10e825b56aa0ede758d1b08d52"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200159.json",
+      "bytes": 17016,
+      "text_copied": true,
+      "sha256": "aeee34d36fdabd6711d23f4a56cce50f8d9304f12946144fda4da2efba123d8a"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200161.json",
+      "bytes": 12661,
+      "text_copied": true,
+      "sha256": "9cd7197a718085ebb8932551df4ba18c36a59e656b2d551e172dfc2e3d1497bf"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200169.json",
+      "bytes": 15635,
+      "text_copied": true,
+      "sha256": "4814ee244c270b331418bba1b134ee0c3e90b46fc74201ecd8afb8600ca548fd"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200170.json",
+      "bytes": 17046,
+      "text_copied": true,
+      "sha256": "1aeb12347244e02a24681ddb0c1a923dd4138da61b599964a8d4f2cc02405020"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200172.json",
+      "bytes": 16804,
+      "text_copied": true,
+      "sha256": "8bbac7520cd38b30ed41feb2d23d12e66c9fa4c0adaacb8e74e212aff8057a0e"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200173.json",
+      "bytes": 5918,
+      "text_copied": true,
+      "sha256": "a325d7fbb063e88e2a2dc7eccf535553157e49cafee21453adfc3a752c55ee3a"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200174.json",
+      "bytes": 6210,
+      "text_copied": true,
+      "sha256": "a74298bb723b330a0efd525cd2b7ca4e5ef165eb16c2c7f2b3806d6b6f28210f"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200175.json",
+      "bytes": 6968,
+      "text_copied": true,
+      "sha256": "f3cb15e3a7455ae421611d221fc31d5e75b84ee1421ef55e35588f79d94e8118"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200177.json",
+      "bytes": 7511,
+      "text_copied": true,
+      "sha256": "c135a7020ff5b8ca89313cf843a4f20a6061598d4ffb0cfce478a394a67ab40c"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200186.json",
+      "bytes": 25599,
+      "text_copied": true,
+      "sha256": "e2cf48c7b8efb68a5de401b00567a73650d34a686dd00358160401f24c73c12a"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200187.json",
+      "bytes": 25423,
+      "text_copied": true,
+      "sha256": "c3580bc4966bc0ae45d52388e805f7d8c13fb99130129132ce1d6a99102d76c2"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200188.json",
+      "bytes": 25657,
+      "text_copied": true,
+      "sha256": "d60cce0611d7958de86c32f81c2bd72576246b8be50cfe6faada69939aeba9fc"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200189.json",
+      "bytes": 27996,
+      "text_copied": true,
+      "sha256": "c4dcc2e6ff7d39c7e2bc41f44f33c07d49e16b3e61a316fcf1819933c5eb4e8c"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200190.json",
+      "bytes": 28004,
+      "text_copied": true,
+      "sha256": "1e9df564aff0a12b3a7fa3b4f9d254ea5fe7ab3b5031975bb0e872f62b0adedd"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200198.json",
+      "bytes": 5540,
+      "text_copied": true,
+      "sha256": "71f6a3f83133c74107d7354d42ff95c54b8ff42b7bec7a791ba7ac780ced4675"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200199.json",
+      "bytes": 4602,
+      "text_copied": true,
+      "sha256": "bb1a5c47edf3769afab9bbb1e7ed2505295b3a297aa10bd72a965a6e9dd80cd9"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200200.json",
+      "bytes": 4529,
+      "text_copied": true,
+      "sha256": "c5571ead10f7ab674652fa06aa43b56227251f96815945ea315f0dbfe2fcd9ca"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200201.json",
+      "bytes": 5747,
+      "text_copied": true,
+      "sha256": "e5f25d6d0392250a539d6f5570e330513edbf8b0e11b053cfeb6b226299578ac"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200211.json",
+      "bytes": 20777,
+      "text_copied": true,
+      "sha256": "8db3355432d16ff68cb3f3ada22c75ed8a3e1c6d42e364b4addf5686aa6a10db"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200212.json",
+      "bytes": 19101,
+      "text_copied": true,
+      "sha256": "a218afa9727bb7b058d2cbbcad69d5ec26aece0d6459fa9454770f2cc22721b6"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200216.json",
+      "bytes": 19772,
+      "text_copied": true,
+      "sha256": "58ac3b54511db3e4bb9fc85d8d83da847a5dee4299509d2139cfb9bee746110c"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200219.json",
+      "bytes": 14919,
+      "text_copied": true,
+      "sha256": "e18c109be7464b9ae30f835f3664df6d07dcc8b1487247e421f6263563801e31"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200225.json",
+      "bytes": 16608,
+      "text_copied": true,
+      "sha256": "3bf0f98dd38c01b65b0bae51cb79911b498aeb35bcd65b890064565afaabdcf7"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200226.json",
+      "bytes": 14293,
+      "text_copied": true,
+      "sha256": "f2081e01ea8a99e334079bc7c6eac0ee2960040c6d206ed497afc817d1f5130f"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200230.json",
+      "bytes": 16508,
+      "text_copied": true,
+      "sha256": "43692e1e4d36b66b0343d15f6861a12d3126ca5495ec7ab5f9a0243920edc4cb"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200235.json",
+      "bytes": 19758,
+      "text_copied": true,
+      "sha256": "e8b41465c0fe92428de01a755e07108df372ed69b6ec08b5504ab6f433a8a23c"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200236.json",
+      "bytes": 6662,
+      "text_copied": true,
+      "sha256": "4314ef076146ed31f734d20018b39a56b17fe8aebad1072f8e2110d47c09cec7"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200238.json",
+      "bytes": 7186,
+      "text_copied": true,
+      "sha256": "69268b333276f976c4aca6a1c5b7d3b54579f3155684193894c06cb4ddb78253"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200240.json",
+      "bytes": 7536,
+      "text_copied": true,
+      "sha256": "b4d97e7b8e19c36ab473226500f17069a20f1f929b4fda5b3c8edb1237d4b128"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200241.json",
+      "bytes": 7708,
+      "text_copied": true,
+      "sha256": "9033e3a2b1c7e3bab37110f136be0899ecda1cc23a0744e75a2f272b05ca77ad"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200243.json",
+      "bytes": 7377,
+      "text_copied": true,
+      "sha256": "3d4cd47e4433a74f43ece2cfb3ebd41ed77ccbffcdbc7a783e962ea39a886112"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200245.json",
+      "bytes": 5869,
+      "text_copied": true,
+      "sha256": "ab36fec90a17fc0e1cfc7ea4754c36d93c0289a4b454dbb4afaf5b433d83b0d7"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200246.json",
+      "bytes": 9640,
+      "text_copied": true,
+      "sha256": "e34b9123ddaa85f057cc791e63bdea86bd633ae87928e98770bfc29d89b1929c"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200247.json",
+      "bytes": 9957,
+      "text_copied": true,
+      "sha256": "4c0e8b99059bce865c4462466509a4d5568cc8b3b644b3ba6498206e47d14cfe"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200248.json",
+      "bytes": 9492,
+      "text_copied": true,
+      "sha256": "1f67eaf2bb0381e0088a7e7bb8b5e4098b9b42ba2e40b82228ef9a9f852b2ee5"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200249.json",
+      "bytes": 9406,
+      "text_copied": true,
+      "sha256": "f142e0c2c168648ac1489ec69fcc03f4e0bca28b443147c7fb605f6efbecba6c"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200251.json",
+      "bytes": 7269,
+      "text_copied": true,
+      "sha256": "9a7ebb42ba0ad6d2f1c11cc1d42020f695a24e128ea9c555f476f32a93c2a58f"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200273.json",
+      "bytes": 10675,
+      "text_copied": true,
+      "sha256": "9ed8e5ab21179587531f1c430ddfb68b07a9b160069989ef34a66d69aa4a1ace"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200277.json",
+      "bytes": 10625,
+      "text_copied": true,
+      "sha256": "93ae8e5ddd1486702bf2e5e06def9000616104f5c97cc6bbbe0cfcf65636a8dd"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200281.json",
+      "bytes": 7924,
+      "text_copied": true,
+      "sha256": "56a5fbb377e5ad8d30a1c4429af64fbce8995344a33554efb28e9aa0f6184914"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200284.json",
+      "bytes": 7703,
+      "text_copied": true,
+      "sha256": "2cba6c3c3a0ed18f354bc3ab62b1e04778eaa474ce350777528e309cdc705698"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200285.json",
+      "bytes": 7737,
+      "text_copied": true,
+      "sha256": "f58070030f9be7506b13eb24e4d2fedef8dd6b66d9054ed636a0450c2aee286a"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200286.json",
+      "bytes": 7604,
+      "text_copied": true,
+      "sha256": "a2d3a3f0e21374440cb11d867e8bb75cf192771737339897cd98ffbc7cba53d6"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200301.json",
+      "bytes": 26857,
+      "text_copied": true,
+      "sha256": "b36f1aca090f730f6e95c5260b18df976d39db6530173877c757a74b1c5bb131"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200318.json",
+      "bytes": 9253,
+      "text_copied": true,
+      "sha256": "815cc19acb324da9c60ba10090bb43b2b46428832a3b47ff941635d122be0201"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200320.json",
+      "bytes": 9050,
+      "text_copied": true,
+      "sha256": "dcf5bc0f6d135380ec3e0eedeee4497a8227c80598189e0d3dca5ee379e63e0f"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200324.json",
+      "bytes": 9597,
+      "text_copied": true,
+      "sha256": "4085e8f579344d467b07e679ad8f2d85b9340fa4a1c884b0e5f86a1ee068f17c"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200343.json",
+      "bytes": 9626,
+      "text_copied": true,
+      "sha256": "808a35dc2f425b65a18b81370decaf01cb44240cc4b375c8e9d3d9a8fbcb4069"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200344.json",
+      "bytes": 19232,
+      "text_copied": true,
+      "sha256": "60f674ae7bf316fb998e51221f7108b4cc988c2c8fc5b72c81a8f4b04c2605e3"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200354.json",
+      "bytes": 8981,
+      "text_copied": true,
+      "sha256": "240c0b7945e06868f5f3dcb369c14217c642f8bdb2cecc06b52938c4fdeee880"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200355.json",
+      "bytes": 7681,
+      "text_copied": true,
+      "sha256": "5fe3c97b57d67b7e6a1fd8bf81e737bb3b5706c7ecf4026218bde52049148f60"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200376.json",
+      "bytes": 6662,
+      "text_copied": true,
+      "sha256": "4314ef076146ed31f734d20018b39a56b17fe8aebad1072f8e2110d47c09cec7"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200377.json",
+      "bytes": 6662,
+      "text_copied": true,
+      "sha256": "4314ef076146ed31f734d20018b39a56b17fe8aebad1072f8e2110d47c09cec7"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200379.json",
+      "bytes": 6662,
+      "text_copied": true,
+      "sha256": "4314ef076146ed31f734d20018b39a56b17fe8aebad1072f8e2110d47c09cec7"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200425.json",
+      "bytes": 11028,
+      "text_copied": true,
+      "sha256": "2dacd1f3d7dbd2a9b0de8e0473cd6ba9321cbd54586ba17346216b63f91462bf"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200471.json",
+      "bytes": 6376,
+      "text_copied": true,
+      "sha256": "98a9d47e52841ba4e33ff02fef88467287abc1e590523c6c680a21a20228d86b"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200472.json",
+      "bytes": 6413,
+      "text_copied": true,
+      "sha256": "07a582e53cf348a5c46109e972964661902f4e421b7e135f2c0a5e9e3fc3539a"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200473.json",
+      "bytes": 22787,
+      "text_copied": true,
+      "sha256": "29cee3136b8c6435820c234438c08793875c62520345f50ad6c1f51f36a38a2e"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200484.json",
+      "bytes": 7290,
+      "text_copied": true,
+      "sha256": "92e00ad4aa4c5138e6bd0d7f2323d32ce0c207e62d4e644bf1c35e1e8e324f6c"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200485.json",
+      "bytes": 7581,
+      "text_copied": true,
+      "sha256": "f22302aac2dd7189bbbb4e268b4720d85f9a871e26113fa9e03ba75d7c874e9f"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200486.json",
+      "bytes": 8786,
+      "text_copied": true,
+      "sha256": "105f84ac0a7cad7ac1bb04b1f553ed46b39118fa5bbcf05a5bfb4d1516c0c51d"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200488.json",
+      "bytes": 15641,
+      "text_copied": true,
+      "sha256": "058320f4ab36a31db25a85575b36bc4c9652ab51f455ae80f89f3c84d77c987b"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200489.json",
+      "bytes": 5842,
+      "text_copied": true,
+      "sha256": "2a8404e2fb5e030e9256d5a5598536af975ea6a1648ab653427f6bc39e89b379"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200490.json",
+      "bytes": 15856,
+      "text_copied": true,
+      "sha256": "c33da1381e23b8f7afe984db6f7589a5c376a02bede0b56d067a43dff268532a"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200554.json",
+      "bytes": 7487,
+      "text_copied": true,
+      "sha256": "e05780a2ba1cb1c6baac8b270e95ac29d3a7b7f5560dc10d8613f4f0cdf43975"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200588.json",
+      "bytes": 6686,
+      "text_copied": true,
+      "sha256": "f33f877bd66e82a9583fcd1f888e4b114980da5fd12119c9a73ab9b1931e3006"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200591.json",
+      "bytes": 12337,
+      "text_copied": true,
+      "sha256": "ddc4b6014aa63ad86f253c8c303a29591d6a9b78a6bd5adf9516d5eee206224e"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200606.json",
+      "bytes": 6662,
+      "text_copied": true,
+      "sha256": "4314ef076146ed31f734d20018b39a56b17fe8aebad1072f8e2110d47c09cec7"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200608.json",
+      "bytes": 6751,
+      "text_copied": true,
+      "sha256": "fc7bedef228766cdd08f200a0fb38aec5ca4c2f40cfd4886c0d790dee05cc7d5"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200616.json",
+      "bytes": 6141,
+      "text_copied": true,
+      "sha256": "2705af6e3c920c7a5ee5adb98fb8dae01facdbd717a3844936d1354a1cfb3afd"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200626.json",
+      "bytes": 6312,
+      "text_copied": true,
+      "sha256": "544b01e31426600006bc46ce9059e9963617c7ec26c79cd8518e6adf36ca1789"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200638.json",
+      "bytes": 6138,
+      "text_copied": true,
+      "sha256": "c9c0be8b1d00c1875cfae6737384927b5dc568e542e6c551cc516aaf7f4e47fb"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200659.json",
+      "bytes": 12477,
+      "text_copied": true,
+      "sha256": "597243cfad4be53200c8a591f4f230e9e8fbb4d13cd95825f2f88948d5b595ed"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200660.json",
+      "bytes": 12560,
+      "text_copied": true,
+      "sha256": "fafaa018e61d6549f646d87ee977798c5571c9146c7eb20a2bcec6db4181ba4e"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200663.json",
+      "bytes": 12334,
+      "text_copied": true,
+      "sha256": "29bafb74af603a2318701d9dfce05482edf0b238e8756bab88212bc2542fc063"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200665.json",
+      "bytes": 16464,
+      "text_copied": true,
+      "sha256": "3d481876da64cf01034419f1d45a596194a9cce29fc6e4de954ee192c48f8f9f"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200668.json",
+      "bytes": 7391,
+      "text_copied": true,
+      "sha256": "c58a5c26961540415b52b065c95f631801cf31884e986c31b5a51e932d7d0b26"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200674.json",
+      "bytes": 5880,
+      "text_copied": true,
+      "sha256": "d1a9a64d4131b49253935b31871753f2719fafd816cf4c5fef12ada6170aba30"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200676.json",
+      "bytes": 5826,
+      "text_copied": true,
+      "sha256": "e284e6abf38e1801e9dbabbbb88b1ae0502db8a97dd52850405079dbce953c91"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200686.json",
+      "bytes": 8115,
+      "text_copied": true,
+      "sha256": "06c8cca1adb8fa3707fbff13aac7c97e13abf3f2c46a4be24ab8dfc9e7ed4bcf"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200687.json",
+      "bytes": 8239,
+      "text_copied": true,
+      "sha256": "71bc97df9cbfca2481c36bd72c2eb6d8490e945add47d4b6584b4624fac61b77"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200716.json",
+      "bytes": 6662,
+      "text_copied": true,
+      "sha256": "4314ef076146ed31f734d20018b39a56b17fe8aebad1072f8e2110d47c09cec7"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200724.json",
+      "bytes": 10675,
+      "text_copied": true,
+      "sha256": "9ed8e5ab21179587531f1c430ddfb68b07a9b160069989ef34a66d69aa4a1ace"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200737.json",
+      "bytes": 17508,
+      "text_copied": true,
+      "sha256": "47bbe0aca419c16367b22b950c578e837dbacffcc59a049a0e295fe0194ea11d"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200745.json",
+      "bytes": 5936,
+      "text_copied": true,
+      "sha256": "9ac49f2ce0c5dac2e43aedbfe6f06f4f19874fd7e0083d52c0c8cfb0c6127d4c"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200746.json",
+      "bytes": 6199,
+      "text_copied": true,
+      "sha256": "7c643ec14ce1eb779cc24f6fdd31877f6f82ddcdbfc37f2a14d1757b0f09cae5"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200781.json",
+      "bytes": 20934,
+      "text_copied": true,
+      "sha256": "4247cc81abc6db4dc1b2353a338938b5f281c8c2ebff8cb4e5c0bebb6fa7981a"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200782.json",
+      "bytes": 6833,
+      "text_copied": true,
+      "sha256": "e31c4e6e33e50471a5099496a6049e7a6fede2e7d485b6d44e1524288d7c8cd8"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200783.json",
+      "bytes": 15276,
+      "text_copied": true,
+      "sha256": "27fedea6722cd72065f53d45c1fc808c634e583363055bc1d3fe39e350a319f3"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200811.json",
+      "bytes": 18145,
+      "text_copied": true,
+      "sha256": "1ebb575ff6e28a35f1b7ec8c4ae739a04f3c6fb28aad59b045f3aaad978e9799"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200833.json",
+      "bytes": 12313,
+      "text_copied": true,
+      "sha256": "218f36c24c0fe43b34f05ad68712c10273657f2406ef75f2590d7bc02188dd03"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200834.json",
+      "bytes": 12336,
+      "text_copied": true,
+      "sha256": "7e96dab48c012567c5c3d94607ac63af3949d6ddb5aa78ccc18c7b6ac57de73f"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200835.json",
+      "bytes": 7745,
+      "text_copied": true,
+      "sha256": "27f7009f7d642394b9d3b0cd6f131c85694ca1425e193afae644e93c4037209c"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200836.json",
+      "bytes": 6386,
+      "text_copied": true,
+      "sha256": "9012475d02f71ccac4637f0406a3f157290338a41564ede3bfdc85a873a64701"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200839.json",
+      "bytes": 14171,
+      "text_copied": true,
+      "sha256": "dfba6993c086e0239ee6fd8780ad51725c4ff80e3c4378df6e4737bc0a6493d2"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200840.json",
+      "bytes": 6329,
+      "text_copied": true,
+      "sha256": "6b27aa8f274e60eb7cb721025d707dc0b65f71a5d4c4d5f701f7fd7e3b463ca0"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200841.json",
+      "bytes": 6327,
+      "text_copied": true,
+      "sha256": "afe8d5ea65a9ca795589722dfaf8256d8890ac8befbb8876d7a81ce9085d2868"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200842.json",
+      "bytes": 7768,
+      "text_copied": true,
+      "sha256": "bee99b7f17182cee20c923ebf2880f87a8c4a23b7f6aefa32bc20d730f92bed6"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200843.json",
+      "bytes": 9960,
+      "text_copied": true,
+      "sha256": "74b5c7bac83aee0be37717d3feb427840f5c60d93db34c817f221666f4cfa3c8"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200845.json",
+      "bytes": 7765,
+      "text_copied": true,
+      "sha256": "70b4401842d187626f96cba941ccf7d761af1e1c0cd0c916994808b90d3b9d55"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200847.json",
+      "bytes": 14725,
+      "text_copied": true,
+      "sha256": "4032014758ee16d729d8729fe64dec7a494997738854dbf63cd4f6b9aba34915"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200848.json",
+      "bytes": 15050,
+      "text_copied": true,
+      "sha256": "aecabe685697697375cea7adb24b975e684662f1f9006a01cd0c25a17a495ec7"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200849.json",
+      "bytes": 10394,
+      "text_copied": true,
+      "sha256": "76d7ff38822a73011fe3aa1ef039434782a3216d4f912c2b521536e90cbcfdf7"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200851.json",
+      "bytes": 11494,
+      "text_copied": true,
+      "sha256": "19b12df43c2be24b9073518e81fddfe7b0c723100fc17093e655ccdcbdc93963"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200852.json",
+      "bytes": 6557,
+      "text_copied": true,
+      "sha256": "6e9ec98877d9cd5edbfc8aa19d6f5808cbd5faeac356e0b749e863d9f46c1fae"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/item_200853.json",
+      "bytes": 6515,
+      "text_copied": true,
+      "sha256": "cd6da2823c52500a73e6c66ed8bbdace01a48b6c6b8bc926f0295ddd87528eb2"
+    },
+    {
+      "path": "personal_app/1_McDonalds_Oct-24-2026/mcdonalds_items.csv",
+      "bytes": 219305,
+      "text_copied": true,
+      "sha256": "614a4b2f482a4a31369ffbd830d2c0dc7ce31a75665329634fe1e70956c48b80"
+    },
+    {
+      "path": "personal_app/2_Wetherspoons_Oct-24-2026/Wetherspoons_items.csv",
+      "bytes": 423007,
+      "text_copied": true,
+      "sha256": "0a4f758235b5b2fb093a79c4b518f965c280e4233ed6a8d595ffc6ac12f929f6"
+    },
+    {
+      "path": "personal_app/2_Wetherspoons_Oct-24-2026/pub_70.json",
+      "bytes": 616303,
+      "text_copied": true,
+      "sha256": "ee8e2c057a53828fee38b1b6a7561289ac1d2290f37a66721968b938e744be4e"
+    },
+    {
+      "path": "personal_app/3_CostaCoffee_Oct-24-2026/costacoffee_nutrition.csv",
+      "bytes": 88269,
+      "text_copied": true,
+      "sha256": "a069dd8e29676606270e891cf04bc8d4a17c1245b38146932082373a579261d0"
+    },
+    {
+      "path": "personal_app/3_CostaCoffee_Oct-24-2026/costacoffee_nutrition.json",
+      "bytes": 223398,
+      "text_copied": true,
+      "sha256": "3865f994579045fe7fe388d78540124313a4a5c2c91b79eb0375dbb300324114"
+    },
+    {
+      "path": "personal_app/4_Greggs_Oct-24-2026/greggs.json",
+      "bytes": 511511,
+      "text_copied": true,
+      "sha256": "7506550c2e59b1674418ac8c4eebf4fc73d39cef38453915575861825ef272cd"
+    },
+    {
+      "path": "personal_app/4_Greggs_Oct-24-2026/greggs_items.csv",
+      "bytes": 86265,
+      "text_copied": true,
+      "sha256": "97edc74a5d774164cd995fde4958c31b1a4d51cb9bb8d676a2508be031babdc5"
+    },
+    {
+      "path": "personal_app/5_KFC_Oct-24-2026/kfc_nutrition.csv",
+      "bytes": 19190,
+      "text_copied": true,
+      "sha256": "849697b1de526ed9805ef44ddf8ac106b6c141cb21a28acbfdd54dfa90a96766"
+    },
+    {
+      "path": "personal_app/5_KFC_Oct-24-2026/kfc_nutrition.json",
+      "bytes": 62269,
+      "text_copied": true,
+      "sha256": "67bc1d0b3203972a09e526b643704c1d9628c4088dfcb84e175dd20b12d07654"
+    },
+    {
+      "path": "personal_app/6_Dominos_Oct-24-2026/allergen_leaflet.pdf",
+      "bytes": 1146874,
+      "text_copied": false,
+      "sha256": "d85fbe0b78db6286dc8c1349350fab22235a6cc48d2a8764edd0ac36b6ca178f"
+    },
+    {
+      "path": "personal_app/6_Dominos_Oct-24-2026/ingredients-and-allergens.pdf",
+      "bytes": 753860,
+      "text_copied": false,
+      "sha256": "761fe400ab4eb5ce69712fdbd3d3fabbc27e957ad18d21a08081a3c84f66a845"
+    },
+    {
+      "path": "personal_app/6_Dominos_Oct-24-2026/nutrition_pizzas.pdf",
+      "bytes": 3054725,
+      "text_copied": false,
+      "sha256": "ea9d49b0d4b1f3cdcd8d58b168c3f50ea7468b1a72f03f070ee0530e020220e2"
+    },
+    {
+      "path": "personal_app/6_Dominos_Oct-24-2026/nutrition_sides-and-desserts.pdf",
+      "bytes": 650426,
+      "text_copied": false,
+      "sha256": "b83a80111bcef99893533598228edc9bc4c800f83cf62e55e6b49da2da660c82"
+    },
+    {
+      "path": "personal_app/7_Starbucks_Oct-24-2026/AUT%2026_UK_AllergenBook_CORE_FOOD_v04.pdf",
+      "bytes": 2575017,
+      "text_copied": false,
+      "sha256": "b02c5bfceb4d926030932213ea655e735f13f94be96058aa8ef793eb7978222d"
+    },
+    {
+      "path": "personal_app/7_Starbucks_Oct-24-2026/AUT_26_UK_AllergenBook_CORE_BEVERAGE_v04.pdf",
+      "bytes": 4101209,
+      "text_copied": false,
+      "sha256": "9e05d19718303c4590a85050ffe5b986195e28b418f9877f9e5fb8f188051494"
+    },
+    {
+      "path": "personal_app/7_Starbucks_Oct-24-2026/SUM2%2026_UK_AllergenBook_CORE_FOOD_v04.pdf",
+      "bytes": 2031520,
+      "text_copied": false,
+      "sha256": "9e8bd809ac2c02ad383ddaba7d311a7a570959c1251c3b2138a9da96c24bb61f"
+    },
+    {
+      "path": "personal_app/7_Starbucks_Oct-24-2026/SUM2_26_UK_AllergenBook_CORE_BEVERAGE_v06.pdf",
+      "bytes": 10113883,
+      "text_copied": false,
+      "sha256": "9c2dbc52a7bef6a92a100c741bcfa2bd8cc1cb1272b8d17a8eb16a66573278c8"
+    },
+    {
+      "path": "personal_app/8_Pizzahut_Oct-24-2026/DINE-IN_AIN_Booklet_C3_2026_FINAL_V1.pdf",
+      "bytes": 799033,
+      "text_copied": false,
+      "sha256": "494a706b7744c529e313fc90c555dfcd3335f05a1f202ae5bf38a622b4c77112"
+    },
+    {
+      "path": "personal_app/9_Subway_Oct-24-2026/C4_2026_Campaign_Allergen_Information_A4COMBINED.pdf",
+      "bytes": 374172,
+      "text_copied": false,
+      "sha256": "73cc405c06da0fc0eb09db8842f25647d03c13247f40603f2b1fc96a7b1d3125"
+    },
+    {
+      "path": "personal_app/9_Subway_Oct-24-2026/UKIBuildsandIngredientsNutritionalInformationSeptember2.pdf",
+      "bytes": 520934,
+      "text_copied": false,
+      "sha256": "e51f46cfd63f9b4172d1ee56e033f6144f28efa5d397c0c2a42b4b2c77b20406"
+    }
+  ]
+}

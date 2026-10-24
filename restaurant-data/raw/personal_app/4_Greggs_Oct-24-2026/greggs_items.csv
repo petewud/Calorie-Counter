@@ -1,0 +1,879 @@
+,collection_date,rest_name,menu_id,item_name,servingsize,servingsizeunit,item_description,category,allergens,Calories,Calories_100,Carbohydrates,Carbohydrates_100,EnergyKj,EnergyKj_100,Fat,Fat_100,Protein,Protein_100,Salt,Salt_100,Saturates,Saturates_100,Sugar,Sugar_100
+0,Oct-24-2026,Greggs,1000714,Bacon Breakfast Roll,119.5,g,"Oven baked bacon rashers in a corn top breakfast roll.
+
+Okay, it’s time to admit it. Our parents were right all along.
+
+Breakfast IS the most important meal of the day. But, with the nation’s favourite bacon roll in a Greggs shop near you, who really has time to make brekkie at home?
+
+No frills. No fuss. Just three rashers of deliciously oven baked bacon, in a pillow-soft, melt-in-your-mouth, white breakfast roll.  All it needs is a little dash of HP or Ketchup (Heinz of course). Breakfast-y bliss.",Breakfast,"['Soya', 'Wheat']",321,269,33.0,28.0,1349,1129,12.0,10.0,19.0,16.0,1.9,1.6,4.3,3.6,5.3,4.4
+1,Oct-24-2026,Greggs,1000715,Sausage Breakfast Roll,154.0,g,"Oven baked sausages in a corn top breakfast roll.
+
+When something just works, we don’t like messing with it too much.
+
+If you’re looking at this combo of freshly cooked sausages, a pillow- soft, white breakfast roll and your mouth is watering, you’re probably our kind of person.
+
+Freshly prepared every morning, all it needs is a little dash of HP or Ketchup (Heinz of course).",Breakfast,"['Soya', 'Wheat', 'Sulphites']",377,245,42.0,27.0,1585,1029,15.0,10.0,17.0,11.0,1.8,1.2,5.1,3.3,5.9,3.8
+2,Oct-24-2026,Greggs,1000722,Omelette Breakfast Roll,176.0,g,"Cheesy omelette in a corn top breakfast roll.
+
+Eggs. They actually are all they’re cracked up to be, you know.
+
+Especially when they’re whipped into a Cheddar cheese omelette, packed into a pillow-soft, white breakfast roll, and lathered with a dollop of Ketchup on top, from our good friends at Heinz.
+
+We’re also proud owners of the Good Egg Award, so you can rest safe knowing our eggy goodness has been well looked after.
+
+The Good Egg Award recognises companies that use cage-free eggs or egg products. To date more than 99 million laying hens are set to benefit each year from award winners’ policies.",Breakfast,"['Eggs', 'Soya', 'Wheat', 'Milk']",352,200,35.0,20.0,1475,838,14.0,8.2,19.0,11.0,1.3,0.73,3.9,2.2,6.9,3.9
+3,Oct-24-2026,Greggs,1000720,Bacon and Omelette Breakfast Roll,155.0,g,"Classic bacon and egg combo in a corn top breakfast roll.
+
+We know you well enough by now to know you appreciate the finer things in life, and if you’re honest, you need a little comfort first thing out of bed. We don’t blame you. That’s why we’ve created the breakfast equivalent of a lovely, warm hug.
+
+Wonderfully cooked back bacon with Cheddar cheese omelette, sandwiched between a wonderfully soft corn topped roll. Simple, but it really is as good as it sounds.
+
+We’re also proud owners of a Good Egg Award, so you can rest safe knowing our eggy goodness has been well looked after.",Breakfast,"['Eggs', 'Soya', 'Wheat', 'Milk']",363,234,34.0,22.0,1519,980,15.0,9.7,22.0,14.0,1.9,1.2,4.7,3.0,6.0,3.9
+4,Oct-24-2026,Greggs,1000716,Bacon and Sausage Breakfast Roll,157.0,g,"A tasty combo of oven baked bacon and pork sausages in a corn top breakfast roll.
+
+Now we’re talking.
+
+If you’re looking at this combo of sausage, bacon rashers and a pillow-soft corn topped roll, then there’s a 99% chance that your mouth is watering. We’re right, aren’t we?
+
+And, if this is your breakfast go-to, it’s safe to say you’re probably a firm believer in ‘if it ain’t broke, don’t fix it’. You don’t care for the latest fads. And even though you’ve never even tried smashed avocado on toast, you feel obliged in saying it could NEVER be as good as bacon and sausage. We like your style. Top with Heinz Tomato Ketchup or HP Sauce and you’re onto an even bigger winner.",Breakfast,"['Soya', 'Wheat', 'Sulphites']",405,258,39.0,25.0,1697,1081,17.0,11.0,22.0,14.0,2.4,1.5,6.0,3.8,5.7,3.6
+5,Oct-24-2026,Greggs,1000721,Sausage and Omelette Breakfast Roll,178.0,g,"Sizzling pork sausages and cheesy omelette in a corn top breakfast roll.
+
+The three best things in the world? Well, that’s easy if you ask us.
+
+Sausages, obviously. Eggs, definitely. And cheese, of course. But what if you combined ALL these three beautiful things in one magical breakfast sandwich? Well, you’d end up with our Sausage & Omelette Breakfast Roll.
+
+That’s right, with sizzling pork sausages and Cheddar cheese omelette, sandwiched softly into a white corn topped roll, we’ve made a comforting, pillow-soft hug of a breakfast sandwich with all the best things *swoons*",Breakfast,"['Eggs', 'Soya', 'Wheat', 'Sulphites', 'Milk']",395,222,39.0,22.0,1655,930,17.0,9.7,20.0,11.0,1.8,1.0,5.2,2.9,6.4,3.6
+6,Oct-24-2026,Greggs,1000724,Bacon Breakfast Baguette,171.0,g,"Rashers of oven cooked bacon packed in a crusty baguette.
+
+Okay, it’s time to admit it. The adults were right all along.
+
+Breakfast IS the most important meal of the day. But, sometimes a bowl of cereal just isn’t going to cut it, you know?
+
+The Bacon Breakfast Baguette is ideal for those mornings when you need just a little bit more. Rashers of succulent bacon packed in a crusty baguette, which are baked fresh in our shops every single day.
+
+Great as it is, OR, if you’re feeling saucy, we’ve got Heinz Ketchup and HP Sauce on tap. Bon Appétit!",Breakfast,['Wheat'],462,270,56.0,33.0,1943,1136,14.0,8.3,26.0,15.0,2.6,1.5,5.6,3.3,2.9,1.7
+7,Oct-24-2026,Greggs,1000725,Sausage Breakfast Baguette,217.0,g,"Oven cooked pork sausages packed into a crusty baguette.
+
+Oh, hello. Bangers for brekkie, now we are talking.
+
+If you have a hankering for a proper breakfast, a wonderfully refreshing wake-up call, or even just a something for Instagram, you’ve come to the right place.
+
+The Sausage Breakfast Baguette is ideal for those mornings when you need just a little bit more than a breakfast roll. Freshly cooked sausages packed into a freshly baked baguette, which are baked fresh in our shops every single day.
+
+All it needs is a little dash of HP or Ketchup (Heinz of course). Breakfast-y bliss.",Breakfast,"['Sulphites', 'Wheat']",543,250,67.0,31.0,2279,1050,19.0,8.7,24.0,11.0,2.6,1.2,6.5,3.0,3.7,1.7
+8,Oct-24-2026,Greggs,1000728,Omelette Breakfast Baguette,213.0,g,"A deliciously cheesy omelette packed in a crusty baguette.
+
+Ah the omelette.
+
+The hard-boiled egg’s cool younger cousin, who was popular at school, loved by almost everyone, and looks great inside a crusty baguette.
+
+Wait, what? Our Cheddar cheese Omelette Breakfast Baguette is ideal for those mornings when you need just a little bit more than a Breakfast Roll. We’re also proud owners of the Good Egg Award, so you can rest safe knowing our eggy goodness has been well looked after.
+
+Enjoy it plain or with sauce of your choice. Egg-cellent.",Breakfast,"['Eggs', 'Wheat', 'Milk']",441,207,58.0,27.0,1853,870,13.0,6.2,21.0,10.0,1.6,0.73,4.0,1.9,4.5,2.1
+9,Oct-24-2026,Greggs,1000726,Bacon and Omelette Breakfast Baguette,206.5,g,"Oven baked bacon paired with cheesy omelette in a crusty baguette.
+
+A baguette is not about the filling. It’s about you. Who you are as a person, your hopes, your dreams.
+
+A baguette can be anything you want to it to be; an endless possibility of ingredients. But lets face it, it doesn’t get much better than bacon and egg.
+
+Bacon rashers with Cheddar cheese omelette, stuffed into a freshly baked baguette, freshly baked in our shops. Excited? Literally never been hungrier?
+
+We don’t blame you. Top with Heinz Tomato Ketchup or HP Sauce and you’re onto an even bigger winner.",Breakfast,"['Eggs', 'Wheat', 'Milk']",504,244,58.0,28.0,2117,1025,17.0,8.1,29.0,14.0,2.5,1.2,6.0,2.9,3.7,1.8
+10,Oct-24-2026,Greggs,1000723,Bacon and Sausage Breakfast Baguette,208.5,g,"Crispy bacon rashers and pork sausages in a crusty baguette.
+
+Prepare to get the good times started with this breakfast hero.
+
+Perfectly crispy bacon rashers? We’re feeling it. Beautifully cooked pork sausages? Stop it, you flirt. Stuffed into a freshly baked baguette? Now. We’re. Talking.
+
+If you’re of the belief that bacon and sausage is the undefeated breakfast combination, then we’re not here to disagree. Simply top it with Heinz Tomato Ketchup or HP Sauce and get ready for a party in your mouth. Oh, and our crusty baguettes are freshly baked in shops every day… Just how you like them.",Breakfast,"['Wheat', 'Sulphites']",550,264,63.0,30.0,2312,1109,20.0,9.4,29.0,14.0,3.1,1.5,7.3,3.5,3.3,1.6
+11,Oct-24-2026,Greggs,1000727,Sausage and Omelette Breakfast Baguette,241.0,g,"Sizzling pork sausages and cheesy omelette in crusty baguette.
+
+Done it guys, we’ve done it.
+
+We’ve created a breakfast sandwich that’s so comforting, that not even a lie in a warm cosy bed can compare. Seriously.
+
+Wonderfully cooked pork sausages with Cheddar cheese omelette, sandwiched between a wonderfully freshly baked baguette. Simple, but it really is as good as it sounds.
+
+We’re also proud owners of a Good Egg Award, so you can rest safe knowing our eggy goodness has been well looked after.",Breakfast,"['Eggs', 'Milk', 'Sulphites', 'Wheat']",557,231,65.0,27.0,2335,969,20.0,8.4,27.0,11.0,2.4,1.0,6.7,2.8,4.3,1.8
+12,Oct-24-2026,Greggs,2000555,Bacon and Cheese Wrap,98.0,g,"Delicious bacon and tangy Cheddar cheese wrapped in our famous flakey pastry.
+
+We know what you’re thinking. It doesn’t get much better than bacon. WRONG. You obviously didn’t think about cheese. Now imagine if we said you could have them both. Together. Wrapped in a deliciously crisp, flakey puff pastry? Well…guess what? You can!
+
+Our Bacon and Cheese Wrap is made from a deliciously flakey puff pastry, filled with crispy unsmoked back bacon and a slice of tangy Cheddar cheese. A match made in Greggs heaven.",Breakfast,"['Wheat', 'Milk']",358,365,25.0,25.0,1492,1522,23.0,23.0,14.0,14.0,1.5,1.5,12.0,12.0,0.0,0.0
+13,Oct-24-2026,Greggs,1002105,Hash Brown (2 pack),76.4,g,"Made from shredded potatoes, lovingly seasoned and perfectly fried, then baked in store until crisp and brown.
+
+Now we’re not claiming to be New Yorkers or know everything there is to know about Root Beer and The Statue of Liberty. But trust us, we know what makes a good Hash Brown.
+
+Making a cool, calm and collected entrance to our already top-notch Breakfast menu, we give you the ONE, THE ONLY, Hash Brown.
+
+Made from shredded potatoes, lovingly seasoned and perfectly fried, then baked in store until crisp and brown. Our Hash Browns are the perfect addition to have alongside your Breakfast Roll and morning coffee.",Breakfast,[],154,202,21.0,28.0,648,848,6.6,8.6,1.6,2.1,0.53,0.7,0.5,0.6,0.0,0.0
+14,Oct-24-2026,Greggs,2001406,Pain au Chocolat,79.0,g,"Golden pastry with a rich dark chocolate filling.
+
+Everyone knows that the only thing better than breakfast is… well dessert, obviously. But, combine the two together? Pure magic.
+
+It is widely acknowledged (and we tend to agree) that chocolate is a superior dessert compared to the rest. Similarly, Greggs pastries are simply devine, so pair the two together and; ‘Voila!’, you’re onto a winner.
+
+Deliciously soft, our deliciously decadent Pain au Chocolat is great for snacking on the go, or from the comfort of your own bed.
+
+Watch out for crumbs, though.",Breakfast,"['Eggs', 'Wheat', 'Milk']",299,378,35.0,44.0,1249,1581,14.0,18.0,6.6,8.4,0.55,0.7,9.5,12.0,7.9,10.0
+15,Oct-24-2026,Greggs,2001357,All Butter Croissant,79.0,g,"Fabulously fluffy and flakey all butter Croissant.
+
+We don’t know about you, but we think it’s about time you switched things up from your usual, boring toast. No offence, toast.
+
+Blissfully fluffy. Moreishly buttery. Fabulously flakey.
+
+Our delicious All Butter Croissant - perfect for snacking on the go, or serving up with a continental breakfast, the Parisians really do know how to eat in style.",Breakfast,"['Eggs', 'Wheat', 'Milk']",292,370,35.0,44.0,1225,1551,13.0,17.0,7.1,9.0,0.79,1.0,8.7,11.0,4.4,5.6
+16,Oct-24-2026,Greggs,1003367,Simply Creamy Porridge (Ready to eat),228.0,g,"Classic gluten-free porridge pot.
+
+Slow start? Gloomy weather? Yeah... us too. Not to worry, we'll sort you out with our delicious pot of hot porridge.
+
+This classic breakfast is a tasty way to fuel up on your way from A to B. Pick up a pot next time you’re passing by and enjoy a hot and wholesome start to the day. Made to order, our porridge pot makes a pretty nifty hand warmer too! And it's gluten-free.",Breakfast,"['Oats', 'Milk']",249,109,43.0,19.0,1049,460,4.1,1.8,7.5,3.3,0.11,0.05,1.8,0.8,6.6,2.9
+17,Oct-24-2026,Greggs,1003368,Golden Syrup Flavour Porridge (Ready to eat),237.0,g,"Deliciously sweet golden syrup flavour porridge made with gluten-free oats.
+
+Slow start? Grim weather? Let us soften the early morning slog, with our tasty pot of hot porridge.
+
+We've made this classic breakfast even more delicious, with a generous helping of golden syrup flavour. A great way to recharge your batteries, it also makes a pretty nifty hand warmer on your way from A to B. And it's gluten-free.",Breakfast,"['Oats', 'Milk']",249,105,43.0,18.0,1045,441,4.3,1.8,7.6,3.2,0.47,0.2,1.4,0.6,14.0,5.8
+18,Oct-24-2026,Greggs,1003369,Apple & Cinnamon Flavour Porridge (Ready to eat),234.0,g,"Deliciously sweet gluten-free porridge with dried apple and ground cinnamon.
+
+Slow start? Grim weather? Let us soften the early morning slog, with our tasty pot of hot porridge.
+
+We've made this classic breakfast even more delicious, with a generous helping of apple and cinnamon. A great way to recharge your batteries, it also makes a pretty nifty hand warmer on your way from A to B. And it's gluten-free.",Breakfast,"['Oats', 'Milk']",232,99,37.0,16.0,971,415,4.4,1.9,8.0,3.4,0.47,0.2,1.4,0.6,11.0,4.9
+19,Oct-24-2026,Greggs,1000446,Sausage Roll,103.0,g,"The Nation’s favourite Sausage Roll.
+
+Much like Elvis was hailed the King of Rock, many have appointed Greggs as the (unofficial) King of Sausage Rolls.
+
+Freshly baked in our shops throughout the day, this British classic is made from seasoned sausage meat wrapped in layers of crisp, golden puff pastry, as well as a large dollop of TLC. It’s fair to say, we’re proper proud of them.
+
+And that’s it. No clever twist. No secret ingredient. It’s how you like them, so that’s how we make them.",Savouries & Bakes,"['Wheat', 'Barley', 'Sulphites', 'Milk']",347,337,24.0,23.0,1446,1404,24.0,23.0,9.1,8.8,1.5,1.5,11.0,11.0,0.0,0.0
+20,Oct-24-2026,Greggs,1003598,Vegan Roll Pork-Free,101.0,g,"Deliciously light puff pastry with a seasoned Quorn™ filling.
+
+The most hotly debated sausage roll since, well... the Sausage Roll.
+
+Unless you were living under a very large, very heavy rock for most of 2019, you may have noticed we rustled up some serious feathers for Veganuary that year.
+
+Our Vegan Roll Pork-Free is carefully designed to mirror some of the original Sausage Roll’s classic features, including around 96 layers of deliciously light puff pastry. If it aint broke, right?
+
+BUT… instead we wrap it around our own bespoke filling, developed with the help of our friends over at Quorn™. And, in our humble opinion, it continues to be a gamechanger.
+
+(There have been rare cases of allergic reactions to products containing Mycoprotein. Mycoprotein is made with a member of the fungi/mould family. It is high in protein and fibre which may cause intolerance in some people.)",Savouries & Bakes,"['Wheat', 'Barley']",308,305,21.0,21.0,1283,1270,19.0,19.0,11.0,11.0,1.8,1.8,9.3,9.2,0.7,0.7
+21,Oct-24-2026,Greggs,1000516,Cheese & Onion Bake,141.4,g,"A classic duo of cheese and onion wrapped in a light puff pastry.
+
+Now, we’re not one for bold claims. We’d never, for example, claim that we invented the internet, or that we discovered France. So, we’re certainly not going to stamp our name on ‘cheese and onion’. After all, that tasty flavour combination has been around for ages.
+
+But what we will say is, very few have managed to bundle the classic duo into a savoury quite like our Cheese and Onion Bake. Made with a blend of cheeses and diced onion, they’re freshly baked in our shops every day.
+
+Fresh, simple, and with more cheese than a 90’s rom com. Perhaps it’s time you rediscovered this tasty classic.",Savouries & Bakes,"['Mustard', 'Wheat', 'Milk']",436,308,33.0,23.0,1814,1283,30.0,21.0,8.6,6.1,1.6,1.1,16.0,11.0,1.4,1.0
+22,Oct-24-2026,Greggs,1000514,Steak Bake,136.4,g,"Diced beef in a rich and tasty gravy, wrapped in a golden puff pastry parcel.
+
+If you’re after a little taste of lunchtime lovin’ baked in the oven, then you’ve come to the right place.
+
+Packed with diced cuts of beef in a rich and tasty gravy, this golden puff pastry parcel has been a firm favourite for years.
+
+AND, since they’re freshly baked in our shops every day, there’s probably one coming out of the oven RIGHT now.
+
+Unless you’re reading this at 4am. In which case, go to bed. And dream of tomorrow.",Savouries & Bakes,"['Barley', 'Milk', 'Wheat']",411,301,29.0,21.0,1713,1256,26.0,19.0,15.0,11.0,1.4,1.0,13.0,9.5,0.0,0.0
+23,Oct-24-2026,Greggs,1000515,Chicken Bake,150.4,g,"Chicken breast pieces in a creamy white sauce with soft cheese, all wrapped up in golden puff pastry.
+
+As a fully fledged Nation of bake lovers, we think it’s only fair we take a moment to shine the spotlight on this timeless classic.
+
+Across Greggs’ many valiant years in the business of baking, we’ve seen our fair share of bakes come and go.
+
+The Chicken Bake undoubtedly has stood the test of time. Always there. In the background. Never hogging the limelight, but always delivering the flavour.
+
+Picture this: chicken breast pieces in a rich and creamy white sauce with soft cheese. These taste sensations are then wrapped in golden puff pastry making them the perfect choice for eating anywhere, at any time.",Savouries & Bakes,"['Wheat', 'Milk']",420,279,30.0,20.0,1751,1164,27.0,18.0,13.0,8.8,1.8,1.2,14.0,9.2,1.2,0.8
+24,Oct-24-2026,Greggs,1000517,"Sausage, Bean & Cheese Melt",149.4,g,"Sausages, beans and melted cheese wrapped in a golden puff pastry.
+
+Some things were made for each other. Strawberries and cream… Ant and Dec… burgers and gherkins …well, maybe not everything.
+
+But there’s one thing that nobody can deny, and it’s that sausages, beans and cheese are a match made in pastry heaven.
+
+Bursting with delectable baked beans, our sausage meatballs, and gloriously gooey melted cheese, we can just about guarantee that our Sausage Bean and Cheese Melt will tickle your tastebuds.",Savouries & Bakes,"['Milk', 'Sulphites', 'Wheat']",456,305,37.0,25.0,1902,1273,28.0,19.0,11.0,7.3,1.6,1.1,14.0,9.7,3.0,2.0
+25,Oct-24-2026,Greggs,1000524,Festive Bake (New & Improved Recipe),152.0,g,"The Festive Bake is back and better than ever and we’re brave enough to say it: turkey can get stuffed.
+
+We’ve been proudly filling our Festive Bakes with superiorly soft, more moist chicken since 2009 and, this year, we’re not backing down.
+
+Let’s be honest, the countdown to Christmas doesn’t really begin until you’ve had that first bite of a Festive Bake.
+
+Like the obligatory pair of socks in your stocking every year or the office party that always gets out of hand, it just wouldn’t be Christmas without it.
+
+Cooked chicken, smoked ham hock and sweetcure bacon with soft cheese and pork, sage and onion stuffing in a creamy sage and cranberry sauce wrapped in glazed puff pastry with a crumb topping.
+
+The Greggs Festive Bake - hands down the most Christmassy thing about Christmas.",Savouries & Bakes,"['Wheat', 'Barley', 'Milk']",450,296,35.0,23.0,1879,1236,27.0,18.0,15.0,9.8,1.8,1.2,14.0,9.2,3.8,2.5
+26,Oct-24-2026,Greggs,1003179,Margherita Pizza,160.0,g,"A blend of cheeses on a tomato focaccia style base.
+
+Creative bunch, the Italians. Not only were they famous for aqueducts and mascarpone cheese, they’re also responsible for the greatest bready creation since... well, sliced bread!
+
+So, if there were ever a time to pat the Italians on the back and thank them for creating such exceptional eats, it’s now.
+
+Our Margherita Pizza has a blend of cheeses on a focaccia style base. Plus, the sauciest pizza sauce that you ever did taste. If that doesn’t make you want to kiss your fingers and shout ‘Magnifico!’, we don’t know what will.",Savouries & Bakes,"['Soya', 'Wheat', 'Barley', 'Milk']",586,366,64.0,40.0,2453,1533,27.0,17.0,19.0,12.0,0.88,0.55,10.0,6.4,4.5,2.8
+27,Oct-24-2026,Greggs,1001171,Pepperoni Pizza,172.0,g,"Focaccia style pizza with a blend of cheeses and sliced pepperoni.
+
+Clever bunch, the Italians. Not only were they famous for ice cream and opera singing, they’re also responsible for the greatest bready creation since... well, sliced bread.
+
+So, if there were ever a time to pat the Italians on the back and thank them for creating such exceptional eats, it’s now.
+
+Inspired by our Italian cousins, our focaccia style Pepperoni Pizza has a rich layer of our unique recipe pizza sauce, covered in a blend of cheeses with sliced pepperoni. Magnifico!",Savouries & Bakes,"['Soya', 'Wheat', 'Barley', 'Milk']",640,372,64.0,37.0,2676,1556,33.0,19.0,21.0,12.0,1.4,0.83,13.0,7.4,4.5,2.6
+28,Oct-24-2026,Greggs,1003730,Pepperoni Pizza with Hot Honey,201.39,g,"There was a time when pizza was happy minding its own business. But the rumbling stomachs of our brilliant culinary masterminds couldn’t keep this one away from the shelves for much longer.
+
+Our Pepperoni Pizza with Hot Honey is a focaccia style pizza made with our classic focaccia base, topped with cheese and pizza sauce, then finished with jalapenos, red onion and hot honey sauce.
+
+Annoyingly for the sceptics, its actually very delicious.",Savouries & Bakes,"['Soya', 'Wheat', 'Barley', 'Milk']",669,332,73.0,36.0,2801,1391,32.0,16.0,20.0,10.0,1.9,0.93,13.0,6.3,13.0,6.5
+29,Oct-24-2026,Greggs,1003327,Spicy Chicken Pizza,221.0,g,"Not for the faint of tastebuds. This spicy number is tongue-tingling and mouth-watering.
+
+A fiery and feast-worthy focaccia style pizza topped with succulent spicy chicken breast, sliced red onions and jalapeños for a slice of something with a little kick.
+
+Get it whilst it’s hot (literally).",Savouries & Bakes,"['Soya', 'Wheat', 'Barley', 'Milk']",687,311,73.0,33.0,2880,1303,31.0,14.0,27.0,12.0,1.3,0.6,12.0,5.3,6.4,2.9
+30,Oct-24-2026,Greggs,1000768,Regular Americano,285.0,ml,"Smooth, strong and full of beans.
+
+If you’re after a no-nonsense, does-what-it-says-on-the-tin kind of coffee boost, this one should do just the trick.
+
+At the heart of any great Americano is a high quality, freshly ground espresso. Ours is made from our own unique blend of mild, high grown and rich tasting Arabica and Robusta beans.
+
+Not only does it taste incredible but our coffee beans are 100% Fairtrade.
+
+Tastes good. Does good.",Drinks & Snacks,[],9,3,1.7,0.6,40,14,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+31,Oct-24-2026,Greggs,1000778,Large Americano,382.0,ml,"Smooth, strong and full of beans.
+
+If you’re after a no-nonsense, does-what-it-says-on-the-tin kind of coffee boost, this one should do just the trick.
+
+At the heart of any great Americano is a high quality, freshly ground espresso. Ours is made from our own unique blend of mild, high grown and rich tasting Arabica and Robusta beans.
+
+Not only does it taste incredible but our coffee beans are 100% Fairtrade.
+
+Tastes good. Does good.",Drinks & Snacks,[],11,3,2.3,0.6,53,14,0.0,0.0,0.6,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+32,Oct-24-2026,Greggs,1000775,Regular Cappuccino,275.0,ml,"If you’re anything like us, you’ll know that drinking coffee is infinitely more fun the frothier you go.
+
+Think about it. Those teeny-tiny bubbles make your drink look just like a miniature bathtub, the chocolate powder on top is to die for, and don’t even get us started on the milk-stache…
+
+Our Cappuccinos are made with freshly ground coffee, a generous helping of foam on top and dusted with chocolate powder.
+
+The unique blend of mild, high grown and rich tasting Arabica and Robusta coffee mean that not only does it taste pretty darn delicious, but the beans are also 100% Fairtrade.",Drinks & Snacks,['Milk'],94,34,12.0,4.2,393,143,2.2,0.8,6.6,2.4,0.0,0.0,1.5,0.5,8.6,3.1
+33,Oct-24-2026,Greggs,1000777,Large Cappuccino,327.0,ml,"If you’re anything like us, you’ll know that drinking coffee is infinitely more fun the frothier you go.
+
+Think about it. Those teeny-tiny bubbles make your drink look just like a miniature bathtub, the chocolate powder on top is to die for, and don’t even get us started on the milk-stache…
+
+Our Cappuccinos are made with freshly ground coffee, a generous helping of foam on top and dusted with chocolate powder.
+
+The unique blend of mild, high grown and rich tasting Arabica and Robusta coffee mean that not only does it taste pretty darn delicious, but the beans are also 100% Fairtrade.",Drinks & Snacks,['Milk'],114,35,14.0,4.1,491,150,3.1,1.0,8.3,2.6,0.0,0.0,2.0,0.6,11.0,3.2
+34,Oct-24-2026,Greggs,1000774,Regular Latte,326.0,g,"There are two things you should know about us:
+
+1. We love food (obviously) 2. We absolutely love a good Latte
+
+A double shot of freshly ground Fairtrade espresso and steamed milk? Absolutely.
+
+A unique blend of mild, high grown and rich tasting Arabica and Robusta beans? You got it.
+
+100% Fairtrade? Totally.
+
+Tastes ah-mazing? No doubt about it.
+
+We really could sit and chat forever about the love and care that goes into producing our coffee, as well as the farmers that we support.
+
+But, one thing’s for sure - this little cup of pick-me-up is made just the way you know and love.",Drinks & Snacks,['Milk'],114,35,13.0,4.1,482,148,3.3,1.0,7.8,2.4,0.0,0.0,2.0,0.6,11.0,3.4
+35,Oct-24-2026,Greggs,1000771,Large Latte,380.0,g,"There are two things you should know about us:
+
+1. We love food (obviously) 2. We absolutely love a good Latte
+
+A double shot of freshly ground Fairtrade espresso and steamed milk? Absolutely.
+
+A unique blend of mild, high grown and rich tasting Arabica and Robusta beans? You got it.
+
+100% Fairtrade? Totally.
+
+Tastes ah-mazing? No doubt about it.
+
+We really could sit and chat forever about the love and care that goes into producing our coffee, as well as the farmers that we support.
+
+But, one thing’s for sure - this little cup of pick-me-up is made just the way you know and love.",Drinks & Snacks,['Milk'],133,35,14.0,3.8,555,146,3.8,1.0,9.9,2.6,0.38,0.1,2.3,0.6,11.0,2.9
+36,Oct-24-2026,Greggs,1000998,Regular Vanilla Latte,363.5,g,"Life feeling a bit… plain? Spruce up your mornings or refuel from a slump with a pump of our tasty syrups.
+
+Ah, vanilla. One of the most popular (and underrated) flavours in the world. From ice creams to milkshakes, you really can’t go wrong.
+
+That’s why we’ve made our Vanilla Latte. Freshly ground Fairtrade coffee, semi-skimmed milk and vanilla flavour syrup with sugar and sweetener, topped with cream and a chocolate dusting.
+
+Yum.",Drinks & Snacks,['Milk'],204,56,26.0,7.2,851,234,7.3,2.0,8.0,2.2,0.03,0.0,4.7,1.3,24.0,6.7
+37,Oct-24-2026,Greggs,1000999,Large Vanilla Latte,417.5,g,"Life feeling a bit… plain? Spruce up your mornings or refuel from a slump with a pump of our tasty syrups.
+
+Ah, vanilla. One of the most popular (and underrated) flavours in the world. From ice creams to milkshakes, you really can’t go wrong.
+
+That’s why we’ve made our Vanilla Latte. Freshly ground Fairtrade coffee, semi-skimmed milk and vanilla flavour syrup with sugar and sweetener, topped with cream and a chocolate dusting.
+
+Yum.",Drinks & Snacks,['Milk'],225,54,28.0,6.6,939,225,7.9,1.9,10.0,2.5,0.42,0.1,5.4,1.3,24.0,5.8
+38,Oct-24-2026,Greggs,1001512,Regular Salted Caramel Latte,368.5,g,"There’s something about a sweet and salty combo that makes for top-tier treats and this mouthwatering latte is a classic of the genre. So, when it comes to salted caramel, you know we just had to pair it with our deliciously Fairtrade coffee.
+
+Freshly ground coffee, frothy milk and salted caramel flavour syrup with sugar and sweetener, finished off with cream and a drizzle of salted caramel flavour topping.
+
+This cup of pick-me-up is the perfect way to add a bit of indulgence to your standard morning routine.",Drinks & Snacks,['Milk'],214,58,29.0,7.8,899,244,7.4,2.0,8.1,2.2,0.55,0.15,4.8,1.3,27.0,7.2
+39,Oct-24-2026,Greggs,1001514,Large Salted Caramel Latte,422.5,g,"There’s something about a sweet and salty combo that makes for top-tier treats and this mouthwatering latte is a classic of the genre. So, when it comes to salted caramel, you know we just had to pair it with our deliciously Fairtrade coffee.
+
+Freshly ground coffee, frothy milk and salted caramel flavour syrup with sugar and sweetener, finished off with cream and a drizzle of salted caramel flavour topping.
+
+This cup of pick-me-up is the perfect way to add a bit of indulgence to your standard morning routine.",Drinks & Snacks,['Milk'],232,55,30.0,7.1,980,232,8.0,1.9,10.0,2.4,0.97,0.23,5.1,1.2,27.0,6.3
+40,Oct-24-2026,Greggs,1000782,Regular Mocha,353.0,g,"Sometimes a typical coffee just won’t cut it.
+
+Hear us out: coffee and chocolate. Together. Genius.
+
+Freshly ground espresso, steamed milk and cocoa.
+
+Like all our coffee, our Mocha is jam-packed with our own unique blend of mild, high grown and rich tasting Arabica and Robusta beans.
+
+Not only is it the perfect treat for those days where you’ve definitely earned it, but our coffee beans are 100% Fairtrade.
+
+That’s bound to put a smile on your face.",Drinks & Snacks,['Milk'],233,66,39.0,11.0,978,277,5.3,1.5,7.1,2.0,0.64,0.18,4.2,1.2,30.0,8.4
+41,Oct-24-2026,Greggs,1000783,Large Mocha,390.0,ml,"Sometimes a typical coffee just won’t cut it.
+
+Hear us out: coffee and chocolate. Together. Genius.
+
+Freshly ground espresso, steamed milk and cocoa.
+
+Like all our coffee, our Mocha is jam-packed with our own unique blend of mild, high grown and rich tasting Arabica and Robusta beans.
+
+Not only is it the perfect treat for those days where you’ve definitely earned it, but our coffee beans are 100% Fairtrade.
+
+That’s bound to put a smile on your face.",Drinks & Snacks,['Milk'],300,77,49.0,13.0,1268,325,7.1,1.8,9.8,2.5,0.78,0.2,5.6,1.4,34.0,8.7
+42,Oct-24-2026,Greggs,1003647,Regular Hazelnut Crunch Latte,358.72,g,"This is technically a coffee.
+
+Emotionally, though? Well, it’s more like a life-altering/purpose-giving drink that’ll get you through every day of winter with a little pep in your step.
+
+Freshly ground Fairtrade coffee, semi-skimmed milk and hazelnut flavour syrup with sweetener, topped with cream and hazelnut and chocolate flavour sprinkles.
+
+But you might not even need convincing. Sometimes all it takes is spotting the word ""hazelnut"" and the decisions already been made.",Drinks & Snacks,['Milk'],179,50,20.0,5.6,746,208,7.2,2.0,8.3,2.3,0.04,0.0,4.7,1.3,15.0,4.1
+43,Oct-24-2026,Greggs,1003638,Large Hazelnut Crunch Latte,412.12,g,"This is technically a coffee.
+
+Emotionally, though? Well, it’s more like a life-altering/purpose-giving drink that’ll get you through every day of winter with a little pep in your step.
+
+Freshly ground Fairtrade coffee, semi-skimmed milk and hazelnut flavour syrup with sweetener, topped with cream and hazelnut and chocolate flavour sprinkles.
+
+But you might not even need convincing. Sometimes all it takes is spotting the word ""hazelnut"" and the decisions already been made.",Drinks & Snacks,['Milk'],198,48,21.0,5.1,837,203,8.2,2.0,10.0,2.5,0.41,0.1,5.4,1.3,15.0,3.6
+44,Oct-24-2026,Greggs,1000780,Regular White Coffee,285.0,ml,"Say hello to our White Coffee. It’s like the coffee version of your favourite playlist – perfectly balanced and the best way to start the day.
+
+We’re talking a simple, quality coffee made with freshly ground coffee beans and semi-skimmed milk.
+
+Our coffee is 100% Fairtrade, and made from our own unique blend of mild, high grown and rich tasting Arabica and Robusta beans. That means it tastes good and does good.
+
+Pick one up and let it fuel you in achieving great things – like, you know, getting through the morning commute.",Drinks & Snacks,['Milk'],34,12,5.0,1.8,140,49,0.0,0.0,2.7,0.9,0.0,0.0,0.0,0.0,2.9,1.0
+45,Oct-24-2026,Greggs,1000779,Large White Coffee,377.0,ml,"Say hello to our White Coffee. It’s like the coffee version of your favourite playlist – perfectly balanced and the best way to start the day.
+
+We’re talking a simple, quality coffee made with freshly ground coffee beans and semi-skimmed milk.
+
+Our coffee is 100% Fairtrade, and made from our own unique blend of mild, high grown and rich tasting Arabica and Robusta beans. That means it tastes good and does good.
+
+Pick one up and let it fuel you in achieving great things – like, you know, getting through the morning commute.",Drinks & Snacks,['Milk'],45,12,5.5,1.5,189,50,0.8,0.0,3.9,1.0,0.0,0.0,0.6,0.2,3.5,0.9
+46,Oct-24-2026,Greggs,1000786,Flat White,222.0,ml,"If you’re the type of person looking for a ‘triple-decker-half-caffe- venti-macchiato’ with your name scribbled incorrectly on the side (it’s Greggs with two G’s, come on)… then we suggest you look away now.
+
+Here at Greggs, we like to keep things simple. Quality products, great prices.
+
+That’s why we love the Flat White. Admired by hipsters, grannies, and students alike. This fool-proof coffee order is our go-to crowd pleaser.
+
+Double espresso, topped with steamed and lightly frothed milk. It's strong and served short, just how it's supposed to be.
+
+Oh, and all of our coffee beans are 100% Fairtrade and freshly ground just for you.",Drinks & Snacks,['Milk'],71,32,8.6,3.9,297,134,1.7,0.8,5.4,2.4,0.0,0.0,1.0,0.5,6.1,2.7
+47,Oct-24-2026,Greggs,1000769,Espresso,60.0,g,"Strong, black coffee shot.
+
+We could go on and on about the love and care that goes into producing our coffee, as well as the farmers that we support.
+
+We could talk about our own unique blend of mild, high grown and rich tasting Arabica and Robusta beans.
+
+We could say that each cup of Greggs coffee is freshly ground and served by our friendly colleagues morning, noon and night.
+
+… but we won’t. It’s as simple as that, really.",Drinks & Snacks,[],12,20,1.9,3.2,50,84,0.0,0.0,0.8,1.3,0.0,0.0,0.0,0.0,0.0,0.0
+48,Oct-24-2026,Greggs,1000825,Regular Hot Chocolate,372.0,g,"We love chocolate. And by ‘love’ we mean ‘are obsessed with’. But sometimes, a piece of chocolate just won’t cut it, you know?
+
+That’s why we’ve turned up the heat, to give to you our deliciously decadent Fairtrade Hot Chocolate.
+
+Deliciously decadent hot chocolate made with fat reduced Fairtrade cocoa powder.
+
+Personally, it’s a fave of ours for any time of year.
+
+…but if you’re experiencing a particularly wet and dreary day (let’s face it, it’s the UK), we can guarantee this will hit the spot.
+
+Let it slowly melt in your mouth, and watch as those rose-tinted, chocolate-shaped endorphins magically reveal themselves. We just love to see all your pretty, smiley faces sipping on this cup of magic.",Drinks & Snacks,['Milk'],219,59,36.0,9.8,926,249,5.2,1.4,6.7,1.8,0.48,0.13,4.1,1.1,30.0,8.0
+49,Oct-24-2026,Greggs,1000824,Large Hot Chocolate,439.1,g,"We love chocolate. And by ‘love’ we mean ‘are obsessed with’. But sometimes, a piece of chocolate just won’t cut it, you know?
+
+That’s why we’ve turned up the heat, to give to you our deliciously decadent Fairtrade Hot Chocolate.
+
+Deliciously decadent hot chocolate made with fat reduced Fairtrade cocoa powder.
+
+Personally, it’s a fave of ours for any time of year.
+
+…but if you’re experiencing a particularly wet and dreary day (let’s face it, it’s the UK), we can guarantee this will hit the spot.
+
+Let it slowly melt in your mouth, and watch as those rose-tinted, chocolate-shaped endorphins magically reveal themselves. We just love to see all your pretty, smiley faces sipping on this cup of magic.",Drinks & Snacks,['Milk'],290,66,48.0,11.0,1216,277,6.6,1.5,8.8,2.0,0.57,0.13,5.3,1.2,42.0,9.5
+50,Oct-24-2026,Greggs,1001516,Regular Candy Cane Mint Hot Chocolate,410.5,g,"Everyone loves a bit of attention, and our Candy Cane Mint Hot Chocolate is bound to get you exactly that.
+
+Its one of those drinks that gets people looking over and asking for a sip.
+
+The kind of thing that inspires a chain of copycats.
+
+And who can blame them? Fairtrade fat reduced cocoa powder, semi-skimmed milk and mint flavoured syrup with sweetener, topped with cream and peppermint flavour sugar sprinkles.
+
+Best enjoyed at pace before your partner/sibling/stranger asks to swap.",Drinks & Snacks,['Milk'],279,68,41.0,10.0,1166,284,9.4,2.3,7.0,1.7,0.53,0.13,7.0,1.7,32.0,7.9
+51,Oct-24-2026,Greggs,1001538,Large Candy Cane Mint Hot Chocolate,477.5,g,"Everyone loves a bit of attention, and our Candy Cane Mint Hot Chocolate is bound to get you exactly that. Its one of those drinks that gets people looking over and asking for a sip.
+
+The kind of thing that inspires a chain of copycats.
+
+And who can blame them? Fairtrade fat reduced cocoa powder, semi-skimmed milk and mint flavoured syrup with sweetener, topped with cream and peppermint flavour sugar sprinkles.
+
+Best enjoyed at pace before your partner/sibling/stranger asks to swap.",Drinks & Snacks,['Milk'],344,72,53.0,11.0,1452,304,11.0,2.3,9.1,1.9,0.62,0.13,8.1,1.7,44.0,9.2
+52,Oct-24-2026,Greggs,1000789,Regular Tea,316.0,ml,"A classic English Breakfast Tea made with Fairtrade tea leaves.
+
+It’s everyone’s go-to drink, whatever the mood. And who can blame them?
+
+Cold? Cup of tea. Sad? Cup of tea. Bored? Cup of tea. Dumped? You guessed it, better grab a cup of tea.
+
+Not only is tea  the solution to most of the nation’s problems, but it also tastes pretty darn excellent. Especially with a Jammy Heart Biscuit.",Drinks & Snacks,['Milk'],9,3,0.9,0.0,47,15,0.0,0.0,0.9,0.0,0.0,0.0,0.3,0.0,0.9,0.0
+53,Oct-24-2026,Greggs,1000788,Large Tea,404.0,ml,"A classic English Breakfast Tea made with Fairtrade tea leaves.
+
+It’s everyone’s go-to drink, whatever the mood. And who can blame them?
+
+Cold? Cup of tea. Sad? Cup of tea. Bored? Cup of tea. Dumped? You guessed it, better grab a cup of tea.
+
+Not only is tea  the solution to most of the nation’s problems, but it also tastes pretty darn excellent. Especially with a Jammy Heart Biscuit.",Drinks & Snacks,['Milk'],12,3,1.2,0.0,57,14,0.0,0.0,0.8,0.0,0.0,0.0,0.4,0.0,1.2,0.0
+54,Oct-24-2026,Greggs,1000997,Regular Green Tea,330.0,ml,"A classic Green Tea made with Fairtrade tea leaves.
+
+Our Green Tea is the perfect drink to warm you up on-the-go or to take back to your desk.
+
+Not only is it good for you, but it’s also made from Fairtrade tea leaves. Tastes good - does good.",Drinks & Snacks,[],0,0,0.0,0.0,3,1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+55,Oct-24-2026,Greggs,1000996,Regular Peppermint Tea,330.0,g,"A classic Peppermint Tea made with Fairtrade tea leaves.
+
+If herbal tea is your thing, this tasty tipple will stop you in your tracks.
+
+Our Fairtrade Peppermint Tea not only does good, but it tastes good too.
+
+Oh, and it's an ideal hand warmer for you if you're on-the-go too!"" A classic Peppermint Tea made with Fairtrade tea leaves.
+
+If herbal tea is your thing, this tasty tipple will stop you in your tracks.",Drinks & Snacks,[],0,0,0.0,0.0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+56,Oct-24-2026,Greggs,2000099,Small Orange Juice,150.0,ml,"Ah, OJ… perfect for breakfast (or any meal, come to think of it).
+
+Our Orange Juice is Fairtrade and made from concentrate.
+
+The sharp, orangey flavours make for a punchy soft drink that treats your taste buds to a party!
+
+The perfect contrast of sweet and sour, this fabulous looking and even better tasting concoction offers optimum flavour satisfaction… it’s top tier, to be honest.
+
+(Recommended portion of Orange Juice counts as 1 of your 5-a-day. Orange Juice made from concentrate)",Drinks & Snacks,[],69,46,16.0,10.0,297,198,0.0,0.0,0.8,0.5,0.0,0.0,0.0,0.0,16.0,10.0
+57,Oct-24-2026,Greggs,2000097,Large Orange Juice,150.0,ml,"Ah, OJ… perfect for breakfast (or any meal, come to think of it).
+
+Our Orange Juice is Fairtrade and made from concentrate.
+
+The sharp, orangey flavours make for a punchy soft drink that treats your taste buds to a party!
+
+The perfect contrast of sweet and sour, this fabulous looking and even better tasting concoction offers optimum flavour satisfaction… it’s top tier, to be honest.
+
+(Recommended portion of Orange Juice counts as 1 of your 5-a-day. Orange Juice made from concentrate)",Drinks & Snacks,[],69,46,16.0,10.0,297,198,0.0,0.0,0.8,0.5,0.0,0.0,0.0,0.0,16.0,10.0
+58,Oct-24-2026,Greggs,2000098,Fairtrade Apple Juice,150.0,ml,"Sip sip, hurray!
+
+We know you. We know you spent years leaving that apple in your lunchbox.
+
+But, now you’ve truly come to appreciate the wonder of the flavour of apple. And good news, we’re here to make it even better.
+
+Yes, it’s a classically refreshing Fairtrade Apple Juice.
+
+A little sharp and super sweet, our Apple Juice is so classically refreshing that it doesn’t need the big sell.
+
+Not only does it taste great, but our Apple Juice is one of your five a day (per 150ml) and 100% Fairtrade.
+
+(Recommended 150ml portion of Apple Juice counts as 1 of your 5-a-day. Apple Juice made from concentrate)",Drinks & Snacks,[],69,46,17.0,11.0,293,195,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,17.0,11.0
+59,Oct-24-2026,Greggs,2000084,Small Still Water,100.0,g,"Playing in the paddling pool. Brushing our teeth. Powering a gym session. Where would we be without this fella?
+
+Sure, water may be the slightly more boring, predictable and dependable member of the soft drinks family. But, it’s still a gem to us.
+
+Our water is bottled in the Brecon Beacons National Park… about as refreshing as it gets.",Drinks & Snacks,[],0,0,0.0,0.0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+60,Oct-24-2026,Greggs,2000085,Large Still Water,750.0,ml,"Playing in the paddling pool. Brushing our teeth. Powering a gym session. Where would we be without this fella?
+
+Sure, water may be the slightly more boring, predictable and dependable member of the soft drinks family. But, it’s still a gem to us.
+
+Our water is bottled in the Brecon Beacons National Park… about as refreshing as it gets.",Drinks & Snacks,[],0,0,0.0,0.0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+61,Oct-24-2026,Greggs,2000266,Sparkling Raspberry Lemonade,500.0,ml,"A classic lemon and raspberry flavoured sparkling drink. The Sparkling Raspberry Lemonade.
+
+Deliciously lemon and raspberry flavoured, this sweet, fruity and fizzy little bombshell delivers a splash of perfectly pink hue onto our shelves, making for the most Instagrammable soft drink on the Greggs menu. If you’re looking for an even bigger dose of pink, why not pair it with a Pink Jammie Doughnut?
+
+Refreshing on a hot day, and just as tasty on a cold one; we loved it when we were kids, and we lurrrrve it even more now.",Drinks & Snacks,[],10,2,0.6,0.0,50,10,0.0,0.0,0.0,0.0,0.2,0.04,0.0,0.0,0.6,0.0
+62,Oct-24-2026,Greggs,2001305,Caramel Crispy Bar,50.0,g,"Gluten free crisped rice coated in chocolate, topped with a layer of caramel and milk chocolate and finished with a white chocolate drizzle.
+
+This tasty snack is red-carpet-ready and the perfect go-to for when you’re on the move.",Drinks & Snacks,"['Milk', 'Soya']",242,484,34.0,69.0,1016,2032,11.0,21.0,2.1,4.3,0.14,0.27,6.3,13.0,29.0,58.0
+63,Oct-24-2026,Greggs,2001285,Fruity Flapjack,60.0,g,"Flapjack with raisins, sultanas, pumpkin seeds and sunflower seeds.
+
+Whether you pair it with tea, coffee or a bottle of refreshing Fairtrade juice – tuck in now and thank us later.",Drinks & Snacks,"['Milk', 'Oats']",253,421,34.0,57.0,1060,1766,11.0,18.0,3.9,6.5,0.0,0.0,3.5,5.9,24.0,41.0
+64,Oct-24-2026,Greggs,2000208,Thai Sweet Chilli Crisps,40.0,g,"If you're looking for a little flavour kick to keep you going, our Thai sweet chilli flavour crisps are for you!
+
+Whether they accompany your lunch or are a snack on their own - you won't be disappointed.
+
+Tuck in to these Thai Sweet Chilli flavour hand cooked crisps and thank us later.",Drinks & Snacks,[],199,497,23.0,58.0,831,2077,10.0,26.0,2.8,7.1,0.4,1.0,0.9,2.3,1.7,4.3
+65,Oct-24-2026,Greggs,2000987,Sea Salt & Cider Vinegar Crisps,40.0,g,"It’s true what they say, not all crisps are created equally.
+
+As a Greek philosopher once said, ""the key is to keep company only with people who uplift you, and lovingly place Salt & Vinegar crisps into one’s mouth"".
+
+We think it was Epictetus. Or maybe Socrates. One of the big ones, anyway.
+
+Either way, they were absolutely right.
+
+Sea salt and cider vinegar flavour hand cooked crisps? A top-tier snack.
+
+But, don’t take their word for it. Head into your local shop and pick up a bag of these little guys. You won’t regret it.",Drinks & Snacks,[],198,496,23.0,58.0,829,2073,10.0,26.0,2.7,6.7,0.69,1.7,0.9,2.3,0.7,1.8
+66,Oct-24-2026,Greggs,2001027,Mature Cheddar Cheese & Onion Crisps,40.0,g,"It’s rumoured to be the nation’s favourite crisp flavour, and seriously, who can blame us?
+
+Perfectly punchy mature Cheddar & onion flavour - not overly intense, but a brilliantly well-rounded flavour.
+
+Forgive us for sounding like a particularly saucy episode of Master Chef, but in our view, Cheese & Onion Crisps are just the top tier snack.",Drinks & Snacks,['Milk'],198,496,23.0,57.0,829,2073,10.0,26.0,3.0,7.6,0.5,1.2,1.0,2.4,0.9,2.2
+67,Oct-24-2026,Greggs,2001475,Free Range Egg Pot,90.0,g,"Putting the eggs in Greggs? We’ve cracked it.
+
+Meet our Free Range Egg Pot. Perfectly boiled, conveniently peeled and free range because we care about happy hens. High in protein, low in drama and the perfect side to a sandwich and a drink.
+
+Pre-gym? Sorted. Post-gym? Even better.
+
+An ideal addition to the office lunchbox, the commute glovebox or the early-morning breakfast delivery haul when you’re not quite sure what will fill your feeds.",Drinks & Snacks,['Eggs'],127,141,1.3,1.4,527,586,8.2,9.1,12.0,13.0,0.18,0.2,2.6,2.9,0.0,0.0
+68,Oct-24-2026,Greggs,1000586,Roast Chicken Mayonnaise Baguette,222.4,g,"Handmade with roast chicken breast in mayonnaise with fresh salad leaves. No secret blends of spice, no sneaky twists, we let the ingredients speak for themselves.
+
+Served in one of our delicious freshly baked baguettes, our Roast Chicken Mayonnaise Baguette is big on flavour, low on fuss.",Sandwiches & Salads,"['Eggs', 'Mustard', 'Wheat']",458,206,62.0,28.0,1928,867,12.0,5.2,24.0,11.0,1.5,0.68,1.3,0.6,4.4,2.0
+69,Oct-24-2026,Greggs,1000575,Ham and Cheese Baguette,196.0,g,"Made with honey roast ham and mature Cheddar cheese, it’s a fail-safe classic combo for a reason.
+
+After all, no self-respecting afternoon tea, birthday buffet or packed lunch box would be complete without it. We’ve taken ours up a notch by packing honey roast ham and mature Cheddar cheese into a freshly baked baguette.
+
+Pair with a bag of our crisps, and you’re onto a winner.",Sandwiches & Salads,"['Wheat', 'Milk']",482,246,57.0,29.0,2029,1035,15.0,7.9,27.0,14.0,2.4,1.2,8.0,4.1,2.9,1.5
+70,Oct-24-2026,Greggs,1000577,Mature Cheddar Cheese Salad Baguette,210.0,g,"Tastefully made with sliced mature Cheddar cheese, sliced tomato, sliced cucumber and mixed salad leaves in a freshly baked baguette.
+
+What’s not to love about the humble cheese sandwich? Like all our sandwiches, it’s freshly prepared in our shops every day.",Sandwiches & Salads,"['Wheat', 'Milk']",441,210,59.0,28.0,1854,883,14.0,6.8,18.0,8.4,1.5,0.7,7.6,3.6,4.2,2.0
+71,Oct-24-2026,Greggs,1003193,Mexican Chicken Baguette,235.5,g,"Here’s a sandwich that’s bursting with flavour and just enough kick to have you eyeing up your pal’s iced drink (remember when you thought you didn’t want one?).
+
+Packed with delicious Mexican style chicken breast, Cheddar cheese with chilli, sliced red onion, fiery jalapeños and a dollop of chipotle chilli sauce and spicy mayo - if you like your sandwich with a little sizzle, you’ll love our sensational Mexican Chicken Baguette.",Sandwiches & Salads,"['Eggs', 'Wheat', 'Milk']",492,209,73.0,31.0,2077,882,8.7,3.7,28.0,12.0,1.9,0.8,4.0,1.7,17.0,7.3
+72,Oct-24-2026,Greggs,1000574,Roast Chicken and Bacon Club Baguette ,239.1,g,"A crunchy baguette packed with sliced roast chicken breast in mayonnaise, topped with crispy sweetcure bacon, juicy sliced tomato and fresh salad leaves.
+
+Take a bite and enjoy layers of fresh ingredients, crammed full of flavour.
+
+It’s our take on a classic club - delightfully old school and totally delicious (obviously).",Sandwiches & Salads,"['Eggs', 'Mustard', 'Wheat']",457,191,62.0,26.0,1925,805,12.0,4.9,24.0,10.0,1.7,0.7,2.4,1.0,5.5,2.3
+73,Oct-24-2026,Greggs,1000585,Tandoori Chicken Baguette ,223.0,g,"Treat yourself to a baguette that’s big on flavour with our Tandoori Chicken Baguette. Roast chicken breast mixed with a tasty tandoori style mayonnaise, on a bed of fresh salad leaves.
+
+With rich and aromatic spices, it’s a true taste sensation. Like all our sandwiches, our Chicken Tandoori Baguette is freshly made in our shops every day.",Sandwiches & Salads,"['Eggs', 'Mustard', 'Wheat']",459,206,65.0,29.0,1940,870,11.0,4.8,25.0,11.0,1.6,0.7,1.3,0.6,7.1,3.2
+74,Oct-24-2026,Greggs,1000573,Tuna Crunch Baguette ,236.0,g,"Made with tuna in red pepper relish and mayonnaise, with tangy red onion and salad leaves; this baguette truly does blow all the other sandwiches out the water.
+
+Super filling, and massive on flavour, it’s crunchy on the outside and wonderfully soft in the middle. Oh, and like all of our sandwiches, it’s freshly prepared in our shops every day.",Sandwiches & Salads,"['Eggs', 'Fish', 'Mustard', 'Wheat']",413,175,64.0,27.0,1746,740,5.2,2.2,26.0,11.0,1.5,0.63,0.7,0.3,7.6,3.2
+75,Oct-24-2026,Greggs,1003587,Mexican Chicken Oval Bite,217.0,g,"Ovals are a great thing. Spoons, diamonds, cricket grounds – terrifying to think where we’d be without them, really. But, our Mexican Chicken Oval Bite may just be the greatest oval of all time.
+
+Packed with slices of Mexican style chicken breast, chipotle chilli sauce, spicy mayo and mixed leaves in a seeded roll – it really is the G.O.A.T.",Sandwiches & Salads,"['Eggs', 'Soya', 'Wheat']",462,213,63.0,29.0,1944,896,10.0,4.8,26.0,12.0,1.8,0.83,1.3,0.6,21.0,9.6
+76,Oct-24-2026,Greggs,1000685,Mature Cheddar Cheese Ploughmans Oval Bite,227.0,g,"A mature Cheddar cheese sandwich made with pickle, fresh salad leaves, sliced tomato, cucumber, and red onion, packed into a tasty seeded oval bite. If you’re looking to pair your crisps with something delicious, then look no further.",Sandwiches & Salads,"['Soya', 'Wheat', 'Barley', 'Milk']",456,201,52.0,23.0,1914,843,17.0,7.7,20.0,8.6,1.8,0.78,7.9,3.5,13.0,5.7
+77,Oct-24-2026,Greggs,1003171,Roast Chicken & Honey Mustard Mayo Oval Bite,227.0,g,"Succulent slices of sliced roast chicken breast topped with tomato, cucumber, mixed leaf salad and honey mustard mayonnaise in a seeded oval bite.",Sandwiches & Salads,"['Eggs', 'Soya', 'Mustard', 'Wheat']",411,181,50.0,22.0,1732,763,10.0,4.4,27.0,12.0,1.5,0.68,1.4,0.6,11.0,4.9
+78,Oct-24-2026,Greggs,1001960,Tuna Crunch Roll ,187.0,g,"There’s plenty of fish in the sea but sometimes all you fancy is a staple sandwich that’ll hit the spot and have you bragging to anyone that’ll listen.
+
+Stop reeling over what’s for lunch and reach for a Tuna Crunch Roll – a soft white and wholemeal roll packed with tuna in red pepper relish and mayonnaise, with tangy red onion and fresh salad leaves.
+
+Catch yourself a lunchtime legend for the perfect bite every time.",Sandwiches & Salads,"['Fish', 'Eggs', 'Soya', 'Mustard', 'Wheat']",318,170,43.0,23.0,1345,719,6.0,3.2,21.0,11.0,1.2,0.63,0.7,0.4,9.4,5.0
+79,Oct-24-2026,Greggs,1001959,Honey Roast Ham and Egg Salad Roll,196.0,g,"Made with delicious honey roast ham, layered with sliced free-range egg, tomato, cucumber and fresh salad leaves, packed into a white and wholemeal roll with mayonnaise. This tasty classic is showing no signs of going out of style.
+
+We’re also proud owners of a Good Egg Award, so you can rest safe knowing our eggs are not only cracking, they’ve also been well looked after too.",Sandwiches & Salads,"['Eggs', 'Soya', 'Mustard', 'Wheat']",333,170,41.0,21.0,1403,716,9.6,4.9,18.0,9.3,1.6,0.8,1.4,0.7,7.4,3.8
+80,Oct-24-2026,Greggs,1001962,Roast Chicken Salad Roll,198.1,g,"Creamy, crunchy and a totally perfect pick for lunch.
+
+Roast chicken breast in seasoned mayonnaise, tomato, sliced cucumber and fresh salad leaves packed into a soft white and wholemeal roll. Paired with a bag of crisps and a crisp cold drink, we’d call that a ""roll monty"".",Sandwiches & Salads,"['Eggs', 'Soya', 'Mustard', 'Wheat']",357,180,44.0,22.0,1504,759,9.5,4.8,22.0,11.0,1.2,0.63,1.0,0.5,7.7,3.9
+81,Oct-24-2026,Greggs,1003165,Mexican Chicken Flatbread,197.0,g,"It’s time to set aside our differences in the great debate of ""how to pronounce ‘chipotle’"" because we can all agree on one thing: our Mexican Chicken Flatbread packs a punch and delivers on deliciousness.
+
+Our Mexican Chicken Flatbread is made with Mexican style chicken breast, chipotle chilli sauce, fresh salad leaves, mixed peppers and spicy mayonnaise in a soft folded flatbread.
+
+Forget lame lunchbox sandwiches, say hello to our packed-full-of-flavour flatbreads.",Sandwiches & Salads,"['Eggs', 'Wheat']",374,190,49.0,25.0,1580,802,8.1,4.1,24.0,12.0,1.1,0.58,1.0,0.5,16.0,8.2
+82,Oct-24-2026,Greggs,1000606,Roast Chicken Salad Sandwich ,197.1,g,"A Roast Chicken Salad Sandwich is an absolute classic. Some would say it’s an ""OG"". Packed with creamy chicken mayo and crunchy salad, it’s time to say hello to a fresh world of deliciousness.
+
+Roast chicken breast in seasoned mayonnaise, tomato, cucumber and mixed leaf salad – wedged between slices of malted brown bread.
+
+Free yourself from the shackles of leftovers for lunch and tuck into an undeniable crowd-pleaser.",Sandwiches & Salads,"['Barley', 'Eggs', 'Mustard', 'Soya', 'Wheat']",349,177,45.0,23.0,1472,747,9.5,4.8,19.0,9.5,1.1,0.58,1.0,0.5,6.9,3.5
+83,Oct-24-2026,Greggs,1000601,Tuna Mayonnaise & Cucumber Sandwich,189.2,g,"Made in tasty malted brown bread with tuna and mayonnaise. We add cucumber for a taste of crunchy freshness, then leave it at that. Nice and simple.
+
+Like all our sandwiches, our Tuna Mayonnaise and Cucumber Sandwich is freshly prepared in shops every day. Pair it with a bag of our salt and vinegar crisps for an elite meal - no matter the time of day.",Sandwiches & Salads,"['Fish', 'Eggs', 'Soya', 'Mustard', 'Wheat', 'Barley']",333,176,44.0,23.0,1400,740,7.6,4.0,21.0,11.0,1.2,0.63,0.9,0.5,4.2,2.2
+84,Oct-24-2026,Greggs,1000602,Free Range Egg Mayo Sandwich ,161.3,g,"Soft malted brown bread with sliced egg, mayonnaise, and salad cream
+
+If you’ve forgotten how good an Egg Mayonnaise Sandwich can be, perhaps it’s time to rediscover this tasty classic.
+
+Sticking to the classic recipe, we combine egg mayonnaise with salad cream and slices of free range egg with just a pinch of black pepper. Sandwiched in our own soft malted brown bread, it’s a delicious blast from the past. No fuss. No fancy ingredients.
+
+We’re also proud owners of a Good Egg Award, so you can rest safe knowing our eggy goodness has been well looked after. The Good Egg Award ensures hens lead a cage-free life, allowing them to express their natural behaviours – freedom to move, to scratch and peck, to dust bathe, to stretch and flap their wings, to walk, to run and to rest.",Sandwiches & Salads,"['Eggs', 'Soya', 'Mustard', 'Wheat', 'Barley']",358,222,44.0,27.0,1502,931,12.0,7.7,16.0,9.8,1.3,0.8,2.1,1.3,6.0,3.7
+85,Oct-24-2026,Greggs,2001625,Prawn Layered Pasta Salad,290.0,g,"This lunchtime’s finest catch may also be worthy of a frame on the mantlepiece.
+
+One look at our Prawn Layered Pasta Salad and you’ll see exactly why. Cooked pasta in a Marie Rose sauce and vinaigrette dressing mixed with tomatoes and cucumber, layered with cos lettuce, grated carrot, prawns and smoked paprika.
+
+Layers and layers of flavour.",Sandwiches & Salads,"['Eggs', 'Crustaceans', 'Mustard', 'Wheat']",339,117,44.0,15.0,1424,491,12.0,4.2,12.0,4.2,1.0,0.35,1.5,0.5,7.8,2.7
+86,Oct-24-2026,Greggs,2001615,Tomato & Mozzarella Pasta ,285.0,g,"For one of those ""I didn’t know what I fancied but this is exactly it"" lunches, take a bite of our Tomato & Mozzarella Pasta.
+
+Cooked pasta in a mayonnaise, yoghurt and herb dressing with red pesto, tomato and herb dressing, tomatoes, onions, baby spinach and roasted red peppers, topped with mozzarella pearls and marinated semi dried tomatoes.
+
+A fail-safe combo of ingredients for any occasion.",Sandwiches & Salads,"['Eggs', 'Mustard', 'Wheat', 'Milk']",522,183,51.0,18.0,2180,765,28.0,9.7,15.0,5.2,1.7,0.58,6.0,2.1,7.1,2.5
+87,Oct-24-2026,Greggs,2001605,BBQ Chicken & Bacon Pasta,285.0,g,"If a British summer BBQ had a highlights reel, our BBQ Chicken & Bacon Pasta would be the leading role.
+
+Cooked pasta in a yoghurt and herb dressing and mayonnaise with sweetcorn and  tomatoes, topped with smoked bacon and chicken breast in a BBQ sauce.
+
+All the best bits of a BBQ at your fingertips.",Sandwiches & Salads,"['Eggs', 'Soya', 'Mustard', 'Wheat', 'Barley', 'Milk']",487,171,51.0,18.0,2046,718,19.0,6.7,26.0,9.1,1.2,0.43,2.9,1.0,8.8,3.1
+88,Oct-24-2026,Greggs,1000128,Caramel Custard Doughnut (New Recipe),99.0,g,"There’s no denying we’re a nation of custard lovers.
+
+This gloriously versatile, school dinner favourite can be added to pretty much any dessert to take it from 0-100, and our Caramel Custard Doughnut is no exception.
+
+Take a bite of this doughnut with a custard-style filling, topped with caramel flavour icing and decorated with milk chocolate flavour coating.
+
+A true taste sensation for anyone with a sweet tooth.",Sweet Treats,"['Soya', 'Wheat', 'Milk']",283,286,42.0,42.0,1188,1200,11.0,11.0,4.1,4.1,0.67,0.68,5.2,5.3,18.0,18.0
+89,Oct-24-2026,Greggs,1003460,Glazed Ring Doughnut,58.0,g,"A delicious ring doughnut covered in a sugar glaze. Our classic Glazed Ring Doughnut is vegan friendly, so it can be enjoyed by even more of you lovely lot. What a time to be alive.
+
+And, lucky for you, there’s probably one being carefully placed on a Greggs shelf near you, right now. Go, go, go!",Sweet Treats,"['Soya', 'Wheat']",204,352,30.0,52.0,857,1478,7.5,13.0,3.4,5.8,0.46,0.8,3.0,5.1,13.0,22.0
+90,Oct-24-2026,Greggs,1002971,Jam Doughnut,76.0,g,"Sugar coated doughnut filled with delicious apple and raspberry jam filling.
+
+Caramel Custard Doughnut a little too razzle dazzle for your taste?
+
+Then behold, the Jam Doughnut. An A-lister doughnut with mysterious origins (German really?) fans from all walks of life, and an invite to pretty much any decent Afternoon Tea.
+
+But, at its heart, our take on the Daddy of all doughnuts is a finely balanced mix of delectable apple and raspberry jam filling, a pillowy-soft doughnut and a sugar coating for that subtle crunch.
+
+A timeless classic.",Sweet Treats,"['Soya', 'Wheat']",236,311,37.0,49.0,996,1310,7.6,10.0,4.0,5.3,0.57,0.75,3.5,4.6,15.0,20.0
+91,Oct-24-2026,Greggs,1000133,Pink Jammie Doughnut ,90.0,g,"Doughnut filled with apple and raspberry jam, topped with a pink decorative icing.
+
+Jam Doughnuts are pretty great and all, but we promise this is a far superior way to enjoy a sweet treat. We’re just pointing out that alone, jam just doesn’t taste quite as amazing (don’t @ us). So, we’ve done something about that.
+
+Our Pink Jammie Doughnut tastes just as UN-believable as our classic Jam Doughnut with our classic apple and raspberry jam, except we’ve topped it with delectable pink decorative icing for an even more elite doughnutting experience.",Sweet Treats,"['Soya', 'Wheat', 'Milk']",309,343,46.0,51.0,1296,1440,12.0,13.0,4.1,4.6,0.59,0.65,5.6,6.2,23.0,25.0
+92,Oct-24-2026,Greggs,1000140,Sugar Strand Doughnut,59.0,g,"Soft ring doughnut with fondant icing and sugar strands.
+
+Ahhh, now this one always gets us a tiny bit nostalgic. The Greggs Sugar Strand Doughnut has been on Greggs’ shelves since what feels like the beginning of time. It’s seen us through the good, the bad, and the ugly. And, the best part; it still tastes bloomin’ AH-mazing.
+
+AND, it’s a known fact that sharing a lil’ snap of this on the ‘gram is guaranteed to get those likes rolling in. Because, hello... it’s pink. This deliciously soft ring doughnut is decorated with fondant and coloured sugar strands.",Sweet Treats,"['Soya', 'Wheat']",224,379,30.0,50.0,938,1590,10.0,17.0,3.4,5.8,0.46,0.78,4.5,7.7,13.0,22.0
+93,Oct-24-2026,Greggs,1003616,Double Chocolate Doughnut,90.0,g,"Single chocolate? Meh. Double chocolate?
+
+Now we’re talking.
+
+Feast your eyes on our Double Chocolate Doughnut; so decadent and so delicious that it deserved two (yes, two) types of chocolate.
+
+Filled with a chocolate filling, topped with a milk chocolate flavour icing and decorated with white and milk chocolate flavour coating… is anyone else drooling just looking at it?",Sweet Treats,"['Soya', 'Wheat', 'Milk']",305,339,42.0,47.0,1282,1424,13.0,14.0,4.9,5.4,0.59,0.65,6.1,6.8,20.0,22.0
+94,Oct-24-2026,Greggs,1003571,Millionaire's Doughnut,93.0,g,"Dreaming of winning the lottery? Travelling the world, designer clothes… Well, we’re aiming slightly lower with the most delicious and most achievable taste of indulgence yet.
+
+Before you start shopping for yachts, let’s start with our Millionaire’s Doughnut and see how a life of luxury suits you:
+
+A ball doughnut with a caramel filling, salted caramel flavour icing, milk chocolate coated shortcake biscuit pieces and white chocolate flavour coating.
+
+It’s exactly like scoring a life-changing sum of money except yummier and more realistic.",Sweet Treats,"['Soya', 'Wheat', 'Milk']",332,357,47.0,50.0,1395,1500,14.0,15.0,4.6,4.9,0.79,0.85,7.2,7.7,20.0,22.0
+95,Oct-24-2026,Greggs,1003655,Vanilla Custard Cream Doughnut,73.0,g,"Get your pinky raised for this perfectly glazed piece of art. The Vanilla Custard Cream Doughnut not only tastes scrumptious – but it looks the part too.
+
+A ring doughnut with a custard-style filling with vanilla flavour, topped with white chocolate flavour icing and decorated with white and milk chocolate flavour coating.
+
+This slice of the high life is sure to leave you entirely charmed, especially when paired with a freshly brewed cuppa.",Sweet Treats,"['Soya', 'Wheat', 'Milk']",243,333,32.0,44.0,1018,1394,11.0,15.0,3.5,4.8,0.58,0.8,5.2,7.1,14.0,19.0
+96,Oct-24-2026,Greggs,1001811,Sweet Mince Pie 6pk,70.0,g,"Made from crumbly shortcrust pastry, filled with a sweet mincemeat made from vine fruits, Bramley apple, candied orange & lemon peel, perfectly finished with a light dusting of icing sugar.
+
+Our Vegan Friendly Sweet Mince Pies are a thing of beauty!",Sweet Treats,['Wheat'],282,403,42.0,60.0,1183,1690,11.0,16.0,2.6,3.7,0.13,0.18,3.8,5.4,22.0,32.0
+97,Oct-24-2026,Greggs,1002028,Belgian Bun,122.5,g,"A soft fruit bun, tangy apricot jam topped with fondant icing.
+
+If you haven’t tried one of these then
+
+1) WHERE have you been?
+
+and
+
+2) Can we ever be friends?
+
+We’ve made your sweet dreams come true with a soft fruit bun, lemon flavoured pieces, wonderfully soaked sultanas, tangy apricot jam, topped with fondant icing… AND a cherry on top. Splendid.",Sweet Treats,"['Soya', 'Sulphites', 'Wheat']",374,305,79.0,64.0,1580,1290,3.2,2.6,6.1,5.0,0.5,0.41,1.1,0.9,46.0,37.0
+98,Oct-24-2026,Greggs,1000172,Cream Éclair,81.0,g,"A pillowy-soft choux pasty filled with delicious cream and topped with dark chocolate flavour icing.
+
+Ahhh the good old classic Cream Éclair. This all-time favourite never disappoints.",Sweet Treats,"['Eggs', 'Milk', 'Soya', 'Wheat']",323,399,25.0,31.0,1345,1660,23.0,28.0,4.2,5.2,0.19,0.23,12.0,15.0,16.0,20.0
+99,Oct-24-2026,Greggs,1003614,Sweet Mince Pie Roll,93.5,g,"The classic Sweet Mince Pie taught us a lot about baking an exceptionally delicious festive sweet treat. So much so that we’ve whipped up something new for Christmas this year – introducing: the Sweet Mince Pie Roll.
+
+Puff pastry filled with a sweet mincemeat, made from vine fruits, Bramley apples and candied orange and lemon peel, lightly dusted with icing sugar.
+
+Plus, they’re freshly baked in shops every day and chances are there’s a few coming out of the oven as we speak. So, make like Rudolph and run to get your hands on one.",Sweet Treats,"['Wheat', 'Milk']",354,379,49.0,52.0,1484,1587,16.0,17.0,3.4,3.6,0.45,0.48,7.9,8.5,27.0,29.0
+100,Oct-24-2026,Greggs,1001841,Gingerbread Man,42.0,g,"A human shaped crunchy gingerbread biscuit decorated with chocolate sweets.
+
+Just like chocolate tastes better when it’s egg-shaped (fact), gingerbread tastes infinitely better when it’s shaped like a miniature human. Don’t ask us why. We don’t make the rules.",Sweet Treats,"['Eggs', 'Milk', 'Wheat']",176,420,30.0,71.0,742,1766,4.6,11.0,2.4,5.7,0.18,0.43,1.6,3.9,13.0,31.0
+101,Oct-24-2026,Greggs,1002778,Pumpkin Biscuit,48.0,g,"Our Pumpkin Biscuit is bringing the Halloween spirit to Greggs and we’re not sad about it.
+
+After all, how could you be when you see that smile?
+
+One bite of this ginger biscuit coated in Fairtrade milk chocolate and you’ll get why it might just be the tastiest spooky sweet treat to haunt our shelves.
+
+It might almost be too adorable to eat. Almost!",Sweet Treats,"['Eggs', 'Soya', 'Wheat', 'Milk']",220,458,32.0,67.0,923,1922,8.2,17.0,3.0,6.3,0.18,0.38,3.9,8.2,17.0,36.0
+102,Oct-24-2026,Greggs,1000236,Jammy Heart Biscuit,59.0,g,"Shortbread biscuit and a raspberry jam filling.
+
+Our Jammy Heart Biscuits are a combination of delicious crumbly shortbread biscuit and a raspberry jam filling, fit for royalty.
+
+5p from every biscuit goes to the Greggs Foundation, a grant-making trust, aiming to make a difference to people in need in the heart of our communities.
+
+Learn more about all the good stuff they do here:
+
+www.greggsfoundation.org.uk",Sweet Treats,"['Wheat', 'Milk']",271,459,35.0,59.0,1134,1922,13.0,22.0,3.1,5.3,0.31,0.53,7.7,13.0,13.0,22.0
+103,Oct-24-2026,Greggs,1000220,Milk Chocolate Cookie,70.0,g,"Cookie made with milk chocolate chunks.
+
+The validity of how good a cuppa is, is determined by which biscuit you’re dipping in it. FACT. So, make sure you do it right. But hell, our cookies are so good, we recommend ordering (and not sharing) every single last one.
+
+Our milk chocolate cookies are soft, crumbly and are made with milk chocolate chunks, something for all chocolate lovers. Or, just ‘people’ as we like to call them. ‘Cause you know, who doesn’t like chocolate?",Sweet Treats,"['Eggs', 'Soya', 'Wheat', 'Milk']",343,490,37.0,53.0,1434,2048,18.0,26.0,5.0,7.1,0.37,0.53,7.0,10.0,20.0,29.0
+104,Oct-24-2026,Greggs,1000219,Triple Chocolate Cookie,70.0,g,"A delicious chocolate cookie packed with mouth-watering chunks of white and dark chocolate.
+
+If you love chocolate, our Triple Chocolate cookies are about as chocolate-y as it gets. Honestly. Try one. You can thank us later.",Sweet Treats,"['Eggs', 'Soya', 'Wheat', 'Milk']",333,476,36.0,51.0,1392,1988,18.0,25.0,4.8,6.9,0.39,0.55,7.0,10.0,21.0,30.0
+105,Oct-24-2026,Greggs,1003595,White Chocolate Gingerbread Cookie,91.0,g,"We haven’t quite cracked why humans get so excited by things topped with glitter and gold, but we’re more than happy to oblige.
+
+Cast your eyes on our White Chocolate Gingerbread Cookie – a gingerbread flavour cookie with white chocolate buttons, chocolate lentils, crystallised ginger and caramel balls topped with white chocolate flavour coating and gold sugar crunch.
+
+It tastes as luxurious as it looks.",Sweet Treats,"['Eggs', 'Wheat', 'Milk']",422,464,56.0,62.0,1768,1943,19.0,21.0,5.5,6.0,0.64,0.7,11.0,12.0,35.0,38.0
+106,Oct-24-2026,Greggs,1000305,Christmas Mini Caramel Shortbreads,20.4,g,"Nothing says Christmas quite like a fancy biscuit. And we must admit, shortbread is about as fancy as they come.
+
+That’s exactly why we’ve brought back our Christmas Mini Caramel Shortbread, just in time for the festive season.
+
+Made with deliciously crumbly shortbread biscuit, topped with caramel and white chocolate and perfectly decorated to make your afternoon tea break that bit more sparkly.",Sweet Treats,"['Soya', 'Wheat', 'Milk']",97,476,12.0,59.0,406,1991,4.9,24.0,1.1,5.4,0.11,0.53,2.4,12.0,9.0,44.0
+107,Oct-24-2026,Greggs,1001817,Triple Chocolate Muffin,129.4,g,"Chocolate muffin with a rich centre of smooth chocolate flavoured sauce.
+
+If you’re not fond of cake, chocolate and good times please look away now.
+
+Being the purveyors of the finest baked goods, we’re pretty much hard-wired to LOVE getting our feed on with delicious, flavour-dense snacks.
+
+The Triple Chocolate Muffin certainly fits the bill: with chunks of moreish chocolate, this decadent chocolate muffin has a rich centre of smooth chocolate flavoured sauce.
+
+Go chocolate or go home, we say.",Sweet Treats,"['Eggs', 'Soya', 'Wheat', 'Milk']",450,348,58.0,45.0,1884,1456,21.0,16.0,7.2,5.6,0.49,0.38,5.0,3.9,39.0,30.0
+108,Oct-24-2026,Greggs,1002048,Spooky Bun,49.5,g,"It’s officially spooky season and our classic Novelty Buns are excited to show you their costumes.
+
+Don’t be fooled - our Spooky Buns are sweeter than they look. Underneath that scary exterior is a vanilla flavour fairy bun, dipped in fondant icing and topped with coloured sprinkles and a sugar paste decoration.
+
+No tricks, just treats.",Sweet Treats,"['Eggs', 'Wheat', 'Oats', 'Milk']",198,400,27.0,54.0,829,1675,8.9,18.0,1.7,3.4,0.37,0.75,2.0,4.1,19.0,38.0
+109,Oct-24-2026,Greggs,1002049,Spooky Bun (4 pack),49.5,g,"Preparing for a horror film fest?
+
+What better way to watch than with four of our frightening Spooky Buns?
+
+Deliciously spongey vanilla flavour fairy buns dipped in fondant icing, topped with coloured sprinkles, and finished with Halloween-themed sugar paste decorations.
+
+Our hearts are racing just thinking about it.",Sweet Treats,"['Eggs', 'Wheat', 'Oats', 'Milk']",196,396,26.0,53.0,821,1658,8.9,18.0,1.7,3.4,0.37,0.75,2.0,4.1,18.0,37.0
+110,Oct-24-2026,Greggs,2001370,Chocolate Brownie Bar,50.0,g,"Chocolate brownie with dark chocolate, milk chocolate and white chocolate.
+
+Go on – get yourself a little treat.",Sweet Treats,"['Eggs', 'Soya', 'Wheat', 'Milk']",215,429,26.0,52.0,898,1795,11.0,22.0,2.6,5.1,0.14,0.28,2.7,5.4,19.0,37.0
+111,Oct-24-2026,Greggs,1000266,Christmas Slice,110.5,g,"When it comes to Christmas, there’s some traditions that are better than others. But we have to admit, a fruity Christmas Cake is definitely one of the good’uns.
+
+The Greggs Christmas Cake Slice is made from delicious fruit and ground almonds, topped with a layer of apricot jam, almond marzipan and white icing.
+
+It even comes as a handy slice to enjoy on the go, at your desk, or tucked up in bed with a Christmas classic!",Sweet Treats,"['Eggs', 'Wheat', 'Milk', 'Nuts']",417,377,74.0,67.0,1755,1588,11.0,10.0,4.3,3.9,0.25,0.23,4.1,3.7,63.0,57.0
+112,Oct-24-2026,Greggs,1000263,Caramel Shortbread (4 pack) ,62.0,g,"Delicious shortbread with caramel, topped with milk chocolate.
+
+The perfect sweet and crumbly treat to go with your afternoon cuppa!
+
+Our four pack of delightfully crumbly Shortbreads are topped with melt in the mouth caramel with a milk chocolate coating.
+
+*nutrition is based on per shortbread",Sweet Treats,"['Soya', 'Wheat', 'Milk']",294,474,36.0,58.0,1231,1986,15.0,24.0,3.7,6.0,0.34,0.55,7.4,12.0,27.0,43.0
+113,Oct-24-2026,Greggs,2001405,Fat Free Greek Style Yoghurt with Strawberry Compote ,150.0,g,"To lick the lid or not to lick the lid? When it comes to our new Fat Free Greek Style Yoghurt with Strawberry Compote, you’ll have no choice but to cave in to temptation.
+
+Picture this: a rich and thick Greek style yoghurt layered on top of a fruity strawberry compote. Small but mighty – this little pot of gold may just be the highlight of your lunch and the star of all your dreams after just one mouthful.
+
+It’s stomach-rumbling, mouth-watering, plate-smashingly good.",Sweet Treats,['Milk'],114,76,20.0,13.0,485,323,0.7,0.0,7.1,4.7,0.2,0.13,0.0,0.0,17.0,11.0
+114,Oct-24-2026,Greggs,2001206,Apple & Strawberry Fruit Pot,90.0,g,"The tastiest way to get 1 of your 5 a day.
+
+A handy pot filled with apple and strawberries.
+
+Top tier fruit and the perfect addition to your usual lunchtime fix.
+
+Enjoy it by the beach, or in the park… the possibilities are endless.",Sweet Treats,[],43,48,8.7,9.7,183,203,0.0,0.0,0.5,0.6,0.0,0.0,0.0,0.0,8.7,9.7
+115,Oct-24-2026,Greggs,2001659,Pineapple Fruit Pot,110.0,g,"Pine over our deliciously juicy Pineapple Fruit Pot.
+
+Pieces of pineapple in a nifty pot for you to enjoy wherever you please.
+
+Packed with flavour that fits in the palm of your hand.",Sweet Treats,[],55,50,12.0,11.0,233,212,0.0,0.0,0.6,0.0,0.0,0.0,0.0,0.0,12.0,11.0
+116,Oct-24-2026,Greggs,1001827,6 Slice Margherita Pizza Box,960.0,g,"What’s better than a slice of Greggs pizza? How about six slices of Greggs pizza?
+
+It’s no secret that we’re Sausage Roll royalty, but we’re firm believers that our pizzas are pretty spectacular too.
+
+Our 6 Slice Margherita Pizza Box is filled with focaccia style pizza covered in a mouthwatering sauce and a blend of everyone’s favourite food group – cheese.
+
+Our rumbling stomachs tell us that’s a tasty meal whichever way you cut it.",Hot Food,"['Soya', 'Wheat', 'Barley', 'Milk']",3514,366,384.0,40.0,14717,1533,163.0,17.0,115.0,12.0,5.3,0.55,61.0,6.4,27.0,2.8
+117,Oct-24-2026,Greggs,1001828,6 Slice Pepperoni Pizza Box,1032.0,g,"Just when you thought freshly baked bread was the height of human invention, the Italo-Americans just had to go one step further and throw some cheese, tomato and meat on top.
+
+Ah, Pepperoni Pizza… the greatest thing to come out of New York City. Our take on this timeless slice is made with a focaccia style base, topped with a blend of cheeses, our rich tomato sauce and slices of meaty pepperoni.
+
+Six slices of this mouthwatering masterpiece served in a handy box, perfect for feeding your friends, family or fellow pizza lovers.",Hot Food,"['Soya', 'Wheat', 'Barley', 'Milk']",3839,372,382.0,37.0,16058,1556,196.0,19.0,124.0,12.0,8.6,0.83,76.0,7.4,27.0,2.6
+118,Oct-24-2026,Greggs,1003337,6 Slice Spicy Chicken Pizza Box,1170.0,g,"Not for the faint of tastebuds. This spicy number is tongue-tingling and mouth-watering.
+
+A fiery and feast-worthy focaccia style pizza topped with succulent spicy chicken breast, sliced red onions and jalapeños for a slice of something with a little kick.
+
+Get it whilst it’s hot (literally)",Hot Food,"['Soya', 'Wheat', 'Barley', 'Milk']",3639,311,386.0,33.0,15245,1303,164.0,14.0,140.0,12.0,7.0,0.6,62.0,5.3,34.0,2.9
+119,Oct-24-2026,Greggs,1003713,6 Slice Pepperoni Pizza with Hot Honey Pizza Box,1208.34,g,"Six slices of Focaccia style pizza made with our classic focaccia base, topped with cheese and pizza sauce, then finished with jalapenos, red onion and hot honey sauce.
+
+Annoyingly for the sceptics, its actually very delicious.",Hot Food,"['Soya', 'Wheat', 'Barley', 'Milk']",4012,332,435.0,36.0,16808,1391,193.0,16.0,121.0,10.0,11.2,0.93,76.0,6.3,79.0,6.5
+120,Oct-24-2026,Greggs,1002879,4 Slice Margherita Pizza Box,640.0,g,"Four slices of focaccia style pizza topped with a blend of cheeses and the sauciest pizza sauce.
+
+Our rumbling stomachs tell us that’s a tasty meal whichever way you cut it.",Hot Food,"['Soya', 'Wheat', 'Barley', 'Milk']",2150,336,224.0,35.0,9005,1407,102.0,16.0,77.0,12.0,3.4,0.53,40.0,6.3,19.0,3.0
+121,Oct-24-2026,Greggs,1002869,4 Slice Pepperoni Pizza Box,688.0,g,"Four slices of focaccia style pizza made with our classic focaccia base, topped with cheese and tomato, then finished with sliced pepperoni.
+
+A mouthwatering pizza delivered straight to your door? What more could you want",Hot Food,"['Soya', 'Wheat', 'Barley', 'Milk']",2559,372,255.0,37.0,10705,1556,131.0,19.0,83.0,12.0,5.7,0.83,51.0,7.4,18.0,2.6
+122,Oct-24-2026,Greggs,1003301,4 Slice Spicy Chicken Pizza Box,780.0,g,"Four slices of focaccia style pizza made with our classic focaccia base, topped with cheese and tomato, then finished with succulent spicy chicken breast, sliced red onions and jalapenos.
+
+A fiery and feast-worthy focaccia style pizza for a slice of something with a little kick.",Hot Food,"['Soya', 'Wheat', 'Barley', 'Milk']",2426,311,257.0,33.0,10163,1303,109.0,14.0,94.0,12.0,4.7,0.6,41.0,5.3,23.0,2.9
+123,Oct-24-2026,Greggs,1003701,4 Slice Pepperoni Pizza with Hot Honey Pizza Box,805.56,g,"Four slices of Focaccia style pizza made with our classic focaccia base, topped with cheese and pizza sauce, then finished with jalapenos, red onion and hot honey sauce.
+
+Annoyingly for the sceptics, its actually very delicious.",Hot Food,"['Soya', 'Wheat', 'Barley', 'Milk']",2674,332,290.0,36.0,11205,1391,129.0,16.0,81.0,10.0,7.5,0.93,51.0,6.3,52.0,6.5
+124,Oct-24-2026,Greggs,1003250,2 Slice Margherita Pizza Box,320.0,g,"Two slices of pizza topped with a blend of cheeses and the sauciest pizza sauce.
+
+For when one slice just isn’t enough.",Hot Food,"['Soya', 'Wheat', 'Barley', 'Milk']",1075,336,112.0,35.0,4502,1407,51.0,16.0,38.0,12.0,1.7,0.53,20.0,6.3,9.6,3.0
+125,Oct-24-2026,Greggs,1003270,2 Slice Pepperoni Pizza Box,344.0,g,"Two slices of pizza made with our classic focaccia style base, topped with cheese and pizza sauce, then finished with sliced pepperoni.
+
+Mama mia, that’s a delicious dish.",Hot Food,"['Soya', 'Wheat', 'Barley', 'Milk']",1280,372,127.0,37.0,5353,1556,65.0,19.0,41.0,12.0,2.9,0.83,25.0,7.4,8.9,2.6
+126,Oct-24-2026,Greggs,1003309,2 Slice Spicy Chicken Pizza Box,390.0,g,"Two slices of pizza made with our classic focaccia style base, topped with cheese and pizza sauce, then finished with spicy chicken, sliced jalapeños and red onion.
+
+The perfect party for two spicy pizza lovers.",Hot Food,"['Soya', 'Wheat', 'Barley', 'Milk']",1213,311,129.0,33.0,5082,1303,55.0,14.0,47.0,12.0,2.3,0.6,21.0,5.3,11.0,2.9
+127,Oct-24-2026,Greggs,1003742,2 Slice Pepperoni Pizza with Hot Honey Pizza Box,402.78,g,"Two slices of Focaccia style pizza made with our classic focaccia base, topped with cheese and pizza sauce, then finished with jalapenos, red onion and hot honey sauce.
+
+Annoyingly for the sceptics, its actually very delicious.",Hot Food,"['Soya', 'Wheat', 'Barley', 'Milk']",1337,332,145.0,36.0,5603,1391,64.0,16.0,40.0,10.0,3.7,0.93,25.0,6.3,26.0,6.5
+128,Oct-24-2026,Greggs,1001012,Southern Fried Potato Wedges (New Recipe),150.0,g,"Lightly spiced wedges in southern fried style seasoning.
+
+As far as we're concerned potatoes don’t get enough credit. Our Southern Fried Potato Wedges deserve an award of their own.
+
+Lightly spiced with a combination of herbs and spices, our wedges are made from potatoes and lightly sprinkled with southern fried style seasoning. Perfect for sharing (or not...).",Hot Food,['Wheat'],279,186,42.0,28.0,1170,780,9.6,6.4,4.1,2.7,1.2,0.8,0.9,0.6,1.8,1.2
+129,Oct-24-2026,Greggs,1001011,Southern Fried Chicken Goujons,160.0,g,"Tender chicken breast goujons coated in lightly spiced breadcrumbs.
+
+Crunchy and nice, with just the right amount of spice!
+
+Deliciously tender chicken breast goujons coated in a lightly spiced southern fried style breadcrumbs. Pair with our Southern Fried Potato Wedges and a free dip of your choice for the ultimate lunchtime treat.",Hot Food,['Wheat'],400,250,32.0,20.0,1674,1046,18.0,11.0,27.0,17.0,1.6,0.98,7.0,4.4,0.0,0.0
+130,Oct-24-2026,Greggs,1001497,Spicy BBQ Chicken Bites,104.0,g,"BBQ flavour coated chicken breast pieces with a Heinz dipping sauce.
+
+There is something about crunchy chicken dipped in barbecue sauce that makes it a lunch worth dancing about. Even better when it’s paired with Heinz sauce.
+
+BBQ flavour coated chicken breast pieces. Includes one free Heinz sauce pot - to die for!",Hot Food,['Wheat'],286,275,22.0,21.0,1198,1152,14.0,13.0,19.0,18.0,1.0,1.0,5.7,5.5,2.4,2.3
+131,Oct-24-2026,Greggs,1002707,Mozzarella & Cheddar Bites,96.834,g,"Say hello to your new favourite hot and cheesy snack. Made with soft, warm mozzarella and Cheddar cheese, covered in a crispy breaded crumb, and served in a handy little box- our cheese bites are seriously good.",Hot Food,['Milk'],322,333,22.0,23.0,1345,1389,20.0,21.0,13.0,13.0,1.3,1.3,9.5,9.8,0.0,0.0
+132,Oct-24-2026,Greggs,1003596,Pigs in Blankets,96.0,g,"Bacon makes everything better. So, it’s no surprise that when we wrap up delicious oven-baked sausages into smoked streaky bacon, the result is an absolutely mouth-watering snack.
+
+It’s hard not to be grateful to live in a time where Pigs in Blankets exist. Six pork sausages wrapped in smoked streaky bacon, served in a dinky little pot for an easy eat.
+
+Some call it the best part of a Christmas dinner, we call it yet another reason to get yourself to Greggs.",Hot Food,"['Wheat', 'Sulphites']",233,243,8.4,8.7,974,1015,14.0,15.0,17.0,18.0,2.9,3.0,5.5,5.7,0.7,0.7
+133,Oct-24-2026,Greggs,1000902,Tomato Soup,300.0,g,Delicious tomato soup made for warming up your hands (and stomach) on a cold winters day.,Hot Food,['Milk'],195,65,25.0,8.2,813,271,8.1,2.7,4.8,1.6,1.4,0.46,1.5,0.5,22.0,7.3
+134,Oct-24-2026,Greggs,1003664,Festive Feast Baguette,238.0,g,"Ahh, the Festive Feast Baguette… it’s everything you love about a festive roast dinner, but without the faff of cooking it. And no, turkey still hasn’t made the cut.
+
+Chicken, sweetcure bacon, pork, sage & onion stuffing, cranberries in seasoned mayonnaise with ham hock, Cheddar cheese and crispy onions in a baguette.
+
+It’s basically Christmas dinner that can be held in one hand.",Hot Food,"['Eggs', 'Mustard', 'Wheat', 'Milk']",633,266,74.0,31.0,2661,1118,23.0,9.6,31.0,13.0,2.6,1.1,6.9,2.9,12.0,4.9
+135,Oct-24-2026,Greggs,1000657,Hot Ham and Cheese Baguette,188.16,g,"Honey roast ham with melted cheddar cheese on a freshly baked crusty baguette.
+
+Sometimes, it’s good to stick to what you know.
+
+For example, a superhero sandwich that’s showing no signs of going stale, is the trusty ham and cheese.
+
+After all, no self-respecting packed lunch box or party buffet is complete without them.
+
+Crunchy on the outside and wonderfully soft inside, we’ve taken ours up a notch by packing honey roast ham and mature white cheddar cheese into a freshly baked baguette.
+
+Pair with wedges, and you’re onto a winner.",Hot Food,"['Wheat', 'Milk']",484,257,56.0,30.0,2032,1080,15.0,8.2,28.0,15.0,2.4,1.3,7.9,4.2,3.0,1.6
+136,Oct-24-2026,Greggs,1000669,Hot Southern Fried Chicken Baguette,223.68,g,"Coated chicken strips with cheese, red onion and chipotle sauce in a crusty baguette.
+
+The perfect hot baguette… doesn’t exist- Wait. What’s this? Can it be? An absolutely bang-on-the-money, fail safe sarnie with a crunch that packs a punch? That’s right, friends.
+
+Southern fried style coated chicken strips, sliced mature Cheddar cheese, sliced red onion and chipotle chilli sauce, packed into a crunchy white baguette. This certified lunchtime fave is guaranteed to make you go ‘Mmmmmmmm’.",Hot Food,"['Wheat', 'Milk']",557,249,83.0,37.0,2349,1050,13.0,5.9,25.0,11.0,2.0,0.88,6.5,2.9,16.0,7.1
+137,Oct-24-2026,Greggs,1003190,Hot Mexican Chicken Baguette,226.08,g,"Here’s a sandwich that’s bursting with flavour and just enough kick to have you eyeing up your pal’s iced drink (remember when you thought you didn’t want one?).
+
+Packed with delicious Mexican style chicken breast, Cheddar cheese with chilli,sliced red onion, fiery jalapeños and a dollop of chipotle chilli sauceand spicy mayo - if you like your sandwich with a little sizzle, you’ll love our sensational Mexican Chicken Baguette.",Hot Food,"['Eggs', 'Wheat', 'Milk']",495,219,75.0,33.0,2089,924,8.8,3.9,27.0,12.0,1.9,0.85,4.1,1.8,18.0,7.8
+138,Oct-24-2026,Greggs,1003347,Ham & Cheese Toastie,207.36,g,"Sometimes, a classic childhood favourite is the only thing that’ll hit the spot.
+
+For instance, a lunchtime champion that’s showing no signs of losing its top tier status, is the ham and cheese toastie.
+
+In true Greggs style, we’ve taken the British classic up a notch, adding sliced honey roast ham and a tangy mature Cheddar cheese in white bread made with sourdough, topped with béchamel sauce and grated mixed cheese. Sort of like a ham and cheese sandwich except toasted, and posher.
+
+Because, hello... everyone knows that melted cheese is infinitely more tasty than regular cheese.",Hot Food,"['Soya', 'Wheat', 'Milk']",543,262,58.0,28.0,2279,1099,20.0,9.6,31.0,15.0,2.5,1.2,11.0,5.5,6.2,3.0
+139,Oct-24-2026,Greggs,1003280,Cheese & Caramelised Onion Toastie,208.32,g,"It doesn’t get much better than a Cheese & Caramelised Onion Toastie.
+
+Caramelised onion chutney, sliced mature Cheddar cheese and red onion sandwiched between white bread made with sourdough, topped with béchamel sauce and grated mixed cheese.
+
+Guaranteed to be loved by dads, divas and Donna down the street – and all for a good reason.",Hot Food,"['Soya', 'Wheat', 'Barley', 'Milk']",548,263,69.0,33.0,2302,1105,18.0,8.8,25.0,12.0,1.9,0.93,11.0,5.1,15.0,7.4
+140,Oct-24-2026,Greggs,1003633,Pigs Under Blanket Toastie,226.0,g,"Yup, still no turkeys here!
+
+Your Christmas might start with the first festive film. Ours starts when pigs in blankets start appearing in places they absolutely don’t need to be (but totally belong).
+
+Our Pigs Under Blankets Toastie features smoked sweetcure bacon, pork sausage, Cheddar cheese, cranberry and red onion relish in a white bread made with sourdough, topped with béchamel and a blend of cheeses.
+
+Find a moment in the frantic festive period to tuck into this.",Hot Food,"['Soya', 'Wheat', 'Barley', 'Sulphites', 'Milk']",628,278,75.0,33.0,2637,1167,23.0,10.0,29.0,13.0,2.9,1.3,11.0,4.8,19.0,8.2
+141,Oct-24-2026,Greggs,1002249,Hot Chocolate Brownies ,168.0,g,"If you’re a chocolate fiend, look no further.
+
+Our Hot Chocolate Brownies are made with dark chocolate and chunks of perfectly melted milk and white chocolate.
+
+And as if that wasn’t enough to fill your sweet cravings, this tasty treat is also served with a salted caramel flavour or milk chocolate dipping sauce.
+
+Serves four of your sweetest friends.
+
+This product contains gluten.",Hot Food,"['Eggs', 'Soya', 'Wheat', 'Milk']",758,451,91.0,54.0,3168,1886,39.0,23.0,11.0,6.3,0.42,0.25,11.0,6.5,59.0,35.0
