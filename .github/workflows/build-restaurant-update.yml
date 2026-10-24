@@ -1,0 +1,148 @@
+name: Build restaurant app update
+
+on:
+  push:
+    branches: [ main ]
+    paths: [ '.github/workflows/build-restaurant-update.yml' ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - name: Checkout collected restaurant data
+        uses: actions/checkout@v4
+        with:
+          ref: restaurant-data
+          path: restaurant-input
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: android-actions/setup-android@v3
+        with:
+          packages: 'platform-tools platforms;android-35 build-tools;35.0.0'
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.9'
+      - name: Restore existing signing key
+        uses: actions/cache@v4
+        with:
+          path: ~/.android/debug.keystore
+          key: calorie-counter-debug-signing-v1
+      - name: Prepare complete replacement project
+        run: |
+          unzip -q CalorieCounter.zip
+          python3 - <<'PY'
+          from pathlib import Path
+          import json,csv,re,math,hashlib,zipfile,collections
+          base=Path('restaurant-input/restaurant-data/raw/personal_app')
+          app=Path('CalorieCounter')
+          pkg=app/'app/src/main/java/com/example/caloriecounter'
+          items=[]; rejected=collections.Counter()
+          def num(v):
+              if isinstance(v,bool): return None
+              if isinstance(v,str):
+                  v=v.strip().replace(',','')
+                  if not re.fullmatch(r'\d+(?:\.\d+)?',v): return None
+              try:
+                  n=float(v)
+                  return n if math.isfinite(n) and n>=0 else None
+              except (ValueError,TypeError): return None
+          def add(chain,name,category,date,values,source,kj=None):
+              values=[num(v) for v in values]
+              if not name or values[0] is None or values[0]<=0:
+                  rejected['missing_or_zero_energy']+=1; return
+              if kj is not None and num(kj) is not None and abs(num(kj)/4.184-values[0])>max(10,values[0]*.10):
+                  rejected['inconsistent_energy']+=1; return
+              if re.search(r'\bmeal\b|platter|bottomless',name,re.I):
+                  rejected['ambiguous_combination']+=1; return
+              if values[3] is not None and values[4] is not None and values[4]>values[3]+.5:
+                  rejected['saturates_exceed_fat']+=1; return
+              if values[2] is not None and values[5] is not None and values[5]>values[2]+.5:
+                  rejected['sugars_exceed_carbohydrate']+=1; return
+              key='|'.join([chain,name,category,str(values)])
+              items.append(dict(id=hashlib.sha256(key.encode()).hexdigest()[:20],restaurant=chain,name=name,category=category,collected=date,source=source,values=values))
+          for path in sorted(base.rglob('*.json')):
+              try: data=json.loads(path.read_text())
+              except Exception: rejected['unreadable_json']+=1; continue
+              source=str(path.relative_to('restaurant-input'))
+              if path.parent.name.startswith('1_McDonalds_') and isinstance(data,dict):
+                  row=data.get('item',{}); ns=row.get('nutrient_facts',{}).get('nutrient',[])
+                  nutrients={n.get('nutrient_name_id'):n.get('value') for n in ns}
+                  names=['energy_kcal','protein','carbohydrate','fat','saturated_fat','sugars','fibre','salt']
+                  add("McDonald's",row.get('item_name',''),'','Oct-24-2026',[nutrients.get(k) for k in names],source,nutrients.get('energy_kJ'))
+              elif path.name=='burgerking_nutrition.json' and isinstance(data,list):
+                  for r in data:
+                      keys=['calories','proteins','carbohydrates','fat','saturatedFat','sugar','fiber','salt']
+                      add('Burger King',r.get('product_name',''),r.get('category_name',''),r.get('collection_date',''),[r.get(k) for k in keys],source,r.get('energyKJ'))
+              elif path.name=='pret_nutrition.json' and isinstance(data,list):
+                  for r in data:
+                      keys=['Energy (Kcal)','Protein (g)','Carbohydrates (g)','Fat (g)','of which saturates (g)','of which sugars (g)','Fibre (g)','Salt (g)']
+                      add('Pret A Manger',r.get('item_name',''),r.get('menu_section',''),r.get('collection_date',''),[r.get(k+'_perserving') for k in keys],source,r.get('Energy (KJ)_perserving'))
+              elif path.name=='wagamama_nutrition.json' and isinstance(data,list):
+                  for r in data:
+                      keys=['energy (kcal)','protein (g)','carb (g)','fat (g)','sat fat (g)','of which sugars (g)','fibre (g)','salt (g)']
+                      add('Wagamama',r.get('item_name',''),r.get('category',''),r.get('collection_date',''),[r.get(k) for k in keys],source,r.get('Energy (kj)'))
+          for path in base.rglob('nandos_nutrition.csv'):
+              for r in csv.DictReader(path.open(encoding='utf-8-sig',newline='')):
+                  keys=['Energy (kcal)','Protein (g)','Carbohydrates (g)','Fat (g)','Of which saturates (g)','Of which sugars (g)','Fibre (g)','Salt (g)']
+                  add("Nando's",r.get('Product Name',''),r.get('Product Category',''),r.get('collection_date',''),[r.get(k+' per serving') for k in keys],str(path.relative_to('restaurant-input')),r.get('Energy (kJ) per serving'))
+          # Conflicting identical names/categories are not silently combined or assigned arbitrary portions.
+          groups=collections.defaultdict(list)
+          for item in items: groups[(item['restaurant'],item['name'].strip().lower(),item['category'])].append(item)
+          clean=[]
+          for group in groups.values():
+              signatures={json.dumps(r['values']) for r in group}
+              if len(signatures)>1: rejected['conflicting_duplicate']+=len(group)
+              else: clean.append(group[0])
+          clean.sort(key=lambda r:(r['restaurant'],r['name'],r['category']))
+          if not clean: raise SystemExit('No usable restaurant records; stopping rather than shipping an empty button')
+          assets=app/'app/src/main/assets';assets.mkdir(parents=True,exist_ok=True)
+          (assets/'restaurants.json').write_text(json.dumps(clean,ensure_ascii=False),encoding='utf-8')
+          report={'included':len(clean),'by_restaurant':dict(collections.Counter(i['restaurant'] for i in clean)),'rejected':dict(rejected),'note':'Only five inspected schemas are enabled. Other collected chains and PDFs require further processing. Automated consistency checks are not independent verification.'}
+          Path('restaurant-validation.json').write_text(json.dumps(report,indent=2))
+          print(json.dumps(report,indent=2))
+          def patch(path,old,new):
+              text=path.read_text()
+              if text.count(old)!=1: raise SystemExit('Unexpected source marker in '+str(path)+': '+old[:100])
+              path.write_text(text.replace(old,new),encoding='utf-8')
+          patch(pkg/'FoodScreens.kt','fun SearchScreen(profile:Profile,onSelect:(Food)->Unit,onManual:()->Unit,onScan:()->Unit){','fun SearchScreen(profile:Profile,onSelect:(Food)->Unit,onManual:()->Unit,onScan:()->Unit,onRestaurants:()->Unit){')
+          patch(pkg/'FoodScreens.kt','OutlinedButton(onClick=onManual){Text("Manual entry")}','OutlinedButton(onClick=onManual){Text("Manual entry")};OutlinedButton(onClick=onRestaurants){Text("Restaurants")}')
+          patch(pkg/'FoodScreens.kt','fun FoodForm(initial:Ingredient,onCancel:()->Unit,onReplace:()->Unit,onSave:(Ingredient)->Unit){','fun FoodForm(initial:Ingredient,onCancel:()->Unit,onReplace:()->Unit,onSave:(Ingredient)->Unit){\n if(initial.food.barcode.startsWith("menutracker:")){RestaurantPortionForm(initial,onCancel,onReplace,onSave);return}\n')
+          patch(pkg/'MainActivity.kt','onScan={screen="Scan"})','onScan={screen="Scan"},onRestaurants={screen="Restaurants"})')
+          patch(pkg/'MainActivity.kt','"Search"->SearchScreen','"Restaurants"->RestaurantScreen(onSelect={openFood(it)},onCancel={screen="Search"})\n   "Search"->SearchScreen')
+          patch(pkg/'MainActivity.kt','"Search","Scan"->','"Restaurants"->"Search";"Search","Scan"->')
+          patch(pkg/'DiaryRecipes.kt','No items logged. Use + to add food or a recipe.','No items logged')
+
+          (pkg/"RestaurantScreen.kt").write_text('@file:OptIn(androidx.compose.material3.ExperimentalMaterial3Api::class)\npackage com.example.caloriecounter\nimport androidx.compose.foundation.layout.*\nimport androidx.compose.foundation.lazy.LazyColumn\nimport androidx.compose.foundation.lazy.items\nimport androidx.compose.material3.*\nimport androidx.compose.runtime.*\nimport androidx.compose.ui.Modifier\nimport androidx.compose.ui.platform.LocalContext\nimport androidx.compose.ui.unit.dp\n\ndata class RestaurantItem(val id:String,val restaurant:String,val name:String,val category:String,val collected:String,val source:String,val values:List<Double?>)\n@Composable\nfun RestaurantScreen(onSelect:(Food)->Unit,onCancel:()->Unit){\n val context=LocalContext.current\n val result=remember{runCatching{context.assets.open("restaurants.json").bufferedReader().use{json.fromJson(it.readText(),Array<RestaurantItem>::class.java).toList()}}}\n val rows=result.getOrDefault(emptyList())\n var query by remember{mutableStateOf("")}\n Column(Modifier.fillMaxSize().padding(16.dp),verticalArrangement=Arrangement.spacedBy(8.dp)){\n  Text("Restaurants",style=MaterialTheme.typography.headlineSmall)\n  TextButton(onClick=onCancel){Text("Back")}\n  OutlinedTextField(query,{query=it},label={Text("Restaurant or menu item")},modifier=Modifier.fillMaxWidth())\n  Text("MenuTracker collection, 24 Oct 2026. Selected records only, not complete menus. Portions and availability may change; check restaurant information. Missing nutrients stay unknown.",style=MaterialTheme.typography.bodySmall)\n  if(result.isFailure)Text("Restaurant data unavailable.",color=MaterialTheme.colorScheme.error)\n  val words=query.lowercase().split(" ").filter{it.isNotBlank()}\n  val shown=rows.filter{r->words.all{w->("${r.restaurant} ${r.name} ${r.category}").lowercase().contains(w)}}\n  Text("${shown.size} items")\n  LazyColumn(Modifier.weight(1f),verticalArrangement=Arrangement.spacedBy(6.dp)){\n   items(shown,key={it.id}){r->OutlinedButton(onClick={onSelect(Food("${r.restaurant} — ${r.name}","menutracker:${r.id}",r.restaurant,Nutrients(r.values),"menu portion",100.0))},modifier=Modifier.fillMaxWidth()){\n    Column(Modifier.fillMaxWidth()){Text(r.name);Text(r.restaurant+if(r.category.isBlank())""else " · ${r.category}");Text("${numberText(r.values[0],0)}kcal per listed portion");Text("Collected ${r.collected}",style=MaterialTheme.typography.labelSmall)}\n   }}\n  }\n }\n}\n@Composable\nfun RestaurantPortionForm(initial:Ingredient,onCancel:()->Unit,onReplace:()->Unit,onSave:(Ingredient)->Unit){\n var quantity by remember{mutableStateOf(initial.amount.toString())}\n val q=quantity.toDoubleOrNull()?.takeIf{it.isFinite()&&it>0}\n Column(Modifier.fillMaxSize().padding(16.dp),verticalArrangement=Arrangement.spacedBy(10.dp)){\n  Text(initial.food.name,style=MaterialTheme.typography.titleLarge)\n  Text("Nutrition is per listed menu portion, not per 100g. Extras and meal combinations are not included unless explicitly listed. Check the restaurant\'s published values.")\n  NumericField(quantity,{quantity=it},"Number of menu portions")\n  NutritionText(initial.food.nutrients*(q?:0.0))\n  Button(enabled=q!=null,onClick={onSave(initial.copy(amount=q!!,unit="menu portion",unitGrams=100.0))}){Text("Save")}\n  OutlinedButton(onClick=onReplace){Text("Choose another food")}\n  TextButton(onClick=onCancel){Text("Cancel")}\n }\n}\n',encoding="utf-8")
+          gradle=app/'app/build.gradle.kts'
+          s=gradle.read_text();s=re.sub(r'versionCode\s*=\s*\d+','versionCode = 13',s);s=re.sub(r'versionName\s*=\s*"[^"]+"','versionName = "2.3"',s);gradle.write_text(s)
+          with zipfile.ZipFile('CalorieCounter-updated.zip','w',zipfile.ZIP_DEFLATED) as z:
+              for p in sorted(app.rglob('*')):
+                  if p.is_file(): z.write(p,p.as_posix())
+          with zipfile.ZipFile('CalorieCounter-updated.zip') as z:
+              if z.testzip() is not None: raise SystemExit('Invalid output ZIP')
+          PY
+      - name: Test and build APK
+        run: gradle -p CalorieCounter testDebugUnitTest assembleDebug --console=plain
+      - name: Upload replacement ZIP and validation report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: restaurant-update-project
+          path: |
+            CalorieCounter-updated.zip
+            restaurant-validation.json
+          if-no-files-found: warn
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: calorie-counter-debug-apk
+          path: CalorieCounter/app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error
