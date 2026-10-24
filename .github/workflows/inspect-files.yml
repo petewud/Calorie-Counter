@@ -1,0 +1,47 @@
+name: Inspect individual source files
+
+on:
+  push:
+    paths:
+      - '.github/workflows/inspect-files.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Export individual source files
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path, PurePosixPath
+          import zipfile
+          count = 0
+          with zipfile.ZipFile('CalorieCounter.zip') as archive:
+              for entry in archive.infolist():
+                  rel = PurePosixPath(entry.filename)
+                  if entry.is_dir() or rel.is_absolute() or '..' in rel.parts or '__MACOSX' in rel.parts:
+                      continue
+                  if rel.suffix not in {'.kt', '.kts', '.xml', '.pro', '.md'} and rel.name != 'gradle.properties':
+                      continue
+                  if entry.file_size > 500000:
+                      raise SystemExit('Source file unexpectedly large')
+                  dest = Path('review-source').joinpath(*rel.parts)
+                  dest.parent.mkdir(parents=True, exist_ok=True)
+                  dest.write_text(archive.read(entry).decode('utf-8-sig'), encoding='utf-8')
+                  count += 1
+          if not count:
+              raise SystemExit('No source files found')
+          print('Exported', count, 'source files')
+          PY
+      - name: Save source files on separate branch
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git switch -c source-files
+          git add review-source
+          git commit -m 'Export individual archived source files for review'
+          git push origin HEAD:refs/heads/source-files
