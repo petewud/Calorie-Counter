@@ -1,0 +1,106 @@
+name: Build repaired favourites update
+
+on:
+  push:
+    branches: [ main ]
+    paths: [ '.github/workflows/build-fixed-favourites-update.yml' ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: android-actions/setup-android@v3
+        with:
+          packages: 'platform-tools platforms;android-35 build-tools;35.0.0'
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.9'
+      - name: Restore existing signing key
+        uses: actions/cache@v4
+        with:
+          path: ~/.android/debug.keystore
+          key: calorie-counter-debug-signing-v1
+      - name: Apply cumulative favourites update and restore forecast
+        run: |
+          unzip -q CalorieCounter.zip
+          python3 - <<'PY'
+          from pathlib import Path
+          import re,json,hashlib
+          root=Path('CalorieCounter');pkg=root/'app/src/main/java/com/example/caloriecounter'
+          model=(pkg/'Models.kt').read_text()
+          if 'fun toggledFavourites(' not in model:
+              import textwrap
+              workflow=Path('.github/workflows/build-favourites-star-update.yml')
+              if not workflow.exists():raise SystemExit('Keep the original build-favourites-star-update.yml in .github/workflows; it supplies the cumulative update.')
+              text=workflow.read_text()
+              start="          python3 - <<'PY'"+chr(10)
+              if text.count(start)!=1:raise SystemExit('Cannot locate original preparation script')
+              body=text.split(start,1)[1].split(chr(10)+'          PY',1)[0]
+              exec(compile(textwrap.dedent(body),'original-favourites-preparation','exec'),{})
+          if 'fun toggledFavourites(' not in (pkg/'Models.kt').read_text():raise SystemExit('Cumulative favourites update did not apply')
+          before={str(p.relative_to(root)):hashlib.sha256(p.read_bytes()).hexdigest() for p in (root/'app/src/main/assets').rglob('*') if p.is_file()}
+          existing=False
+          for p in pkg.rglob('*.kt'):
+              if p.name=='AppWeightForecast.kt':continue
+              if re.search(r'\bfun\s+weightForecast\s*\(',p.read_text()):existing=True
+          forecast='package com.example.caloriecounter\n\nimport java.time.LocalDate\n\ndata class AppWeightForecast(\n val startDay:Double,\n val startKg:Double,\n val kgPerDay:Double,\n val endDay:Double\n){\n fun value(day:Double):Double=startKg+kgPerDay*(day-startDay)\n}\n\nfun appWeightForecast(records:List<WeightRecord>,goalDate:String?=null):AppWeightForecast?{\n val sorted=records.filter{it.kg.isFinite()&&it.kg>0&&runCatching{LocalDate.parse(it.date)}.isSuccess}.sortedBy{it.date}.distinctBy{it.date}\n val last=sorted.lastOrNull()?:return null\n val lastDay=LocalDate.parse(last.date).toEpochDay()\n val recent=sorted.filter{LocalDate.parse(it.date).toEpochDay()>=lastDay-28}\n if(recent.size<3)return null\n if(lastDay-LocalDate.parse(recent.first().date).toEpochDay()<7)return null\n val xs=recent.map{(LocalDate.parse(it.date).toEpochDay()-lastDay).toDouble()}\n val meanX=xs.average();val meanKg=recent.map{it.kg}.average()\n val denominator=xs.sumOf{(it-meanX)*(it-meanX)}\n if(denominator<=0)return null\n val slope=recent.indices.sumOf{(xs[it]-meanX)*(recent[it].kg-meanKg)}/denominator\n val target=goalDate?.let{runCatching{LocalDate.parse(it).toEpochDay()}.getOrNull()}\n val requestedDays=if(target!=null&&target>lastDay)(target-lastDay).coerceAtMost(90L).toDouble()else 90.0\n val boundaryDays=when{ slope<0 -> (last.kg-25.0)/(-slope); slope>0 -> (400.0-last.kg)/slope; else -> 90.0 }\n val days=minOf(requestedDays,boundaryDays)\n if(!slope.isFinite()||days<=0)return null\n return AppWeightForecast(lastDay.toDouble(),last.kg,slope,lastDay.toDouble()+days)\n}\n'
+          if not existing:forecast+='\nfun weightForecast(records:List<WeightRecord>,goalDate:String?=null):AppWeightForecast?=appWeightForecast(records,goalDate)\n'
+          (pkg/'AppWeightForecast.kt').write_text(forecast,encoding='utf-8')
+          p=pkg/'WeightScreen.kt';text=p.read_text()
+          text,count=re.subn(r'\bweightForecast\s*\(','appWeightForecast(',text)
+          if count==0 and 'appWeightForecast(' not in text:raise SystemExit('Cannot find the forecast call in WeightScreen.kt; stopping for inspection')
+          p.write_text(text,encoding='utf-8')
+          p=root/"app/src/test/java/com/example/caloriecounter/ForecastRepairTest.kt";p.parent.mkdir(parents=True,exist_ok=True);p.write_text('package com.example.caloriecounter\nimport org.junit.Assert.*\nimport org.junit.Test\nimport java.time.LocalDate\nclass ForecastRepairTest{\n private fun point(days:Int,kg:Double)=WeightRecord(date=LocalDate.of(2026,1,1).plusDays(days.toLong()).toString(),kg=kg)\n @Test fun graphHelperHasRequiredFields(){val f=appWeightForecast(listOf(point(0,80.0),point(7,79.3),point(14,78.6)),null)!!;assertEquals(78.6,f.startKg,0.00001);assertEquals(-0.1,f.kgPerDay,0.00001);assertTrue(f.endDay>f.startDay);assertEquals(77.9,f.value(f.startDay+7),0.00001)}\n @Test fun tooFewPointsHasNoForecast(){assertNull(appWeightForecast(listOf(point(0,80.0),point(14,79.0)),null))}\n @Test fun tooShortSpanHasNoForecast(){assertNull(appWeightForecast(listOf(point(0,80.0),point(1,79.9),point(2,79.8)),null))}\n @Test fun irregularSpacingWorks(){val f=appWeightForecast(listOf(point(0,80.0),point(3,79.7),point(14,78.6)),null)!!;assertEquals(-0.1,f.kgPerDay,0.00001)}\n @Test fun gainWorks(){assertTrue(appWeightForecast(listOf(point(0,70.0),point(7,70.7),point(14,71.4)),null)!!.kgPerDay>0)}\n}\n',encoding="utf-8")
+          p=root/'app/build.gradle.kts';text=p.read_text();text=re.sub(r'versionCode\s*=\s*\d+','versionCode = 17',text);text=re.sub(r'versionName\s*=\s*"[^"]+"','versionName = "2.6.1"',text);p.write_text(text)
+          after={str(p.relative_to(root)):hashlib.sha256(p.read_bytes()).hexdigest() for p in (root/'app/src/main/assets').rglob('*') if p.is_file()}
+          if before!=after:raise SystemExit('Existing restaurant assets changed unexpectedly')
+          Path('forecast-repair-report.json').write_text(json.dumps({'version':'2.6.1','repaired':'Forecast helper and weight graph call','legacy_function_restored':not existing,'favourites_retained':True,'preserved_assets':before},indent=2))
+          print('Forecast repair applied. Favourites, recipes and existing assets retained.')
+          PY
+      - name: Test and build APK
+        run: gradle -p CalorieCounter testDebugUnitTest assembleDebug --console=plain
+      - name: Package repaired complete project
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import zipfile
+          root = Path('CalorieCounter')
+          with zipfile.ZipFile('CalorieCounter-updated.zip', 'w', zipfile.ZIP_DEFLATED) as archive:
+              for path in sorted(root.rglob('*')):
+                  rel = path.relative_to(root)
+                  if path.is_file() and not any(part in {'build', '.gradle', '.git'} for part in rel.parts) and path.name != 'local.properties':
+                      archive.write(path, path.as_posix())
+          with zipfile.ZipFile('CalorieCounter-updated.zip') as archive:
+              assert archive.testzip() is None
+          PY
+      - name: Upload repaired complete project
+        uses: actions/upload-artifact@v4
+        with:
+          name: repaired-favourites-update-project
+          path: |
+            CalorieCounter-updated.zip
+            forecast-repair-report.json
+          if-no-files-found: error
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: calorie-counter-debug-apk
+          path: CalorieCounter/app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error
+      - name: Upload test reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: repaired-update-test-reports
+          path: CalorieCounter/app/build/reports/tests/testDebugUnitTest
+          if-no-files-found: ignore
