@@ -1,0 +1,99 @@
+name: Build Diet Tracker update
+'on':
+  push:
+    branches:
+    - main
+    paths:
+    - .github/workflows/build-diet-tracker-update.yml
+  workflow_dispatch: null
+permissions:
+  contents: read
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-java@v4
+      with:
+        distribution: temurin
+        java-version: '17'
+    - uses: android-actions/setup-android@v3
+      with:
+        packages: platform-tools platforms;android-35 build-tools;35.0.0
+    - uses: gradle/actions/setup-gradle@v4
+      with:
+        gradle-version: '8.9'
+    - uses: actions/cache@v4
+      with:
+        path: ~/.android/debug.keystore
+        key: calorie-counter-debug-signing-v1
+    - name: Apply working unit and focus updates
+      run: |
+        python3 -m pip install --quiet PyYAML
+        python3 - <<'PY'
+        from pathlib import Path
+        import yaml,subprocess
+        w=yaml.safe_load(Path('.github/workflows/build-profile-ui-update.yml').read_text())
+        steps=w['jobs']['update']['steps']
+        for name in ['Apply existing working weight units preparation','Apply weight-tab and onboarding changes']:
+         step=next(s for s in steps if s.get('name')==name)
+         subprocess.run(['bash','-e','-c',step['run']],check=True)
+        p=Path('CalorieCounter/app/src/main/java/com/example/caloriecounter/ValidationTarget.kt')
+        if 'LocalValidationPulse' not in p.read_text():raise SystemExit('Keep the working 3.1 focus/pulse workflow in build-profile-ui-update.yml')
+        PY
+    - name: Apply Diet Tracker navigation and checkbox updates
+      run: |
+        python3 - <<'PY'
+        from pathlib import Path
+        import re
+        root=Path('CalorieCounter');pkg=root/'app/src/main/java/com/example/caloriecounter'
+        def change(s,old,new):
+         if s.count(old)!=1:raise SystemExit('Navigation patch source mismatch: '+repr(old))
+         return s.replace(old,new)
+        p=pkg/'ProfileScreen.kt';s=p.read_text()
+        s=change(s,'Row{Checkbox(checked=eligible','Row(Modifier.background(MaterialTheme.colorScheme.primary.copy(alpha=LocalValidationPulse.current*0.22f))){Checkbox(colors=CheckboxDefaults.colors(uncheckedColor=androidx.compose.ui.graphics.lerp(MaterialTheme.colorScheme.outline,MaterialTheme.colorScheme.primary,LocalValidationPulse.current)),checked=eligible')
+        s=s.replace('import android.app.DatePickerDialog','import android.app.DatePickerDialog\nimport androidx.compose.foundation.background')
+        p.write_text(s)
+        p=pkg/'FavouritesScreen.kt';s=p.read_text()
+        start=s.index(' var tab by ',s.index('fun AddScreen('));end=s.index('\n@Composable\nfun FavouritesScreen',start)
+        s=s[:start]+' SearchScreen(profile,onSelect,onManual,onScan,onRestaurants)\n}\n'+s[end:]
+        p.write_text(s)
+        p=pkg/'MainActivity.kt';s=p.read_text()
+        s=change(s,'listOf("History","Home","Add","Recipes","Settings")','listOf("History","Home","Add","Recipes","Favourites","Settings")')
+        s=change(s,'listOf(Icons.Default.History,Icons.Default.Home,Icons.Default.Add,Icons.Default.Restaurant,Icons.Default.Settings)','listOf(Icons.Default.History,Icons.Default.Home,Icons.Default.Search,Icons.Default.Restaurant,Icons.Default.Star,Icons.Default.Settings)')
+        s=change(s,'selected=screen==tab,onClick=','selected=(screen==tab||(tab=="Add"&&screen=="Search")),onClick=')
+        s=change(s,'icon={Icon(icons[i],contentDescription=tab)}','icon={if(tab=="Recipes")Icon(androidx.compose.ui.res.painterResource(com.example.caloriecounter.R.drawable.ic_chef_hat),contentDescription=tab)else Icon(icons[i],contentDescription=tab)}')
+        anchor='   "Recipes"->{'
+        favourite="""   "Favourites"->FavouritesScreen(remember(version){store.favourites()},onUse={i->store.saveEntry(Entry(date=LocalDate.now().toString(),food=i.food,amount=i.amount,unit=i.unit,unitGrams=i.unitGrams));version++;showNotice("Added ${i.food.name}")},onRemove={id->store.deleteFavourite(id);version++})
+        """
+        s=change(s,anchor,favourite+anchor);p.write_text(s)
+        p=root/'app/src/main/res/drawable/ic_chef_hat.xml';p.parent.mkdir(parents=True,exist_ok=True)
+        p.write_text('''<vector xmlns:android="http://schemas.android.com/apk/res/android" android:width="24dp" android:height="24dp" android:viewportWidth="24" android:viewportHeight="24">
+        <path android:fillColor="#00000000" android:strokeColor="#FF000000" android:strokeWidth="1.8" android:strokeLineCap="round" android:strokeLineJoin="round" android:pathData="M6,15 L6,21 L18,21 L18,15 M6,17 L18,17 M6,15 C1,15 1,7 6,7 C6,1 18,1 18,7 C23,7 23,15 18,15 M9,12 L9,15 M12,11 L12,15 M15,12 L15,15"/>
+        </vector>''')
+        p=root/'app/src/main/AndroidManifest.xml';s=p.read_text();s=change(s,'android:label="Calorie Counter"','android:label="Diet Tracker"');p.write_text(s)
+        p=root/'app/src/main/res/values/strings.xml'
+        if p.exists():
+         s=p.read_text();s=re.sub(r'(<string name="app_name">).*?(</string>)',r'\1Diet Tracker\2',s);p.write_text(s)
+        p=root/'app/build.gradle.kts';s=p.read_text();m=re.search(r'versionCode\s*=\s*(\d+)',s);v=max(33,int(m.group(1))+1)
+        s=re.sub(r'versionCode\s*=\s*\d+','versionCode = '+str(v),s);s=re.sub(r'versionName\s*=\s*"[^"]+"','versionName = "3.2-diet-tracker"',s);p.write_text(s)
+
+        PY
+    - name: Test and build
+      run: gradle -p CalorieCounter testDebugUnitTest assembleDebug --console=plain
+    - name: Upload APK
+      uses: actions/upload-artifact@v4
+      with:
+        name: diet-tracker-3.2-apk
+        path: CalorieCounter/app/build/outputs/apk/debug/app-debug.apk
+        if-no-files-found: error
+    - name: Upload source and test reports
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: diet-tracker-source-and-reports
+        path: |-
+          CalorieCounter/app/src/main
+          CalorieCounter/app/build/reports/tests
+        if-no-files-found: warn
