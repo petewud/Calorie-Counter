@@ -1,0 +1,79 @@
+name: Build recipe favourites update
+'on':
+  push:
+    branches:
+    - main
+    paths:
+    - .github/workflows/build-recipe-favourites-update.yml
+  workflow_dispatch: null
+permissions:
+  contents: read
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-java@v4
+      with:
+        distribution: temurin
+        java-version: '17'
+    - uses: android-actions/setup-android@v3
+      with:
+        packages: platform-tools platforms;android-35 build-tools;35.0.0
+    - uses: gradle/actions/setup-gradle@v4
+      with:
+        gradle-version: '8.9'
+    - uses: actions/cache@v4
+      with:
+        path: ~/.android/debug.keystore
+        key: calorie-counter-debug-signing-v1
+    - name: Apply working appearance updates
+      run: |
+        python3 -m pip install --quiet PyYAML Pillow
+        python3 - <<'PY'
+        from pathlib import Path
+        import yaml,subprocess
+        w=yaml.safe_load(Path('.github/workflows/build-diet-tracker-appearance-update.yml').read_text())
+        for name in ['Apply working Diet Tracker updates','Apply icon-only navigation and appearance update']:
+         step=next(s for s in w['jobs']['update']['steps'] if s.get('name')==name)
+         subprocess.run(['bash','-e','-c',step['run']],check=True)
+        PY
+    - name: Add recipe favourite toggles
+      run: |
+        python3 - <<'PY'
+        from pathlib import Path
+        import re
+        root=Path('CalorieCounter');pkg=root/'app/src/main/java/com/example/caloriecounter'
+        def change(s,old,new):
+         if s.count(old)!=1:raise SystemExit('Recipe favourite patch source mismatch: '+repr(old))
+         return s.replace(old,new)
+        p=pkg/'DiaryRecipes.kt';s=p.read_text()
+        s=change(s,'onDiscardDraft:()->Unit={}){','onDiscardDraft:()->Unit={},isRecipeFavourite:(Recipe)->Boolean={false},onToggleRecipeFavourite:(Recipe)->Unit={}){')
+        old='IconButton(onClick={delete=r}){Icon(Icons.Default.Delete,"Delete recipe")}'
+        new=old+';val fav=isRecipeFavourite(r);val item=Ingredient(r.servingFood().copy(barcode="recipe:${r.id}"),1.0,"portion",100.0);IconButton(enabled=fav||validFavourite(item),onClick={onToggleRecipeFavourite(r)}){Icon(if(fav)Icons.Default.Star else Icons.Default.StarBorder,contentDescription=if(fav)"Remove ${r.name} from favourites"else "Add ${r.name} to favourites",tint=if(fav)MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant)}'
+        s=change(s,old,new);p.write_text(s)
+        p=pkg/'MainActivity.kt';s=p.read_text()
+        s=change(s,'RecipesScreen(recipes,onNew=','RecipesScreen(recipes,isRecipeFavourite={r->store.isFavourite(Ingredient(r.servingFood().copy(barcode="recipe:${r.id}"),1.0,"portion",100.0))},onToggleRecipeFavourite={r->store.toggleFavourite(Ingredient(r.servingFood().copy(barcode="recipe:${r.id}"),1.0,"portion",100.0));version++},onNew=')
+        p.write_text(s)
+        p=root/'app/build.gradle.kts';s=p.read_text();m=re.search(r'versionCode\s*=\s*(\d+)',s);v=max(35,int(m.group(1))+1)
+        s=re.sub(r'versionCode\s*=\s*\d+','versionCode = '+str(v),s);s=re.sub(r'versionName\s*=\s*"[^"]+"','versionName = "3.4-recipe-favourites"',s);p.write_text(s)
+
+        PY
+    - name: Test and build
+      run: gradle -p CalorieCounter testDebugUnitTest assembleDebug --console=plain
+    - name: Upload APK
+      uses: actions/upload-artifact@v4
+      with:
+        name: diet-tracker-3.4-recipe-favourites-apk
+        path: CalorieCounter/app/build/outputs/apk/debug/app-debug.apk
+        if-no-files-found: error
+    - name: Upload source and test reports
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: recipe-favourites-source-and-reports
+        path: |-
+          CalorieCounter/app/src/main
+          CalorieCounter/app/build/reports/tests
+        if-no-files-found: warn
