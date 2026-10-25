@@ -1,0 +1,108 @@
+name: Build profile UI update
+'on':
+  push:
+    branches:
+    - main
+    paths:
+    - .github/workflows/build-profile-ui-update.yml
+  workflow_dispatch: null
+permissions:
+  contents: read
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-java@v4
+      with:
+        distribution: temurin
+        java-version: '17'
+    - uses: android-actions/setup-android@v3
+      with:
+        packages: platform-tools platforms;android-35 build-tools;35.0.0
+    - uses: gradle/actions/setup-gradle@v4
+      with:
+        gradle-version: '8.9'
+    - uses: actions/cache@v4
+      with:
+        path: ~/.android/debug.keystore
+        key: calorie-counter-debug-signing-v1
+    - name: Apply existing working weight units preparation
+      run: |
+        python3 -m pip install --quiet PyYAML
+        python3 - <<'PY'
+        from pathlib import Path
+        import yaml,subprocess
+        workflow=yaml.safe_load(Path('.github/workflows/build-weight-units-update.yml').read_text())
+        steps=workflow['jobs']['update']['steps']
+        step=next(s for s in steps if s.get('name')=='Apply source-matched weight units update')
+        subprocess.run(['bash','-e','-c',step['run']],check=True)
+        PY
+    - name: Apply weight-tab and onboarding changes
+      run: |
+        python3 - <<'PY'
+        HELPER='package com.example.caloriecounter\nimport androidx.compose.foundation.ExperimentalFoundationApi\nimport androidx.compose.foundation.border\nimport androidx.compose.foundation.layout.Box\nimport androidx.compose.foundation.layout.fillMaxWidth\nimport androidx.compose.foundation.layout.padding\nimport androidx.compose.foundation.relocation.BringIntoViewRequester\nimport androidx.compose.foundation.relocation.bringIntoViewRequester\nimport androidx.compose.material3.MaterialTheme\nimport androidx.compose.runtime.*\nimport androidx.compose.ui.Modifier\nimport androidx.compose.ui.unit.dp\nimport kotlinx.coroutines.delay\n@OptIn(ExperimentalFoundationApi::class)\n@Composable\nfun ValidationTarget(id:String,active:String?,attempt:Int,content:@Composable ()->Unit){\n val requester=remember{BringIntoViewRequester()}\n var flash by remember{mutableStateOf(false)}\n LaunchedEffect(attempt){\n  flash=false\n  if(attempt>0&&active==id){requester.bringIntoView();flash=true;delay(1000);flash=false}\n }\n Box(Modifier.fillMaxWidth().bringIntoViewRequester(requester).then(if(flash)Modifier.border(2.dp,MaterialTheme.colorScheme.error).padding(4.dp)else Modifier)){content()}\n}\n'
+        from pathlib import Path
+        import re
+        pkg=Path('CalorieCounter/app/src/main/java/com/example/caloriecounter')
+        def change(s,a,b):
+         if s.count(a)!=1:raise SystemExit('UI patch source mismatch: '+a)
+         return s.replace(a,b)
+        p=pkg/'WeightScreen.kt';s=p.read_text()
+        a='WeightUnitPicker(unit){next->val old=weightInputToKg(amount,unit);amount=old?.let{weightKgToInput(it,next)}?:"";onUnitChange(next)}'
+        s=change(s,a,'');p.write_text(s)
+        p=pkg/'ProfileScreen.kt';s=p.read_text()
+        s=change(s,' val context=LocalContext.current',' var validationField by remember{mutableStateOf<String?>(null)};var validationAttempt by remember{mutableIntStateOf(0)}\n val context=LocalContext.current')
+        def wrap(s,old,key):return change(s,old,'ValidationTarget('+key+',validationField,validationAttempt){'+old+'}')
+        s=wrap(s,'NumericField(age,{age=it},"Age (years, 18+)")','"age"')
+        s=wrap(s,'NumericField(height,{height=it},"Height (cm)")','"height"')
+        s=wrap(s,'WeightValueField(weight,{weight=it},"Weight",unit)','"weight"')
+        s=wrap(s,'WeightValueField(targetWeight,{targetWeight=it},"Target weight",unit)','"goal"')
+        s=wrap(s,'NumericField(targets[i],{targets[i]=it},"$label (${nutrientUnits[i]}/day)")','"nutrient$i"')
+        lines=s.splitlines()
+        for i,line in enumerate(lines):
+         if 'Row{FilterChip(selected=sex==' in line:lines[i]='  ValidationTarget("sex",validationField,validationAttempt){'+line.strip()+'}'
+         if 'Row{OutlinedButton(onClick={val d=goalDate' in line:lines[i]='  ValidationTarget("date",validationField,validationAttempt){'+line.strip()+'}'
+         if 'Row{Checkbox(checked=eligible' in line:lines[i]='   ValidationTarget("eligible",validationField,validationAttempt){'+line.strip()+'}'
+        s=chr(10).join(lines)+chr(10)
+        old='Button(enabled=valid&&goalValid&&numbersValid&&dateValid&&(!auto||plan.calories!=null),onClick={onSave(candidate)},modifier=Modifier.fillMaxWidth()){Text("Save settings")}'
+        new="""Button(enabled=onboarding||(valid&&goalValid&&numbersValid&&dateValid&&(!auto||plan.calories!=null)),onClick={
+         val missing=when{
+          sex !in listOf("Female","Male")->"sex"
+          a==null||a !in 18..120->"age"
+          h==null||!h.isFinite()||h !in 100.0..250.0->"height"
+          w==null||!w.isFinite()||w !in 25.0..400.0->"weight"
+          !goalValid->"goal"
+          !dateValid->"date"
+          auto&&goalDate==null->"date"
+          auto&&!eligible->"eligible"
+          !numbersValid->"nutrient"+numbers.indexOfFirst{it==null||!it.isFinite()||it<=0}
+          auto&&plan.calories==null->"goal"
+          else->null
+         }
+         if(missing==null)onSave(candidate)else{validationField=missing;validationAttempt++}
+        },modifier=Modifier.fillMaxWidth()){Text("Save settings")}"""
+        s=change(s,old,new);p.write_text(s)
+        (pkg/'ValidationTarget.kt').write_text(HELPER)
+        p=Path('CalorieCounter/app/build.gradle.kts');s=p.read_text();m=re.search(r'versionCode\s*=\s*(\d+)',s);v=max(31,int(m.group(1))+1)
+        s=re.sub(r'versionCode\s*=\s*\d+','versionCode = '+str(v),s);s=re.sub(r'versionName\s*=\s*"[^"]+"','versionName = "3.0-profile-ui"',s);p.write_text(s)
+
+        PY
+    - name: Test and build
+      run: gradle -p CalorieCounter testDebugUnitTest assembleDebug --console=plain
+    - name: Upload APK
+      uses: actions/upload-artifact@v4
+      with:
+        name: calorie-counter-3.0-profile-ui-apk
+        path: CalorieCounter/app/build/outputs/apk/debug/app-debug.apk
+        if-no-files-found: error
+    - name: Upload generated source for diagnosis
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: profile-ui-source-and-reports
+        path: |-
+          CalorieCounter/app/src/main/java/com/example/caloriecounter
+          CalorieCounter/app/build/reports/tests
+        if-no-files-found: warn
