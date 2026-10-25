@@ -1,0 +1,108 @@
+name: Build favourites star update
+
+on:
+  push:
+    branches: [ main ]
+    paths: [ '.github/workflows/build-favourites-star-update.yml' ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: android-actions/setup-android@v3
+        with:
+          packages: 'platform-tools platforms;android-35 build-tools;35.0.0'
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.9'
+      - name: Restore existing signing key
+        uses: actions/cache@v4
+        with:
+          path: ~/.android/debug.keystore
+          key: calorie-counter-debug-signing-v1
+      - name: Prepare complete cumulative project
+        run: |
+          unzip -q CalorieCounter.zip
+          python3 - <<'PY'
+          from pathlib import Path
+          import json,re,hashlib,zipfile
+          root=Path('CalorieCounter');pkg=root/'app/src/main/java/com/example/caloriecounter'
+          if 'autoCalorieTarget' not in (pkg/'Models.kt').read_text() or not (pkg/'RestaurantScreen.kt').exists():
+              raise SystemExit('Use the combined home/widget/icon project ZIP (v2.4 or v2.5) as CalorieCounter.zip first, to preserve existing features.')
+          if 'fun toggledFavourites(' in (pkg/'Models.kt').read_text():
+              raise SystemExit('This project already has the star-toggle update. Use the normal APK build workflow instead.')
+          assets={str(p.relative_to(root)):hashlib.sha256(p.read_bytes()).hexdigest() for p in (root/'app/src/main/assets').rglob('*') if p.is_file()}
+          icons={str(p.relative_to(root)):hashlib.sha256(p.read_bytes()).hexdigest() for p in (root/'app/src/main/res').rglob('*') if p.is_file() and ('launcher' in p.name or p.name=='icon_colors.xml')}
+          def change(path,old,new):
+              text=path.read_text()
+              if text.count(old)!=1:raise SystemExit('Unexpected source marker in '+str(path)+': '+old[:100])
+              path.write_text(text.replace(old,new),encoding='utf-8')
+          def append(path,text):
+              with path.open('a',encoding='utf-8') as f:f.write(chr(10)+text)
+          def add_store(text):
+              path=pkg/'Store.kt';s=path.read_text();pos=s.rfind('}');path.write_text(s[:pos]+chr(10)+text+s[pos:],encoding='utf-8')
+          if 'data class Favourite(' not in (pkg/'Models.kt').read_text():
+              change(pkg/'MainActivity.kt','pickOrigin="Home";homeTab=0;form=Ingredient(r.servingFood(),1.0,"portion",100.0);formOrigin="Home";formEntryId=0;formDate=LocalDate.now().toString();ingredientIndex=-1;screen="Food"','store.saveEntry(Entry(date=LocalDate.now().toString(),food=r.servingFood().copy(barcode="recipe:${r.id}"),amount=1.0,unit="portion",unitGrams=100.0));version++;notice="Added one portion of ${r.name}"')
+              change(pkg/'DiaryRecipes.kt','Text("Log portions")','Text("Add")')
+              change(pkg/'FoodScreens.kt','fun FoodForm(initial:Ingredient,onCancel:()->Unit,onReplace:()->Unit,onSave:(Ingredient)->Unit){','fun FoodForm(initial:Ingredient,onCancel:()->Unit,onReplace:()->Unit,onSave:(Ingredient)->Unit,onFavourite:(Ingredient)->Unit={}){\n if(initial.food.barcode.startsWith("recipe:")){RecipePortionForm(initial,onCancel,onReplace,onSave,onFavourite);return}\n')
+              change(pkg/'FoodScreens.kt','RestaurantPortionForm(initial,onCancel,onReplace,onSave)','RestaurantPortionForm(initial,onCancel,onReplace,onSave,onFavourite)')
+              change(pkg/'FoodScreens.kt','Text("For this amount",style=MaterialTheme.typography.titleMedium);NutritionText(total);','Text("For this amount",style=MaterialTheme.typography.titleMedium);NutritionText(total);\nOutlinedButton(enabled=name.isNotBlank()&&q!=null&&weight!=null&&valid&&per100[0]!=null,onClick={val f=initial.food.copy(name=name.trim(),nutrients=per100,basis=basis,servingLabel=portionName.ifBlank{"serving"},servingGrams=portionWeight.toDoubleOrNull()?.takeIf{it.isFinite()&&it>0});onFavourite(Ingredient(f,q!!,unit,weight!!))},modifier=Modifier.fillMaxWidth()){Text("Save to favourites")}\n')
+              change(pkg/'MainActivity.kt','FoodForm(form,onCancel=','FoodForm(form,onFavourite={i->store.saveFavourite(i);version++;notice="Saved to favourites"},onCancel=')
+              change(pkg/'MainActivity.kt','SearchScreen(profile,onSelect={openFood(it)},onManual=','AddScreen(profile,favourites=remember(version){store.favourites()},onSelect={openFood(it)},onFavouriteSelect={i->openFood(i.food);form=i},onRemoveFavourite={id->store.deleteFavourite(id);version++},onManual=')
+              change(pkg/'RestaurantScreen.kt','fun RestaurantPortionForm(initial:Ingredient,onCancel:()->Unit,onReplace:()->Unit,onSave:(Ingredient)->Unit){','fun RestaurantPortionForm(initial:Ingredient,onCancel:()->Unit,onReplace:()->Unit,onSave:(Ingredient)->Unit,onFavourite:(Ingredient)->Unit){')
+              change(pkg/'RestaurantScreen.kt','NumericField(quantity,{quantity=it},"Number of menu portions")','NumericField(quantity,{quantity=it},"Number of menu portions")\n OutlinedButton(enabled=q!=null,onClick={onFavourite(initial.copy(amount=q!!,unit="menu portion",unitGrams=100.0))}){Text("Save to favourites")}')
+              append(pkg/"Models.kt",'data class Favourite(val id:String,val ingredient:Ingredient)\nfun favouriteId(i:Ingredient):String{\n val key=i.food.barcode.ifBlank{listOf(i.food.name.trim().lowercase(java.util.Locale.UK),i.food.basis,i.food.servingLabel).joinToString("|")}\n return java.security.MessageDigest.getInstance("SHA-256").digest(key.toByteArray(Charsets.UTF_8)).joinToString(""){"%02x".format(it)}\n}\nfun validFavourite(i:Ingredient)=i.food.name.isNotBlank()&&i.amount.isFinite()&&i.amount>0&&i.unitGrams.isFinite()&&i.unitGrams>0&&i.food.nutrients.values.size==8&&i.food.nutrients[0]!=null&&i.food.nutrients.values.all{it==null||(it.isFinite()&&it>=0)}\n')
+              add_store(' fun favourites():List<Favourite>{\n  val saved=runCatching{json.fromJson(prefs.getString("favourites_v1","[]"),Array<Favourite>::class.java)?.toList().orEmpty()}.getOrDefault(emptyList())\n  return saved.filter{runCatching{validFavourite(it.ingredient)}.getOrDefault(false)}.distinctBy{it.id}.sortedBy{it.ingredient.food.name.lowercase(java.util.Locale.UK)}\n }\n fun saveFavourite(i:Ingredient){require(validFavourite(i)){"Enter a valid food and amount before saving a favourite"};val id=favouriteId(i);val updated=favourites().filter{it.id!=id}+Favourite(id,i);prefs.edit().putString("favourites_v1",json.toJson(updated)).commit()}\n fun deleteFavourite(id:String){prefs.edit().putString("favourites_v1",json.toJson(favourites().filter{it.id!=id})).commit()}\n')
+              change(pkg/'Store.kt','.put("weights",JSONArray(json.toJson(weights())))','.put("weights",JSONArray(json.toJson(weights()))).put("favourites",JSONArray(json.toJson(favourites())))')
+              change(pkg/'Store.kt','val ws=obj.optJSONArray("weights")?.let{json.fromJson(it.toString(),Array<WeightRecord>::class.java)}?:emptyArray();','val ws=obj.optJSONArray("weights")?.let{json.fromJson(it.toString(),Array<WeightRecord>::class.java)}?:emptyArray();val fs=obj.optJSONArray("favourites")?.let{json.fromJson(it.toString(),Array<Favourite>::class.java)}?:emptyArray();require(fs.all{validFavourite(it.ingredient)}){"Invalid favourite in backup"};')
+              change(pkg/'Store.kt','ws.forEach{r->if(weights().none{it.date==r.date})saveWeight(r.copy(id=0))};saveProfile(p)','ws.forEach{r->if(weights().none{it.date==r.date})saveWeight(r.copy(id=0))};fs.forEach{saveFavourite(it.ingredient)};saveProfile(p)')
+          append(pkg/"Models.kt",'fun toggledFavourites(items:List<Favourite>,i:Ingredient):List<Favourite>{\n val id=favouriteId(i)\n if(items.any{it.id==id})return items.filter{it.id!=id}\n require(validFavourite(i)){"Complete the food name, calories and amount before saving a favourite"}\n return items+Favourite(id,i)\n}\n')
+          add_store(' fun isFavourite(i:Ingredient)=favourites().any{it.id==favouriteId(i)}\n fun toggleFavourite(i:Ingredient){val updated=toggledFavourites(favourites(),i);prefs.edit().putString("favourites_v1",json.toJson(updated)).commit()}\n')
+          change(pkg/'DiaryRecipes.kt','recipes:List<Recipe>,onRecover:(Entry)->Unit){','recipes:List<Recipe>,onRecover:(Entry)->Unit,isFavourite:(Entry)->Boolean={false},onToggleFavourite:(Entry)->Unit={}){')
+          change(pkg/'DiaryRecipes.kt','Row{IconButton(onClick={onEdit(e)}){Icon(Icons.Default.Edit,"Edit entry")};IconButton(onClick={delete=e}){Icon(Icons.Default.Delete,"Delete entry")}}','Row{\n IconButton(onClick={onEdit(e)}){Icon(Icons.Default.Edit,"Edit entry")}\n IconButton(onClick={delete=e}){Icon(Icons.Default.Delete,"Delete entry")}\n val fav=isFavourite(e);val item=Ingredient(e.food,e.amount,e.unit,e.unitGrams)\n IconButton(enabled=fav||validFavourite(item),onClick={onToggleFavourite(e)}){Icon(if(fav)Icons.Default.Star else Icons.Default.StarBorder,contentDescription=if(fav)"Remove from favourites"else "Add to favourites",tint=if(fav)MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant)}\n}')
+          change(pkg/'MainActivity.kt','recipes=recipes,onRecover=','recipes=recipes,isFavourite={e->store.isFavourite(Ingredient(e.food,e.amount,e.unit,e.unitGrams))},onToggleFavourite={e->store.toggleFavourite(Ingredient(e.food,e.amount,e.unit,e.unitGrams));version++},onRecover=')
+          p=pkg/'RestaurantScreen.kt';s=p.read_text()
+          if 'import androidx.compose.foundation.rememberScrollState' not in s:s=s.replace('import androidx.compose.foundation.layout.*','import androidx.compose.foundation.layout.*'+chr(10)+'import androidx.compose.foundation.rememberScrollState'+chr(10)+'import androidx.compose.foundation.verticalScroll')
+          s=s.replace('Column(Modifier.fillMaxSize().padding(16.dp),verticalArrangement=Arrangement.spacedBy(10.dp))','Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).imePadding().padding(16.dp),verticalArrangement=Arrangement.spacedBy(10.dp))');p.write_text(s)
+          (pkg/"FavouritesScreen.kt").write_text('@file:OptIn(androidx.compose.material3.ExperimentalMaterial3Api::class)\npackage com.example.caloriecounter\nimport androidx.compose.foundation.layout.*\nimport androidx.compose.foundation.lazy.LazyColumn\nimport androidx.compose.foundation.lazy.items\nimport androidx.compose.foundation.rememberScrollState\nimport androidx.compose.foundation.verticalScroll\nimport androidx.compose.material3.*\nimport androidx.compose.material.icons.Icons\nimport androidx.compose.material.icons.filled.Delete\nimport androidx.compose.runtime.*\nimport androidx.compose.ui.Modifier\nimport androidx.compose.ui.unit.dp\n@Composable\nfun AddScreen(profile:Profile,favourites:List<Favourite>,onSelect:(Food)->Unit,onFavouriteSelect:(Ingredient)->Unit,onRemoveFavourite:(String)->Unit,onManual:()->Unit,onScan:()->Unit,onRestaurants:()->Unit){\n var tab by androidx.compose.runtime.saveable.rememberSaveable{mutableIntStateOf(0)}\n Column(Modifier.fillMaxSize()){\n  TabRow(selectedTabIndex=tab){Tab(selected=tab==0,onClick={tab=0},text={Text("Food")});Tab(selected=tab==1,onClick={tab=1},text={Text("Favourites")})}\n  Box(Modifier.weight(1f)){if(tab==0)SearchScreen(profile,onSelect,onManual,onScan,onRestaurants)else FavouritesScreen(favourites,onFavouriteSelect,onRemoveFavourite)}\n }\n}\n@Composable\nfun FavouritesScreen(favourites:List<Favourite>,onUse:(Ingredient)->Unit,onRemove:(String)->Unit){\n var query by remember{mutableStateOf("")}\n Column(Modifier.fillMaxSize().padding(16.dp),verticalArrangement=Arrangement.spacedBy(10.dp)){\n  Text("Favourites",style=MaterialTheme.typography.headlineSmall)\n  OutlinedTextField(query,{query=it},label={Text("Search favourites")},modifier=Modifier.fillMaxWidth())\n  if(favourites.isEmpty())Text("No favourites yet. Use Save to favourites on a food, or the star on a diary entry.")\n  val shown=favourites.filter{it.ingredient.food.name.contains(query,true)||it.ingredient.food.brand.contains(query,true)}\n  LazyColumn(Modifier.weight(1f),verticalArrangement=Arrangement.spacedBy(8.dp)){\n   items(shown,key={it.id}){f->val i=f.ingredient;Card(Modifier.fillMaxWidth()){\n    Column(Modifier.padding(12.dp),verticalArrangement=Arrangement.spacedBy(6.dp)){\n     Text(i.food.name,style=MaterialTheme.typography.titleMedium)\n     if(i.food.brand.isNotBlank())Text(i.food.brand)\n     Text("${numberText(i.amount)}${if(i.unit in listOf("g","ml"))""else " "}${i.unit} · ${numberText(i.total()[0],0)}kcal")\n     Row{Button(onClick={onUse(i)}){Text("Use")};IconButton(onClick={onRemove(f.id)}){Icon(Icons.Default.Delete,"Remove ${i.food.name} from favourites")}}\n    }\n   }}\n  }\n }\n}\n@Composable\nfun RecipePortionForm(initial:Ingredient,onCancel:()->Unit,onReplace:()->Unit,onSave:(Ingredient)->Unit,onFavourite:(Ingredient)->Unit){\n var quantity by remember{mutableStateOf(initial.amount.toString())};val q=quantity.toDoubleOrNull()?.takeIf{it.isFinite()&&it>0}\n Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).imePadding().padding(16.dp),verticalArrangement=Arrangement.spacedBy(10.dp)){\n  Text(initial.food.name,style=MaterialTheme.typography.headlineSmall);NumericField(quantity,{quantity=it},"Number of recipe portions");NutritionText(initial.food.nutrients*(q?:0.0))\n  Button(enabled=q!=null,onClick={onSave(initial.copy(amount=q!!,unit="portion",unitGrams=100.0))}){Text("Save")}\n  OutlinedButton(enabled=q!=null,onClick={onFavourite(initial.copy(amount=q!!,unit="portion",unitGrams=100.0))}){Text("Save to favourites")}\n  OutlinedButton(onClick=onReplace){Text("Choose another food")};TextButton(onClick=onCancel){Text("Cancel")}\n }\n}\n',encoding="utf-8")
+          p=root/"app/src/test/java/com/example/caloriecounter/FavouritesAndPortionTest.kt";p.parent.mkdir(parents=True,exist_ok=True);p.write_text('package com.example.caloriecounter\nimport org.junit.Assert.*\nimport org.junit.Test\nclass FavouritesAndPortionTest{\n private fun item()=Ingredient(Food("Manual oats",nutrients=Nutrients(listOf(400.0,20.0,40.0,12.0,5.0,6.0,8.0,1.0))),70.0)\n @Test fun recipePortionDividesTotals(){val r=Recipe(name="Meal",servings=4,ingredients=listOf(item().copy(amount=100.0)));val e=Entry(date="2026-10-25",food=r.servingFood(),amount=1.0,unit="portion",unitGrams=100.0);assertEquals(100.0,e.total()[0]!!,0.00001);assertEquals(5.0,e.total()[1]!!,0.00001)}\n @Test fun singlePortionEqualsWholeRecipe(){val r=Recipe(name="Porridge",ingredients=listOf(item()));val e=Entry(date="2026-10-25",food=r.servingFood(),amount=1.0,unit="portion",unitGrams=100.0);assertEquals(280.0,e.total()[0]!!,0.00001)}\n @Test fun manualFoodCanBeFavourite(){assertTrue(item().food.barcode.isBlank());assertTrue(validFavourite(item()));assertEquals(1,toggledFavourites(emptyList(),item()).size)}\n @Test fun defaultOffAndToggleOnOff(){val original=emptyList<Favourite>();assertFalse(original.any{it.id==favouriteId(item())});val on=toggledFavourites(original,item());assertTrue(on.any{it.id==favouriteId(item())});assertTrue(toggledFavourites(on,item()).isEmpty())}\n @Test fun sameFoodDifferentAmountSharesStar(){val on=toggledFavourites(emptyList(),item());assertTrue(toggledFavourites(on,item().copy(amount=200.0)).isEmpty())}\n @Test fun otherFavouriteIsRetained(){val other=item().copy(food=item().food.copy(name="Milk"));val both=toggledFavourites(toggledFavourites(emptyList(),item()),other);val remaining=toggledFavourites(both,item());assertEquals(1,remaining.size);assertEquals("Milk",remaining[0].ingredient.food.name)}\n @Test fun favouriteRetainsPreferredAmount(){val i=item();val f=Favourite(favouriteId(i),i);val saved=json.fromJson(json.toJson(f),Favourite::class.java);assertEquals(70.0,saved.ingredient.amount,0.0);assertEquals(280.0,saved.ingredient.total()[0]!!,0.00001)}\n @Test fun invalidAmountRejected(){assertFalse(validFavourite(item().copy(amount=0.0)));assertFalse(validFavourite(item().copy(amount=Double.NaN)))}\n @Test fun togglingDoesNotChangeDiarySnapshot(){val i=item();val before=json.toJson(i);val on=toggledFavourites(emptyList(),i);toggledFavourites(on,i);assertEquals(before,json.toJson(i))}\n}\n',encoding="utf-8")
+          p=root/'app/build.gradle.kts';s=p.read_text();s=re.sub(r'versionCode\s*=\s*\d+','versionCode = 16',s);s=re.sub(r'versionName\s*=\s*"[^"]+"','versionName = "2.6"',s);p.write_text(s)
+          after_assets={str(p.relative_to(root)):hashlib.sha256(p.read_bytes()).hexdigest() for p in (root/'app/src/main/assets').rglob('*') if p.is_file()}
+          after_icons={str(p.relative_to(root)):hashlib.sha256(p.read_bytes()).hexdigest() for p in (root/'app/src/main/res').rglob('*') if p.is_file() and ('launcher' in p.name or p.name=='icon_colors.xml')}
+          if assets!=after_assets or icons!=after_icons:raise SystemExit('Existing restaurant or icon assets changed unexpectedly')
+          report={'version':'2.6','includes_previous_update':True,'recipe_add':'Logs one portion directly','manual_food_favourites':True,'diary_star':'Outline when not saved; filled when saved. Toggle never deletes diary entries.','favourites_identity':'Same food shares favourite state across diary entries; saved preferred amount is retained.','backup':'Includes favourites, merge updates matching food IDs.','preserved_assets':assets,'preserved_icons':icons}
+          Path('favourites-star-report.json').write_text(json.dumps(report,indent=2))
+          with zipfile.ZipFile('CalorieCounter-updated.zip','w',zipfile.ZIP_DEFLATED) as z:
+              for p in sorted(root.rglob('*')):
+                  if p.is_file():z.write(p,p.as_posix())
+          with zipfile.ZipFile('CalorieCounter-updated.zip') as z:
+              if z.testzip() is not None:raise SystemExit('Invalid output ZIP')
+          print(json.dumps(report,indent=2))
+          PY
+      - name: Test and build APK
+        run: gradle -p CalorieCounter testDebugUnitTest assembleDebug --console=plain
+      - name: Upload complete updated project
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: favourites-star-update-project
+          path: |
+            CalorieCounter-updated.zip
+            favourites-star-report.json
+          if-no-files-found: warn
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: calorie-counter-debug-apk
+          path: CalorieCounter/app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error
