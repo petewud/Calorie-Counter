@@ -108,55 +108,80 @@ jobs:
           UNITS='package com.example.caloriecounter\nimport java.util.Locale\n\nenum class WeightUnit(val id:String,val label:String){KG("kg","Kilograms"),LB("lb","Pounds"),ST("st","Stone and pounds")}\n\nfun kgToLb(kg:Double)=kg*2.2046226218487757\nfun lbToKg(lb:Double)=lb/2.2046226218487757\n\nfun weightDisplay(kg:Double,unit:WeightUnit):String{\n if(!kg.isFinite()||kg<=0)return "--"\n return when(unit){\n  WeightUnit.KG->numberText(kg,1)+" kg"\n  WeightUnit.LB->numberText(kgToLb(kg),1)+" lb"\n  WeightUnit.ST->run{\n   val totalPounds=kotlin.math.round(kgToLb(kg));val stone=(totalPounds/14).toInt();val pounds=(totalPounds%14).toInt()\n   if(stone==0)"${pounds}lb" else "${stone}st ${pounds}lb"\n  }\n }\n}\nfun weightAxisDisplay(kg:Double,unit:WeightUnit):String=when(unit){\n WeightUnit.KG->numberText(kg,1)\n WeightUnit.LB->numberText(kgToLb(kg),0)\n WeightUnit.ST->numberText(kgToLb(kg)/14.0,1)\n}\nfun weightInputToKg(text:String,unit:WeightUnit):Double?{\n val value=text.toDoubleOrNull()?.takeIf{it.isFinite()&&it>0}?:return null\n return when(unit){\n  WeightUnit.KG->value\n  WeightUnit.LB->lbToKg(value)\n  WeightUnit.ST->lbToKg(value*14.0)\n }\n}\nfun weightKgToInput(kg:Double,unit:WeightUnit):String=when(unit){\n WeightUnit.KG->kg.toString()\n WeightUnit.LB->kgToLb(kg).toString()\n WeightUnit.ST->(kgToLb(kg)/14.0).toString()\n}\nfun weightUnitLabel(unit:WeightUnit)=when(unit){\n WeightUnit.KG->"kg"\n WeightUnit.LB->"lb"\n WeightUnit.ST->"st"\n}\nfun parseWeightUnit(id:String?):WeightUnit=WeightUnit.entries.firstOrNull{it.id==id}?:WeightUnit.KG\n'
           TESTS='package com.example.caloriecounter\nimport org.junit.Assert.*\nimport org.junit.Test\nclass WeightUnitsTest{\n @Test fun stoneDisplayRoundsPounds(){assertEquals("14st 8lb",weightDisplay(92.986,WeightUnit.ST));assertEquals("10st 0lb",weightDisplay(63.5029318,WeightUnit.ST))}\n @Test fun poundsDisplay(){assertEquals("204.8 lb",weightDisplay(92.9,WeightUnit.LB))}\n @Test fun kilogramsDisplay(){assertEquals("92.9 kg",weightDisplay(92.9,WeightUnit.KG))}\n @Test fun axisUsesWholePoundsAndStone(){assertEquals("205",weightAxisDisplay(92.986,WeightUnit.LB));assertEquals("14.5",weightAxisDisplay(92.986,WeightUnit.ST))}\n @Test fun stoneInputConvertsToKg(){val kg=weightInputToKg("14.5",WeightUnit.ST)!!;assertEquals(92.05,kg,0.01);assertEquals("14st 7lb",weightDisplay(kg,WeightUnit.ST))}\n @Test fun poundsInputConvertsToKg(){val kg=weightInputToKg("204.8",WeightUnit.LB)!!;assertEquals(92.9,kg,0.01)}\n @Test fun invalidInputRejected(){assertNull(weightInputToKg("abc",WeightUnit.ST));assertNull(weightInputToKg("-1",WeightUnit.LB));assertNull(weightInputToKg("0",WeightUnit.KG))}\n @Test fun unitSelectionPersistsThroughRoundTrip(){for(unit in WeightUnit.entries){val kg=92.986;val text=weightKgToInput(kg,unit);val restored=weightInputToKg(text,unit)!!;assertEquals(kg,restored,0.0001)}}\n @Test fun invalidSavedUnitFallsBackToKg(){assertEquals(WeightUnit.KG,parseWeightUnit(null));assertEquals(WeightUnit.KG,parseWeightUnit("bad"))}\n}\n'
           PROFILE_PATCH='p=pkg/\'ProfileScreen.kt\';text=p.read_text()\nif \'var unit by remember\' not in text:\n    text=text.replace(\'var auto by remember{mutableStateOf(initial.autoCalorieTarget)}\',\'var auto by remember{mutableStateOf(initial.autoCalorieTarget)}\'+chr(10)+\' var unit by remember{mutableStateOf(parseWeightUnit(initial.weightUnit))}\')\ntext=text.replace(\'val w=weight.toDoubleOrNull()\',\'val w=weightInputToKg(weight,unit)\')\ntext=text.replace(\'val kcal=if(valid)estimateCalories(sex,a!!,h!!,w!!,activity)else null\',\'val kcal=if(valid)estimateCalories(sex,a!!,h!!,w!!,activity)else null\'+chr(10)+\' val example=weightDisplay(w?:70.0,unit)\')\ntext=text.replace(\'val goal=targetWeight.toDoubleOrNull()\',\'val goal=weightInputToKg(targetWeight,unit)\')\ntext=text.replace(\'val candidate=Profile(true,sex,a?:30,h?:170.0,w?:70.0,activity,numbers.map{it?:2000.0},uk,goal,goalDate,auto,eligible)\',\'val candidate=Profile(true,sex,a?:30,h?:170.0,w?:70.0,activity,numbers.map{it?:2000.0},uk,goal,goalDate,auto,eligible,unit.id)\')\ntext=text.replace(\'NumericField(weight,{weight=it},"Weight (kg)")\',\'Text("Weight units")\'+chr(10)+\' Row{WeightUnit.entries.forEach{option->FilterChip(selected=unit==option,onClick={unit=option;weight=weightKgToInput(w?:initial.weight,option)},label={Text(option.label)})}}\'+chr(10)+\' Text("Example: $example")\'+chr(10)+\' NumericField(weight,{weight=it},"Weight (${weightUnitLabel(unit)})")\')\ntext=text.replace(\'NumericField(targetWeight,{targetWeight=it},"Target weight (kg)")\',\'NumericField(targetWeight,{targetWeight=it},"Target weight (${weightUnitLabel(unit)})")\')\ntext=text.replace(\'Text("Estimated maintenance: ${numberText(kcal,0)}kcal/day")\',\'Text("Estimated maintenance: ${numberText(kcal,0)}kcal/day")\'+chr(10)+\' Text("Weight shown as: ${weightDisplay(w?:initial.weight,unit)}")\')\ntext=text.replace(\'onSave(candidate)\',\'onSave(candidate.copy(weightUnit=unit.id))\')\np.write_text(text)\n'
-          def patch_weight_screen():
-    p=pkg/'WeightScreen.kt';text=p.read_text()
-    matches=list(re.finditer(r'\bWeightChart\s*\(',text))
-    if len(matches)!=1:raise SystemExit('Expected exactly one WeightChart call; found '+str(len(matches))+': '+repr([text[m.start():min(len(text),m.start()+180)] for m in matches]))
-    m=matches[0];open_index=text.find('(',m.start());close_index=balanced_end(text,open_index,'(',')')
-    call=text[m.start():close_index];inner=call[call.find('(')+1:-1]
-    if re.search(r'\bunit\s*=',inner):raise SystemExit('WeightChart call already contains a unit argument')
-    parts=[];depth=0;start=0;i=0
-    while i<len(inner):
-        c=inner[i]
-        if c=='"':
-            if inner.startswith('"""',i):
-                end=inner.find('"""',i+3)
-                if end<0:raise SystemExit('Unterminated string in WeightChart call')
-                i=end+3;continue
-            i+=1
-            while i<len(inner):
-                if inner[i]=='\\':i+=2;continue
-                if inner[i]=='"':break
-                i+=1
-            i+=1;continue
-        if c=="'":
-            i+=1
-            while i<len(inner):
-                if inner[i]=='\\':i+=2;continue
-                if inner[i]=="'":break
-                i+=1
-            i+=1;continue
-        if c in '([{':depth+=1
-        elif c in ')]}':depth-=1
-        elif c==',' and depth==0:
-            parts.append(inner[start:i]);start=i+1
-        i+=1
-    parts.append(inner[start:])
-    on_select=[index for index,part in enumerate(parts) if re.search(r'\bonSelect\s*=',part)]
-    if len(on_select)==1:parts.insert(on_select[0],'unit')
-    elif not on_select:parts.append('unit')
-    else:raise SystemExit('Multiple onSelect arguments in WeightChart call')
-    updated_call='WeightChart('+','.join(parts)+')'
-    text=text[:m.start()]+updated_call+text[close_index:]
-    text,n=re.subn(r'NumericField\s*\(\s*([A-Za-z_][A-Za-z0-9_]*)\s*,\s*\{\s*\1\s*=\s*it\s*\}\s*,\s*"Weight \(kg\)"\s*\)',lambda match:'NumericField(weightKgToInput('+match.group(1)+',unit),{'+match.group(1)+'=weightInputToKg(it,unit)?:'+match.group(1)+'},"Weight (${weightUnitLabel(unit)})")',text)
-    if n!=1:raise SystemExit('Cannot uniquely identify the weight input field in WeightScreen.kt')
-    text,n=re.subn(r'Text\s*\(\s*weightDisplay\s*\(\s*([A-Za-z_][A-Za-z0-9_.?]*)\s*\)\s*\)',lambda match:'Text(weightDisplay('+match.group(1)+',unit))',text)
-    if n==0:raise SystemExit('Cannot find a weightDisplay call in WeightScreen.kt')
-    marker='Text("Weight history",style=MaterialTheme.typography.headlineSmall)'
-    if marker in text:text=text.replace(marker,marker+chr(10)+' Row{WeightUnit.entries.forEach{option->FilterChip(selected=unit==option,onClick={onUnitChange(option)},label={Text(option.label)})}}'+chr(10)+' Text("Example: ${weightDisplay(weights.lastOrNull()?.kg?:70.0,unit)}")')
-    p.write_text(text)
-patch_weight_screen()
+          def split_kotlin_args(s):
+              parts=[];start=0;i=0
+              while i<len(s):
+                  if s.startswith('//',i) or s.startswith('/*',i):i=skip_comment(s,i);continue
+                  if s[i] in ('"',"'"):i=skip_string(s,i);continue
+                  if s[i] in '([{':
+                      left=s[i];i=balanced_end(s,i,left,{'(':')','[':']','{':'}'}[left]);continue
+                  if s[i]==',':
+                      if s[start:i].strip():parts.append(s[start:i].strip())
+                      start=i+1
+                  i+=1
+              if s[start:].strip():parts.append(s[start:].strip())
+              return parts
 
+          def patch_chart_call(body):
+              calls=[];i=0
+              while i<len(body):
+                  if body.startswith('//',i) or body.startswith('/*',i):i=skip_comment(body,i);continue
+                  if body[i] in ('"',"'"):i=skip_string(body,i);continue
+                  m=re.match(r'\bWeightChart\s*\(',body[i:])
+                  if m:
+                      opening=i+m.end()-1;end=balanced_end(body,opening,'(',')')
+                      calls.append((i,opening,end));i=end;continue
+                  i+=1
+              if len(calls)!=1:raise SystemExit('Expected one WeightChart call inside WeightScreen body, found '+str(len(calls))+': '+repr(body))
+              start,opening,end=calls[0];args=split_kotlin_args(body[opening+1:end-1])
+              named={};positional=[]
+              for arg in args:
+                  m=re.match(r'^(\w+)\s*=(?!=)(.*)$',arg,re.S)
+                  if m:named[m.group(1)]=m.group(2).strip()
+                  else:positional.append(arg)
+              tail=end
+              while tail<len(body) and body[tail].isspace():tail+=1
+              trailing=tail<len(body) and body[tail]=='{'
+              if trailing:
+                  final=balanced_end(body,tail,'{','}');named['onSelect']=body[tail:final];end=final
+              if positional:
+                  if named and set(named)-{'onSelect'}:raise SystemExit('Mixed argument structure requires inspection: '+body[start:end])
+                  if len(positional)==2 and 'onSelect' in named:keys=['records','target']
+                  elif len(positional)==3:keys=['records','target','targetDate'] if 'onSelect' in named else ['records','target','onSelect']
+                  elif len(positional)==4 and not named:keys=['records','target','targetDate','onSelect']
+                  else:raise SystemExit('Unexpected chart arguments: '+body[start:end])
+                  named.update(zip(keys,positional))
+              if set(named)-{'records','target','targetDate','onSelect','unit'} or not {'records','target','onSelect'}<=set(named):raise SystemExit('Unsupported chart call: '+body[start:end])
+              named.setdefault('targetDate','null');named['unit']='unit'
+              updated='WeightChart('+','.join(k+'='+named[k] for k in ['records','target','targetDate','unit','onSelect'])+')'
+              return body[:start]+updated+body[end:]
+
+          def patch_weight_screen():
+              p=pkg/'WeightScreen.kt';text=p.read_text()
+              m=re.search(r'\bfun\s+WeightScreen\s*\(',text)
+              if not m:raise SystemExit('WeightScreen declaration missing')
+              opening=m.end()-1;closing=balanced_end(text,opening,'(',')')
+              signature=text[opening+1:closing-1]
+              if not re.search(r'\bunit\s*:',signature):
+                  signature='unit:WeightUnit=WeightUnit.KG,onUnitChange:(WeightUnit)->Unit={},'+signature
+                  text=text[:opening+1]+signature+text[closing-1:]
+                  closing=balanced_end(text,opening,'(',')')
+              body_start=text.find('{',closing)
+              if body_start<0:raise SystemExit('WeightScreen body missing')
+              body_end=balanced_end(text,body_start,'{','}')
+              body=patch_chart_call(text[body_start+1:body_end-1])
+              # A visible selector is mandatory, not an optional exact-text replacement.
+              selector='\n Row{WeightUnit.entries.forEach{option->FilterChip(selected=unit==option,onClick={onUnitChange(option)},label={Text(option.label)})}}\n'
+              layout=re.search(r'\b(?:Column|LazyColumn)\s*(?:\([^\n]*\))?\s*\{',body)
+              if not layout:raise SystemExit('Cannot locate weight screen Column; refusing to omit unit selector. Source: '+body)
+              body=body[:layout.end()]+selector+body[layout.end():]
+              text=text[:body_start+1]+body+text[body_end-1:]
+              text,n=re.subn(r'NumericField\s*\(\s*([A-Za-z_][A-Za-z0-9_]*)\s*,\s*\{\s*\1\s*=\s*it\s*\}\s*,\s*"Weight \(kg\)"\s*\)',lambda match:'NumericField(weightKgToInput('+match.group(1)+',unit),{'+match.group(1)+'=weightInputToKg(it,unit)?:'+match.group(1)+'},"Weight (${weightUnitLabel(unit)})")',text)
+              if n!=1:raise SystemExit('Cannot uniquely identify the weight input field in WeightScreen.kt')
+              text,n=re.subn(r'Text\s*\(\s*weightDisplay\s*\(\s*([A-Za-z_][A-Za-z0-9_.?]*)\s*\)\s*\)',lambda match:'Text(weightDisplay('+match.group(1)+',unit))',text)
+              if n==0:raise SystemExit('Cannot find a weightDisplay call in WeightScreen.kt')
+              p.write_text(text)
+          patch_weight_screen()
           path=pkg/'WeightScreen.kt';original=path.read_text();updated,replaced=replace_weight_charts(original,CHART)
           match=re.search(r'^package\s+com\.example\.caloriecounter\s*$',updated,flags=re.M)
           if not match:raise SystemExit('Unexpected WeightScreen.kt package')
@@ -191,7 +216,7 @@ patch_weight_screen()
               addition=' fun weightUnit():WeightUnit=parseWeightUnit(storedProfile().weightUnit)'+chr(10)+' fun saveWeightUnit(unit:WeightUnit){val p=storedProfile();saveProfile(p.copy(weightUnit=unit.id))}'+chr(10)
               text=text[:pos]+chr(10)+addition+text[pos:];p.write_text(text)
           exec(compile(PROFILE_PATCH,'profile-patch','exec'),globals())
-                    p=pkg/'MainActivity.kt';text=p.read_text()
+          p=pkg/'MainActivity.kt';text=p.read_text()
           if 'unit=remember(version){store.weightUnit()}' not in text:
               text,n=re.subn(r'WeightScreen\s*\(', 'WeightScreen(\n unit=remember(version){store.weightUnit()},\n onUnitChange={u->store.saveWeightUnit(u);version++},',text,count=1)
               if n!=1:raise SystemExit('Cannot find WeightScreen call in MainActivity.kt')
