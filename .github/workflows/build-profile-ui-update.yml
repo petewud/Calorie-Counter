@@ -42,7 +42,7 @@ jobs:
     - name: Apply weight-tab and onboarding changes
       run: |
         python3 - <<'PY'
-        HELPER='package com.example.caloriecounter\nimport androidx.compose.foundation.ExperimentalFoundationApi\nimport androidx.compose.foundation.border\nimport androidx.compose.foundation.layout.Box\nimport androidx.compose.foundation.layout.fillMaxWidth\nimport androidx.compose.foundation.layout.padding\nimport androidx.compose.foundation.relocation.BringIntoViewRequester\nimport androidx.compose.foundation.relocation.bringIntoViewRequester\nimport androidx.compose.material3.MaterialTheme\nimport androidx.compose.runtime.*\nimport androidx.compose.ui.Modifier\nimport androidx.compose.ui.unit.dp\nimport kotlinx.coroutines.delay\n@OptIn(ExperimentalFoundationApi::class)\n@Composable\nfun ValidationTarget(id:String,active:String?,attempt:Int,content:@Composable ()->Unit){\n val requester=remember{BringIntoViewRequester()}\n var flash by remember{mutableStateOf(false)}\n LaunchedEffect(attempt){\n  flash=false\n  if(attempt>0&&active==id){requester.bringIntoView();flash=true;delay(1000);flash=false}\n }\n Box(Modifier.fillMaxWidth().bringIntoViewRequester(requester).then(if(flash)Modifier.border(2.dp,MaterialTheme.colorScheme.error).padding(4.dp)else Modifier)){content()}\n}\n'
+        HELPER='package com.example.caloriecounter\nimport androidx.compose.animation.core.Animatable\nimport androidx.compose.animation.core.tween\nimport androidx.compose.foundation.ExperimentalFoundationApi\nimport androidx.compose.foundation.layout.Box\nimport androidx.compose.foundation.layout.fillMaxWidth\nimport androidx.compose.foundation.relocation.BringIntoViewRequester\nimport androidx.compose.foundation.relocation.bringIntoViewRequester\nimport androidx.compose.material3.*\nimport androidx.compose.runtime.*\nimport androidx.compose.ui.Modifier\nimport androidx.compose.ui.focus.FocusRequester\nimport androidx.compose.ui.focus.focusRequester\nimport androidx.compose.ui.graphics.Color\nimport androidx.compose.ui.platform.LocalFocusManager\nimport androidx.compose.ui.platform.LocalSoftwareKeyboardController\nimport kotlinx.coroutines.delay\nval LocalValidationPulse=compositionLocalOf{0f}\n@Composable\nfun validationChipColors()=FilterChipDefaults.filterChipColors(\n containerColor=MaterialTheme.colorScheme.primary.copy(alpha=LocalValidationPulse.current*0.28f),\n selectedContainerColor=MaterialTheme.colorScheme.secondaryContainer\n)\n@Composable\nfun validationButtonColors()=ButtonDefaults.outlinedButtonColors(\n containerColor=MaterialTheme.colorScheme.primary.copy(alpha=LocalValidationPulse.current*0.28f)\n)\n@OptIn(ExperimentalFoundationApi::class)\n@Composable\nfun ValidationTarget(id:String,active:String?,attempt:Int,content:@Composable ()->Unit){\n val requester=remember{BringIntoViewRequester()}\n val focusRequester=remember{FocusRequester()}\n val pulse=remember{Animatable(0f)}\n val keyboard=LocalSoftwareKeyboardController.current\n val focusManager=LocalFocusManager.current\n val isInput=id in listOf("age","height","weight","goal")||id.startsWith("nutrient")\n LaunchedEffect(attempt){\n  pulse.snapTo(0f)\n  if(attempt>0&&active==id){\n   if(!isInput){focusManager.clearFocus();keyboard?.hide()}\n   requester.bringIntoView()\n   if(isInput){\n    focusRequester.requestFocus()\n    keyboard?.show()\n    delay(250)\n    requester.bringIntoView()\n   }else{\n    repeat(2){pulse.animateTo(1f,tween(170));pulse.animateTo(0f,tween(230))}\n   }\n  }\n }\n CompositionLocalProvider(LocalValidationPulse provides pulse.value){\n  Box(Modifier.fillMaxWidth().bringIntoViewRequester(requester).then(if(isInput)Modifier.focusRequester(focusRequester)else Modifier)){content()}\n }\n}\n'
         from pathlib import Path
         import re
         pkg=Path('CalorieCounter/app/src/main/java/com/example/caloriecounter')
@@ -85,8 +85,19 @@ jobs:
         },modifier=Modifier.fillMaxWidth()){Text("Save settings")}"""
         s=change(s,old,new);p.write_text(s)
         (pkg/'ValidationTarget.kt').write_text(HELPER)
-        p=Path('CalorieCounter/app/build.gradle.kts');s=p.read_text();m=re.search(r'versionCode\s*=\s*(\d+)',s);v=max(31,int(m.group(1))+1)
-        s=re.sub(r'versionCode\s*=\s*\d+','versionCode = '+str(v),s);s=re.sub(r'versionName\s*=\s*"[^"]+"','versionName = "3.0-profile-ui"',s);p.write_text(s)
+
+        # Pulse the actual selection controls, not a border around their container.
+        p=pkg/'ProfileScreen.kt';s=p.read_text()
+        s=s.replace('FilterChip(', 'FilterChip(colors=validationChipColors(),')
+        s=s.replace('OutlinedButton(', 'OutlinedButton(colors=validationButtonColors(),')
+        p.write_text(s)
+        p=pkg/'WeightUnits.kt';s=p.read_text()
+        if 'fun WeightUnitPicker' not in s:raise SystemExit('Missing unit picker')
+        s=s.replace('FilterChip(', 'FilterChip(colors=validationChipColors(),')
+        p.write_text(s)
+
+        p=Path('CalorieCounter/app/build.gradle.kts');s=p.read_text();m=re.search(r'versionCode\s*=\s*(\d+)',s);v=max(32,int(m.group(1))+1)
+        s=re.sub(r'versionCode\s*=\s*\d+','versionCode = '+str(v),s);s=re.sub(r'versionName\s*=\s*"[^"]+"','versionName = "3.1-focus-ui"',s);p.write_text(s)
 
         PY
     - name: Test and build
@@ -94,7 +105,7 @@ jobs:
     - name: Upload APK
       uses: actions/upload-artifact@v4
       with:
-        name: calorie-counter-3.0-profile-ui-apk
+        name: calorie-counter-3.1-focus-ui-apk
         path: CalorieCounter/app/build/outputs/apk/debug/app-debug.apk
         if-no-files-found: error
     - name: Upload generated source for diagnosis
