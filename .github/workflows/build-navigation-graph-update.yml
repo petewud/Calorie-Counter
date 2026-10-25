@@ -1,0 +1,119 @@
+name: Build navigation and graph update
+
+on:
+  push:
+    branches: [ main ]
+    paths: [ '.github/workflows/build-navigation-graph-update.yml' ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: android-actions/setup-android@v3
+        with:
+          packages: 'platform-tools platforms;android-35 build-tools;35.0.0'
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.9'
+      - name: Restore existing signing key
+        uses: actions/cache@v4
+        with:
+          path: ~/.android/debug.keystore
+          key: calorie-counter-debug-signing-v1
+      - name: Prepare complete cumulative project
+        run: |
+          unzip -q CalorieCounter.zip
+          python3 - <<'PY'
+          from pathlib import Path
+          import re,json,hashlib,zipfile
+          root=Path('CalorieCounter');pkg=root/'app/src/main/java/com/example/caloriecounter'
+          if 'GraphViewportRange' in (pkg/'Models.kt').read_text():
+              raise SystemExit('This project already contains the v2.7 update. Use the normal APK build workflow.')
+          # Apply the previous cumulative favourites update only if it is absent.
+          # The file was already uploaded to this repository; do not require installing its APK.
+          if 'fun toggledFavourites(' not in (pkg/'Models.kt').read_text():
+              helper=Path('.github/workflows/build-favourites-star-update.yml')
+              if not helper.exists():raise SystemExit('Missing previous cumulative update workflow')
+              lines=helper.read_text().splitlines()
+              start=next(i for i,line in enumerate(lines) if line.strip()=="python3 - <<'PY'")
+              indent=len(lines[start])-len(lines[start].lstrip())
+              end=next(i for i in range(start+1,len(lines)) if lines[i].strip()=='PY' and len(lines[i])-len(lines[i].lstrip())==indent)
+              previous=chr(10).join(line[indent:] if line.strip() else '' for line in lines[start+1:end])
+              exec(compile(previous,'previous-cumulative-favourites-update','exec'),{})
+          assets={str(p.relative_to(root)):hashlib.sha256(p.read_bytes()).hexdigest() for p in (root/'app/src/main/assets').rglob('*') if p.is_file()}
+          icons={str(p.relative_to(root)):hashlib.sha256(p.read_bytes()).hexdigest() for p in (root/'app/src/main/res').rglob('*') if p.is_file() and ('launcher' in p.name or p.name=='icon_colors.xml')}
+          def change(path,old,new):
+              text=path.read_text()
+              if text.count(old)!=1:raise SystemExit('Unexpected source marker in '+str(path)+': '+old[:110])
+              path.write_text(text.replace(old,new),encoding='utf-8')
+          # Replace the old manually dismissed banner before rewriting notice assignments.
+          change(pkg/"MainActivity.kt",'if(notice.isNotBlank()){Text(notice,Modifier.padding(8.dp));TextButton(onClick={notice=""}){Text("Dismiss")}}','androidx.compose.animation.AnimatedVisibility(visible=noticeVisible,enter=androidx.compose.animation.fadeIn(),exit=androidx.compose.animation.fadeOut()){\n Surface(color=MaterialTheme.colorScheme.secondaryContainer){Text(noticeText,Modifier.fillMaxWidth().padding(12.dp))}\n}')
+          p=pkg/'MainActivity.kt';text=p.read_text()
+          text,n=re.subn('\\bnotice="([^"]*)"',lambda m:'showNotice("'+m.group(1)+'")',text)
+          if n<1:raise SystemExit('No existing notification assignments found')
+          p.write_text(text)
+          change(pkg/"MainActivity.kt",'var notice by remember{mutableStateOf("")}','var notice by remember{mutableStateOf("")}\n var noticeKey by remember{mutableIntStateOf(0)}\n var noticeVisible by remember{mutableStateOf(false)}\n var noticeText by remember{mutableStateOf("")}\n var foodReturnScreen by remember{mutableStateOf("Search")}\n var searchReturnScreen by remember{mutableStateOf("Home")}\n fun showNotice(text:String){notice=text;noticeKey++}\n LaunchedEffect(noticeKey){if(noticeKey>0){noticeText=notice;noticeVisible=true;kotlinx.coroutines.delay(2000);noticeVisible=false}}\n')
+          change(pkg/"MainActivity.kt",'onFavouriteSelect={i->openFood(i.food);form=i}','onFavouriteSelect={i->store.saveEntry(Entry(date=LocalDate.now().toString(),food=i.food,amount=i.amount,unit=i.unit,unitGrams=i.unitGrams));version++;showNotice("Added ${i.food.name}")}')
+          change(pkg/"FavouritesScreen.kt",'Text("Use")','Text("Add item")')
+          change(pkg/"MainActivity.kt",'onResume={screen="Recipe"},hasDraft=','onResume={screen="Recipe"},onDiscardDraft={recipe=Recipe();showNotice("Recipe draft deleted")},hasDraft=')
+          change(pkg/"DiaryRecipes.kt",'onLog:(Recipe)->Unit){','onLog:(Recipe)->Unit,onDiscardDraft:()->Unit={}){\n var discardDraft by remember{mutableStateOf(false)}\n')
+          change(pkg/"DiaryRecipes.kt",'if(hasDraft)OutlinedButton(onClick=onResume){Text("Continue current draft")}','if(hasDraft){\n Row{\n  OutlinedButton(onClick=onResume){Text("Continue current draft")}\n  IconButton(onClick={discardDraft=true}){Icon(Icons.Default.Delete,"Delete current draft")}\n }\n if(discardDraft)AlertDialog(onDismissRequest={discardDraft=false},title={Text("Delete current draft?")},text={Text("Unsaved changes will be discarded. Saved recipes and logged meals stay intact.")},confirmButton={TextButton(onClick={onDiscardDraft();discardDraft=false}){Text("Delete draft")}},dismissButton={TextButton(onClick={discardDraft=false}){Text("Cancel")}})\n}')
+          change(pkg/"MainActivity.kt",'if(!pendingReplacement){ingredientIndex=-1;','if(!pendingReplacement){foodReturnScreen="Search";ingredientIndex=-1;')
+          change(pkg/"MainActivity.kt",'form=Ingredient(e.food,e.amount,e.unit,e.unitGrams);formOrigin=screen;','foodReturnScreen=screen;form=Ingredient(e.food,e.amount,e.unit,e.unitGrams);formOrigin=screen;')
+          change(pkg/"MainActivity.kt",'ingredientIndex=index;form=recipe.ingredients[index];formOrigin="Recipe";screen="Food"','foodReturnScreen="Recipe";ingredientIndex=index;form=recipe.ingredients[index];formOrigin="Recipe";screen="Food"')
+          change(pkg/"MainActivity.kt",'onCancel={screen=formOrigin}','onCancel={goBack()}')
+          change(pkg/"MainActivity.kt",'onReplace={pendingReplacement=true;pickOrigin=formOrigin;screen="Search"}','onReplace={searchReturnScreen="Food";pendingReplacement=true;pickOrigin=formOrigin;screen="Search"}')
+          change(pkg/"MainActivity.kt",'if(tab=="Add"){pendingReplacement=false;pickOrigin="Home";screen="Search"}','if(tab=="Add"){searchReturnScreen="Home";pendingReplacement=false;pickOrigin="Home";screen="Search"}')
+          change(pkg/"MainActivity.kt",'onAdd={pendingReplacement=false;pickOrigin="Recipe";screen="Search"}','onAdd={searchReturnScreen="Recipe";pendingReplacement=false;pickOrigin="Recipe";screen="Search"}')
+          p=pkg/"MainActivity.kt";text=p.read_text();text,n=re.subn(r"^ fun goBack\(\).*$",' fun goBack(){val next=foodFlowBackDestination(screen,foodReturnScreen,searchReturnScreen);if(screen=="Search"&&next=="Food")pendingReplacement=false;screen=next}',text,flags=re.M)
+          if n!=1:raise SystemExit("Cannot find existing Back handler")
+          p.write_text(text)
+          with (pkg/"Models.kt").open("a",encoding="utf-8") as f:f.write('\ndata class GraphViewportRange(val minX:Double,val maxX:Double,val minY:Double,val maxY:Double)\nfun graphViewportRange(first:Double,last:Double,low:Double,high:Double):GraphViewportRange{\n val xSpan=maxOf(last-first,1.0);val xPad=maxOf(1.0,xSpan*.06)\n val ySpan=maxOf(high-low,1.0);val yPad=maxOf(.7,ySpan*.12)\n return GraphViewportRange(first-xPad,last+xPad,low-yPad,high+yPad)\n}\nfun foodFlowBackDestination(screen:String,foodReturn:String,searchReturn:String):String=when(screen){\n "Food"->foodReturn\n "Scan","Restaurants"->"Search"\n "Search"->searchReturn\n "Recipe"->"Recipes"\n "Setup"->"Setup"\n else->"Home"\n}\n')
+          p=pkg/'WeightScreen.kt';text=p.read_text()
+          marker='@Composable'+chr(10)+'private fun WeightChart('
+          if text.count(marker)!=1:raise SystemExit('Cannot find the existing weight chart')
+          text=text[:text.index(marker)]
+          for import_line in ['import androidx.compose.ui.layout.onSizeChanged','import androidx.compose.ui.unit.sp']:
+              if import_line not in text:text=text.replace('package com.example.caloriecounter','package com.example.caloriecounter'+chr(10)+import_line,1)
+          p.write_text(text+'@Composable\nprivate fun WeightChart(records:List<WeightRecord>,target:Double?,targetDate:String?,onSelect:(WeightRecord)->Unit){\n var zoom by remember{mutableFloatStateOf(1f)}\n var pan by remember{mutableStateOf(Offset.Zero)}\n var canvasSize by remember{mutableStateOf(Size.Zero)}\n val density=androidx.compose.ui.platform.LocalDensity.current\n val colors=MaterialTheme.colorScheme\n val points=records.sortedBy{it.date}\n val trend=remember(records,targetDate){weightForecast(records,targetDate)}\n val first=points.firstOrNull()?.let{LocalDate.parse(it.date).toEpochDay().toDouble()}?:LocalDate.now().toEpochDay().toDouble()\n val last=points.lastOrNull()?.let{LocalDate.parse(it.date).toEpochDay().toDouble()}?:first\n val goalWeight=target?.takeIf{it.isFinite()}\n val goalDay=targetDate?.let{runCatching{LocalDate.parse(it).toEpochDay().toDouble()}.getOrNull()}?.takeIf{it>first&&goalWeight!=null&&points.isNotEmpty()}\n val end=maxOf(last,goalDay?:last,trend?.endDay?:last)\n val ys=(points.map{it.kg}+listOfNotNull(if(goalDay!=null)goalWeight else null,trend?.value(trend.endDay))).filter{it.isFinite()}\n val domain=graphViewportRange(first,end,ys.minOrNull()?:60.0,ys.maxOrNull()?:80.0)\n val goalColor=Color(0xFF2EAB58);val forecastColor=Color(0xFFED9643)\n val labelTextSizePx=with(density){11.sp.toPx()}\n val outer=with(density){10.dp.toPx()}\n val gap=with(density){8.dp.toPx()}\n val pointRadius=with(density){5.dp.toPx()}\n val paint=remember(colors.onSurface,labelTextSizePx){Paint(Paint.ANTI_ALIAS_FLAG).apply{color=colors.onSurface.toArgb();this.textSize=labelTextSizePx}}\n fun plotBox(s:Size):androidx.compose.ui.geometry.Rect{\n  val labelWidth=listOf(domain.minY,domain.maxY,(domain.minY+domain.maxY)/2).maxOf{paint.measureText(numberText(it))}\n  val left=outer+labelWidth+gap\n  val top=outer+with(density){8.dp.toPx()}\n  return androidx.compose.ui.geometry.Rect(left,top,maxOf(left+1f,s.width-outer),maxOf(top+1f,s.height-outer-with(density){24.dp.toPx()}))\n }\n fun project(day:Double,kg:Double,s:Size):Offset{\n  val b=plotBox(s)\n  val x=((day-domain.minX)/(domain.maxX-domain.minX)-.5).toFloat()\n  val y=((domain.maxY-kg)/(domain.maxY-domain.minY)-.5).toFloat()\n  return b.center+Offset(x*b.width*zoom,y*b.height*zoom)+pan\n }\n fun projectRecord(r:WeightRecord,s:Size)=project(LocalDate.parse(r.date).toEpochDay().toDouble(),r.kg,s)\n Column{\n  TextButton(onClick={zoom=1f;pan=Offset.Zero}){Text("Reset graph")}\n  Surface(tonalElevation=2.dp,shape=MaterialTheme.shapes.medium){\n   Canvas(Modifier.fillMaxWidth().height(280.dp)\n    .onSizeChanged{canvasSize=Size(it.width.toFloat(),it.height.toFloat())}\n    .pointerInput(points,target,targetDate,density.density,density.fontScale){\n     detectTransformGestures{centroid,change,factor,_->\n      val b=plotBox(canvasSize)\n      val next=(zoom*factor).coerceIn(1f,16f)\n      val pivot=Offset(centroid.x.coerceIn(b.left,b.right),centroid.y.coerceIn(b.top,b.bottom))-b.center\n      val moved=(pan-pivot)*(next/zoom)+pivot+change\n      val maxX=b.width*(next-1f)/2f;val maxY=b.height*(next-1f)/2f\n      zoom=next;pan=Offset(moved.x.coerceIn(-maxX,maxX),moved.y.coerceIn(-maxY,maxY))\n     }\n    }\n    .pointerInput(points,target,targetDate,zoom,pan){\n     detectTapGestures{tap->\n      val b=plotBox(canvasSize)\n      if(b.contains(tap))points.minByOrNull{r->val p=projectRecord(r,canvasSize);hypot((p.x-tap.x).toDouble(),(p.y-tap.y).toDouble())}?.let{r->\n       if((projectRecord(r,canvasSize)-tap).getDistance()<with(density){28.dp.toPx()})onSelect(r)\n      }\n     }\n    }){\n    val b=plotBox(size)\n    paint.textAlign=Paint.Align.RIGHT\n    val metrics=paint.fontMetrics\n    for(tick in 0..4){\n     val y=b.top+b.height*tick/4f\n     drawLine(colors.outlineVariant,Offset(b.left,y),Offset(b.right,y))\n     val normalized=.5+((y-b.center.y-pan.y)/(b.height*zoom)).toDouble()\n     val kg=domain.maxY-normalized*(domain.maxY-domain.minY)\n     val baseline=y-(metrics.ascent+metrics.descent)/2f\n     drawContext.canvas.nativeCanvas.drawText(numberText(kg),b.left-gap,baseline,paint)\n    }\n    clipRect(b.left,b.top,b.right,b.bottom){\n     if(goalDay!=null&&goalWeight!=null&&points.isNotEmpty())drawLine(goalColor,project(first,points.first().kg,size),project(goalDay,goalWeight,size),2.dp.toPx())\n     trend?.let{f->drawLine(forecastColor,project(f.startDay,f.startKg,size),project(f.endDay,f.value(f.endDay),size),2.dp.toPx(),pathEffect=androidx.compose.ui.graphics.PathEffect.dashPathEffect(floatArrayOf(12f,8f)))}\n     points.zipWithNext().forEach{(a,bp)->drawLine(colors.primary,projectRecord(a,size),projectRecord(bp,size),2.dp.toPx())}\n     points.forEach{r->val p=projectRecord(r,size);drawCircle(colors.primary,pointRadius,p);drawCircle(colors.surface,2.dp.toPx(),p)}\n    }\n    val formatter=DateTimeFormatter.ofPattern("d MMM yy")\n    fun dateAt(x:Float):String{\n     val normalized=.5+((x-b.center.x-pan.x)/(b.width*zoom)).toDouble()\n     return LocalDate.ofEpochDay((domain.minX+normalized*(domain.maxX-domain.minX)).toLong()).format(formatter)\n    }\n    val baseline=size.height-outer-metrics.descent\n    paint.textAlign=Paint.Align.LEFT;drawContext.canvas.nativeCanvas.drawText(dateAt(b.left),b.left,baseline,paint)\n    paint.textAlign=Paint.Align.RIGHT;drawContext.canvas.nativeCanvas.drawText(dateAt(b.right),b.right,baseline,paint)\n   }\n  }\n  if(goalDay!=null)Text("Green: goal",color=goalColor,style=MaterialTheme.typography.bodySmall)\n  if(trend!=null)Text("Orange dashed: estimated trend",color=forecastColor,style=MaterialTheme.typography.bodySmall)\n  else if(points.isNotEmpty())Text("Prediction needs 3 measurements spanning 7 days.",style=MaterialTheme.typography.bodySmall)\n }\n}\n',encoding="utf-8")
+          p=root/"app/src/test/java/com/example/caloriecounter/NavigationAndGraphTest.kt";p.parent.mkdir(parents=True,exist_ok=True);p.write_text('package com.example.caloriecounter\nimport org.junit.Assert.*\nimport org.junit.Test\nclass NavigationAndGraphTest{\n @Test fun scanReturnsToAdd(){assertEquals("Search",foodFlowBackDestination("Scan","Home","Home"))}\n @Test fun manualFoodReturnsToAdd(){assertEquals("Search",foodFlowBackDestination("Food","Search","Home"))}\n @Test fun restaurantReturnsToAdd(){assertEquals("Search",foodFlowBackDestination("Restaurants","Home","Home"))}\n @Test fun diaryEditingReturnsToDiary(){assertEquals("History",foodFlowBackDestination("Food","History","Home"))}\n @Test fun replacementCancelReturnsToFood(){assertEquals("Food",foodFlowBackDestination("Search","History","Food"))}\n @Test fun recipeIngredientAddReturnsToRecipe(){assertEquals("Recipe",foodFlowBackDestination("Search","Search","Recipe"))}\n @Test fun resetDomainHasRoomForEndPoints(){val d=graphViewportRange(0.0,100.0,70.0,80.0);val left=(0-d.minX)/(d.maxX-d.minX);val right=(d.maxX-100)/(d.maxX-d.minX);assertTrue(left>.05);assertTrue(right>.05);assertTrue(d.minY<70);assertTrue(d.maxY>80)}\n @Test fun oneMeasurementHasANonzeroRange(){val d=graphViewportRange(10.0,10.0,75.0,75.0);assertTrue(d.maxX>d.minX);assertTrue(d.maxY>d.minY)}\n @Test fun favouriteLogsExactlyTheSavedAmount(){val i=Ingredient(Food("Oats",nutrients=Nutrients(listOf(400.0,20.0,40.0,12.0,5.0,6.0,8.0,1.0))),70.0);val e=Entry(date="2026-10-25",food=i.food,amount=i.amount,unit=i.unit,unitGrams=i.unitGrams);assertEquals(280.0,e.total()[0]!!,0.00001);assertEquals(14.0,e.total()[1]!!,0.00001)}\n}\n',encoding="utf-8")
+          p=root/'app/build.gradle.kts';text=p.read_text();text=re.sub(r'versionCode\s*=\s*\d+','versionCode = 17',text);text=re.sub(r'versionName\s*=\s*"[^"]+"','versionName = "2.7"',text);p.write_text(text)
+          after_assets={str(p.relative_to(root)):hashlib.sha256(p.read_bytes()).hexdigest() for p in (root/'app/src/main/assets').rglob('*') if p.is_file()}
+          after_icons={str(p.relative_to(root)):hashlib.sha256(p.read_bytes()).hexdigest() for p in (root/'app/src/main/res').rglob('*') if p.is_file() and ('launcher' in p.name or p.name=='icon_colors.xml')}
+          if assets!=after_assets or icons!=after_icons:raise SystemExit('Restaurant catalogue or icon assets changed unexpectedly')
+          report={'version':'2.7','notices':'Fade out automatically after 2 seconds; repeat actions reset the timer.','draft':'Separate delete-draft control with confirmation; saved recipes untouched.','favourites':'Add item logs the saved quantity directly to today.','navigation':'Scan/manual/restaurant return consistently to Add; diary/recipe edits return to their origin.','chart':'Density-aware measured label margin, padded data range, no fixed kg text in corner.','retained':'Earlier cumulative favourites/recipe changes, restaurant catalogue, icon, calorie-target setting.'}
+          Path('navigation-graph-report.json').write_text(json.dumps(report,indent=2))
+          with zipfile.ZipFile('CalorieCounter-updated.zip','w',zipfile.ZIP_DEFLATED) as z:
+              for p in sorted(root.rglob('*')):
+                  if p.is_file():z.write(p,p.as_posix())
+          with zipfile.ZipFile('CalorieCounter-updated.zip') as z:
+              if z.testzip() is not None:raise SystemExit('Invalid output ZIP')
+          print(json.dumps(report,indent=2))
+          PY
+      - name: Test and build APK
+        run: gradle -p CalorieCounter testDebugUnitTest assembleDebug --console=plain
+      - name: Upload complete updated project
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: navigation-graph-update-project
+          path: |
+            CalorieCounter-updated.zip
+            navigation-graph-report.json
+          if-no-files-found: warn
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: calorie-counter-debug-apk
+          path: CalorieCounter/app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error
