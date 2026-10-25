@@ -85,7 +85,7 @@ jobs:
         \ com.example.caloriecounter\\nimport org.junit.Test\\nimport org.junit.Assert.*\\nclass WeightUnitsTest{\\n @Test\
         \ fun stoneAndPoundsInput(){assertEquals(205.0/2.2046226218487757,weightInputToKg(\"14|9\",WeightUnit.ST)!!,0.0001)}\\\
         n @Test fun poundsInput(){assertEquals(92.9,weightInputToKg(\"204.8\",WeightUnit.LB)!!,0.01)}\\n @Test fun stoneDisplay(){assertEquals(\"\
-        14st 8lb\",weightDisplay(92.986,WeightUnit.ST))}\\n @Test fun rejectInvalidPounds(){assertNull(weightInputToKg(\"\
+        14st 9lb\",weightDisplay(92.986,WeightUnit.ST))}\\n @Test fun rejectInvalidPounds(){assertNull(weightInputToKg(\"\
         14|14\",WeightUnit.ST))}\\n @Test fun kgInput(){assertEquals(70.0,weightInputToKg(\"70\",WeightUnit.KG)!!,0.0001)}\\\
         n}\\n')\n\nPY\n"
     - name: Test and build APK
