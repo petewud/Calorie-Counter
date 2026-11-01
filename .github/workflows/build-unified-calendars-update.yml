@@ -1,0 +1,92 @@
+name: Build unified calendars update
+'on':
+  push:
+    branches:
+    - main
+    paths:
+    - .github/workflows/build-unified-calendars-update.yml
+  workflow_dispatch: null
+permissions:
+  contents: read
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-java@v4
+      with:
+        distribution: temurin
+        java-version: '17'
+    - uses: android-actions/setup-android@v3
+      with:
+        packages: platform-tools platforms;android-35 build-tools;35.0.0
+    - uses: gradle/actions/setup-gradle@v4
+      with:
+        gradle-version: '8.9'
+    - uses: actions/cache@v4
+      with:
+        path: ~/.android/debug.keystore
+        key: calorie-counter-debug-signing-v1
+    - name: Apply previous updates
+      run: |
+        python3 -m pip install --quiet PyYAML Pillow
+        python3 - <<'PY'
+        from pathlib import Path
+        import yaml,subprocess
+        w=yaml.safe_load(Path('.github/workflows/build-backup-layout-calendar-update.yml').read_text())
+        for name in ['Apply previous updates','Apply backup layout and calendar fixes']:
+         step=next(s for s in w['jobs']['update']['steps'] if s.get('name')==name)
+         subprocess.run(['bash','-e','-c',step['run']],check=True)
+        PY
+    - name: Unify all app calendars
+      run: |
+        python3 - <<'PY'
+        HELPER='package com.example.caloriecounter\nimport androidx.compose.material3.*\nimport androidx.compose.runtime.*\nimport androidx.compose.ui.platform.LocalFocusManager\nimport androidx.compose.ui.platform.LocalSoftwareKeyboardController\nimport java.time.Instant\nimport java.time.LocalDate\nimport java.time.ZoneOffset\n@OptIn(ExperimentalMaterial3Api::class)\n@Composable\nfun AppCalendar(initialDate:LocalDate,minDate:LocalDate?=null,maxDate:LocalDate?=null,availableDates:Set<String>?=null,onSelect:(LocalDate)->Unit,onDismiss:()->Unit){\n val keyboard=LocalSoftwareKeyboardController.current\n val focus=LocalFocusManager.current\n LaunchedEffect(Unit){focus.clearFocus();keyboard?.hide()}\n val allowed=remember(availableDates){availableDates?.mapNotNull{runCatching{LocalDate.parse(it)}.getOrNull()}?.toSet()}\n fun valid(d:LocalDate)= (minDate==null||!d.isBefore(minDate))&&(maxDate==null||!d.isAfter(maxDate))&&(allowed==null||d in allowed)\n val selectable=remember(minDate,maxDate,allowed){object:SelectableDates{\n  override fun isSelectableDate(utcTimeMillis:Long):Boolean{\n   val d=Instant.ofEpochMilli(utcTimeMillis).atZone(ZoneOffset.UTC).toLocalDate()\n   return (minDate==null||!d.isBefore(minDate))&&(maxDate==null||!d.isAfter(maxDate))&&(allowed==null||d in allowed)\n  }\n  override fun isSelectableYear(year:Int)= (minDate==null||year>=minDate.year)&&(maxDate==null||year<=maxDate.year)&&(allowed==null||allowed.any{it.year==year})\n }}\n val bounded=when{minDate!=null&&initialDate.isBefore(minDate)->minDate;maxDate!=null&&initialDate.isAfter(maxDate)->maxDate;else->initialDate}\n val initial=bounded.takeIf{valid(it)}?:allowed?.filter{valid(it)}?.maxOrNull()\n val state=rememberDatePickerState(initialSelectedDateMillis=initial?.atStartOfDay(ZoneOffset.UTC)?.toInstant()?.toEpochMilli(),initialDisplayedMonthMillis=bounded.withDayOfMonth(1).atStartOfDay(ZoneOffset.UTC).toInstant().toEpochMilli(),selectableDates=selectable)\n val selected=state.selectedDateMillis?.let{Instant.ofEpochMilli(it).atZone(ZoneOffset.UTC).toLocalDate()}\n DatePickerDialog(onDismissRequest=onDismiss,confirmButton={TextButton(enabled=selected!=null&&valid(selected),onClick={selected?.takeIf{valid(it)}?.let{onSelect(it);onDismiss()}}){Text("OK")}},dismissButton={TextButton(onClick=onDismiss){Text("Cancel")}}){DatePicker(state=state,showModeToggle=false)}\n}\n'
+        WRAPPER='package com.example.caloriecounter\nimport androidx.compose.runtime.Composable\nimport java.time.LocalDate\n@Composable\nfun DiaryCalendar(date:LocalDate,availableDates:Set<String>,onSelect:(LocalDate)->Unit,onDismiss:()->Unit){\n AppCalendar(initialDate=date,maxDate=LocalDate.now(),availableDates=availableDates,onSelect=onSelect,onDismiss=onDismiss)\n}\n'
+        from pathlib import Path
+        import re
+        root=Path('CalorieCounter');pkg=root/'app/src/main/java/com/example/caloriecounter'
+        def change(s,a,b,count=1):
+         if s.count(a)!=count:raise SystemExit('Calendar source mismatch: '+repr(a)+' found '+str(s.count(a)))
+         return s.replace(a,b)
+        p=pkg/'WeightScreen.kt';s=p.read_text()
+        s=change(s,'val context=LocalContext.current','var weightDateOpen by remember{mutableStateOf(false)};val context=LocalContext.current',2)
+        for value in ['dateText','date']:
+         old='onClick={val d=LocalDate.parse('+value+');DatePickerDialog(context,{_,y,m,day->'+value+'=LocalDate.of(y,m+1,day).toString()},d.year,d.monthValue-1,d.dayOfMonth).apply{datePicker.maxDate=System.currentTimeMillis()}.show()}'
+         s=change(s,old,'onClick={weightDateOpen=true}')
+        s=change(s,' Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).imePadding().padding(16.dp),',' if(weightDateOpen)AppCalendar(initialDate=LocalDate.parse(dateText),maxDate=LocalDate.now(),onSelect={dateText=it.toString()},onDismiss={weightDateOpen=false})\n Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).imePadding().padding(16.dp),')
+        s=change(s,' AlertDialog(onDismissRequest=onDismiss,title={Text("Weight measurement")}', ' if(weightDateOpen)AppCalendar(initialDate=LocalDate.parse(date),maxDate=LocalDate.now(),onSelect={date=it.toString()},onDismiss={weightDateOpen=false})\n if(!weightDateOpen)AlertDialog(onDismissRequest=onDismiss,title={Text("Weight measurement")}')
+        s=s.replace('import android.app.DatePickerDialog\n','');p.write_text(s)
+        p=pkg/'ProfileScreen.kt';s=p.read_text()
+        s=change(s,'val context=LocalContext.current','var goalCalendarOpen by remember{mutableStateOf(false)};val context=LocalContext.current')
+        old='onClick={val d=goalDate?.let{runCatching{LocalDate.parse(it)}.getOrNull()}?:LocalDate.now().plusDays(90);DatePickerDialog(context,{_,y,m,day->goalDate=LocalDate.of(y,m+1,day).toString()},d.year,d.monthValue-1,d.dayOfMonth).apply{datePicker.minDate=LocalDate.now().plusDays(1).atStartOfDay(java.time.ZoneId.systemDefault()).toInstant().toEpochMilli()}.show()}'
+        s=change(s,old,'onClick={goalCalendarOpen=true}')
+        s=change(s,' Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).imePadding().padding(16.dp),',' if(goalCalendarOpen)AppCalendar(initialDate=goalDate?.let{runCatching{LocalDate.parse(it)}.getOrNull()}?:LocalDate.now().plusDays(90),minDate=LocalDate.now().plusDays(1),onSelect={goalDate=it.toString()},onDismiss={goalCalendarOpen=false})\n Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).imePadding().padding(16.dp),')
+        s=s.replace('import android.app.DatePickerDialog\n','');p.write_text(s)
+        (pkg/'AppCalendar.kt').write_text(HELPER)
+        (pkg/'DiaryCalendar.kt').write_text(WRAPPER)
+        # Stop rather than leave an overlooked native picker in another screen.
+        for p in pkg.glob('*.kt'):
+         if p.name not in ['AppCalendar.kt'] and re.search(r'(?<!fun )\bDatePickerDialog\s*\(',p.read_text()):raise SystemExit('Unexpected remaining native calendar in '+str(p))
+        p=root/'app/build.gradle.kts';s=p.read_text();m=re.search(r'versionCode\s*=\s*(\d+)',s);v=max(39,int(m.group(1))+1)
+        s=re.sub(r'versionCode\s*=\s*\d+','versionCode = '+str(v),s);s=re.sub(r'versionName\s*=\s*"[^"]+"','versionName = "3.8-unified-calendars"',s);p.write_text(s)
+
+        PY
+    - name: Test and build
+      run: gradle -p CalorieCounter testDebugUnitTest assembleDebug --console=plain
+    - name: Upload APK
+      uses: actions/upload-artifact@v4
+      with:
+        name: diet-tracker-3.8-unified-calendars-apk
+        path: CalorieCounter/app/build/outputs/apk/debug/app-debug.apk
+        if-no-files-found: error
+    - name: Upload source and test reports
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: unified-calendars-source-and-reports
+        path: |-
+          CalorieCounter/app/src/main
+          CalorieCounter/app/build/reports/tests
+        if-no-files-found: warn
