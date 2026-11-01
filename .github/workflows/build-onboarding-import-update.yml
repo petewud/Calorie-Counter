@@ -1,0 +1,80 @@
+name: Build onboarding import update
+'on':
+  push:
+    branches:
+    - main
+    paths:
+    - .github/workflows/build-onboarding-import-update.yml
+  workflow_dispatch: null
+permissions:
+  contents: read
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-java@v4
+      with:
+        distribution: temurin
+        java-version: '17'
+    - uses: android-actions/setup-android@v3
+      with:
+        packages: platform-tools platforms;android-35 build-tools;35.0.0
+    - uses: gradle/actions/setup-gradle@v4
+      with:
+        gradle-version: '8.9'
+    - uses: actions/cache@v4
+      with:
+        path: ~/.android/debug.keystore
+        key: calorie-counter-debug-signing-v1
+    - name: Apply previous updates
+      run: |
+        python3 -m pip install --quiet PyYAML Pillow
+        python3 - <<'PY'
+        from pathlib import Path
+        import yaml,subprocess
+        w=yaml.safe_load(Path('.github/workflows/build-daily-improvements-update.yml').read_text())
+        for name in ['Apply previous working updates','Apply daily use improvements']:
+         step=next(s for s in w['jobs']['update']['steps'] if s.get('name')==name)
+         subprocess.run(['bash','-e','-c',step['run']],check=True)
+        PY
+    - name: Add onboarding backup import
+      run: |
+        python3 - <<'PY'
+        from pathlib import Path
+        import re
+        root=Path('CalorieCounter');pkg=root/'app/src/main/java/com/example/caloriecounter'
+        p=pkg/'ProfileScreen.kt';s=p.read_text()
+        anchor='Text(if(onboarding)"Set up your profile"else "Settings",style=MaterialTheme.typography.headlineMedium)'
+        if s.count(anchor)!=1:raise SystemExit('Onboarding heading mismatch')
+        addition="""
+          if(onboarding){
+           OutlinedButton(onClick={importer.launch(arrayOf("application/json","text/plain","application/octet-stream"))},modifier=Modifier.fillMaxWidth()){Text("Import backup")}
+           Text("Already used Diet Tracker? Restore your profile, diary, recipes, favourites and weight history from a backup instead of completing setup.",style=MaterialTheme.typography.bodySmall)
+           if(message.isNotBlank())Text(message,color=MaterialTheme.colorScheme.error)
+          }
+        """
+        s=s.replace(anchor,anchor+addition)
+        p.write_text(s)
+        p=root/'app/build.gradle.kts';s=p.read_text();m=re.search(r'versionCode\s*=\s*(\d+)',s);v=max(37,int(m.group(1))+1)
+        s=re.sub(r'versionCode\s*=\s*\d+','versionCode = '+str(v),s);s=re.sub(r'versionName\s*=\s*"[^"]+"','versionName = "3.6-onboarding-import"',s);p.write_text(s)
+
+        PY
+    - name: Test and build
+      run: gradle -p CalorieCounter testDebugUnitTest assembleDebug --console=plain
+    - name: Upload APK
+      uses: actions/upload-artifact@v4
+      with:
+        name: diet-tracker-3.6-onboarding-import-apk
+        path: CalorieCounter/app/build/outputs/apk/debug/app-debug.apk
+        if-no-files-found: error
+    - name: Upload source and test reports
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: onboarding-import-source-and-reports
+        path: |-
+          CalorieCounter/app/src/main
+          CalorieCounter/app/build/reports/tests
+        if-no-files-found: warn
