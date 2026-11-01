@@ -1,0 +1,100 @@
+name: Build backup layout and calendar update
+'on':
+  push:
+    branches:
+    - main
+    paths:
+    - .github/workflows/build-backup-layout-calendar-update.yml
+  workflow_dispatch: null
+permissions:
+  contents: read
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-java@v4
+      with:
+        distribution: temurin
+        java-version: '17'
+    - uses: android-actions/setup-android@v3
+      with:
+        packages: platform-tools platforms;android-35 build-tools;35.0.0
+    - uses: gradle/actions/setup-gradle@v4
+      with:
+        gradle-version: '8.9'
+    - uses: actions/cache@v4
+      with:
+        path: ~/.android/debug.keystore
+        key: calorie-counter-debug-signing-v1
+    - name: Apply previous updates
+      run: |
+        python3 -m pip install --quiet PyYAML Pillow
+        python3 - <<'PY'
+        from pathlib import Path
+        import yaml,subprocess
+        w=yaml.safe_load(Path('.github/workflows/build-onboarding-import-update.yml').read_text())
+        for name in ['Apply previous updates','Add onboarding backup import']:
+         step=next(s for s in w['jobs']['update']['steps'] if s.get('name')==name)
+         subprocess.run(['bash','-e','-c',step['run']],check=True)
+        PY
+    - name: Apply backup layout and calendar fixes
+      run: "python3 - <<'PY'\nCALENDAR='package com.example.caloriecounter\\nimport androidx.compose.material3.*\\nimport androidx.compose.runtime.*\\\
+        nimport java.time.Instant\\nimport java.time.LocalDate\\nimport java.time.ZoneOffset\\n@OptIn(ExperimentalMaterial3Api::class)\\n@Composable\\\
+        nfun DiaryCalendar(date:LocalDate,availableDates:Set<String>,onSelect:(LocalDate)->Unit,onDismiss:()->Unit){\\n val allowed=remember(availableDates){availableDates.mapNotNull{runCatching{LocalDate.parse(it)}.getOrNull()}.filter{!it.isAfter(LocalDate.now())}.toSet()}\\\
+        n val selectable=remember(allowed){object:SelectableDates{\\n  override fun isSelectableDate(utcTimeMillis:Long)=Instant.ofEpochMilli(utcTimeMillis).atZone(ZoneOffset.UTC).toLocalDate()\
+        \ in allowed\\n  override fun isSelectableYear(year:Int)=allowed.any{it.year==year}\\n }}\\n val initial=date.takeIf{it in allowed}?:allowed.maxOrNull()\\\
+        n val state=rememberDatePickerState(initialSelectedDateMillis=initial?.atStartOfDay(ZoneOffset.UTC)?.toInstant()?.toEpochMilli(),initialDisplayedMonthMillis=date.withDayOfMonth(1).atStartOfDay(ZoneOffset.UTC).toInstant().toEpochMilli(),selectableDates=selectable)\\\
+        n val selected=state.selectedDateMillis?.let{Instant.ofEpochMilli(it).atZone(ZoneOffset.UTC).toLocalDate()}\\n DatePickerDialog(onDismissRequest=onDismiss,confirmButton={TextButton(enabled=selected!=null&&selected\
+        \ in allowed,onClick={selected?.let(onSelect);onDismiss()}){Text(\"OK\")}},dismissButton={TextButton(onClick=onDismiss){Text(\"Cancel\"\
+        )}}){DatePicker(state=state,showModeToggle=false)}\\n}\\n'\nfrom pathlib import Path\nimport re\nroot=Path('CalorieCounter');pkg=root/'app/src/main/java/com/example/caloriecounter'\n\
+        def change(s,a,b,count=1):\n if s.count(a)!=count:raise SystemExit('Backup/layout source mismatch: '+repr(a)+' count='+str(s.count(a)))\n\
+        \ return s.replace(a,b)\np=pkg/'Store.kt';s=p.read_text()\ns=change(s,'.put(\"format\",2).put(\"profile\",','.put(\"format\",2).put(\"\
+        weightUnit\",weightUnit().id).put(\"profile\",')\ns=change(s,'fs.forEach{saveFavourite(it.ingredient)};saveProfile(p)}','fs.forEach{saveFavourite(it.ingredient)};saveProfile(p);val\
+        \ restoredUnit=obj.optString(\"weightUnit\",\"\");if(restoredUnit in listOf(\"kg\",\"lb\",\"st\"))saveWeightUnit(parseWeightUnit(restoredUnit))}')\n\
+        pos=s.rfind('}')\ns=s[:pos]+' fun diaryDates():Set<String>{val dates=mutableSetOf<String>();readableDatabase.rawQuery(\"SELECT DISTINCT\
+        \ date FROM diary_entries\",null).use{c->while(c.moveToNext())dates.add(c.getString(0))};return dates}\\n'+s[pos:]\np.write_text(s)\n\
+        p=pkg/'FavouritesScreen.kt';s=p.read_text()\nstart=s.index('fun FavouritesScreen(');end=s.index('@Composable\\nfun RecipePortionForm',start)\n\
+        part=s[start:end]\npart=part.replace('.padding(16.dp)','.padding(12.dp)').replace('spacedBy(10.dp)','spacedBy(8.dp)').replace('spacedBy(8.dp)','spacedBy(6.dp)').replace('.padding(12.dp)){','.padding(10.dp)){').replace('spacedBy(6.dp)){','spacedBy(2.dp)){')\n\
+        # Explicitly retain 6dp between cards, 2dp between card text rows.\npart=part.replace('LazyColumn(Modifier.weight(1f),verticalArrangement=Arrangement.spacedBy(2.dp))','LazyColumn(Modifier.weight(1f),verticalArrangement=Arrangement.spacedBy(6.dp))')\n\
+        part=part.replace('Column(Modifier.padding(12.dp),','Column(Modifier.padding(10.dp),')\npart=part.replace('Column(Modifier.fillMaxSize().padding(12.dp),verticalArrangement=Arrangement.spacedBy(2.dp))','Column(Modifier.fillMaxSize().padding(12.dp),verticalArrangement=Arrangement.spacedBy(8.dp))')\n\
+        part=change(part,'Text(i.food.brand)','Text(i.food.brand,style=MaterialTheme.typography.bodySmall)')\nline=next(l for l in part.splitlines()\
+        \ if 'kcal\")' in l and 'numberText(i.amount)' in l)\npart=change(part,line,line[:-1]+',style=MaterialTheme.typography.bodySmall)')\n\
+        s=s[:start]+part+s[end:];p.write_text(s)\np=pkg/'DiaryRecipes.kt';s=p.read_text()\nstart=s.index('fun RecipesScreen(');end=s.index('@Composable\\\
+        nfun RecipeScreen',start)\npart=s[start:end].replace('.padding(16.dp)','.padding(12.dp)').replace('spacedBy(12.dp)','spacedBy(6.dp)').replace('Column(Modifier.padding(14.dp)){','Column(Modifier.padding(10.dp),verticalArrangement=Arrangement.spacedBy(2.dp)){')\n\
+        part=change(part,'Text(r.name,style=MaterialTheme.typography.titleLarge)','Text(r.name,style=MaterialTheme.typography.titleMedium)')\n\
+        part=change(part,'Text(\"${r.ingredients.size} ingredients \xB7 ${r.servings} portions\");Text(\"${numberText(r.total()[0]?.div(r.servings),0)}kcal\
+        \ per portion\")','Text(\"${r.ingredients.size} ingredients \xB7 ${r.servings} portions \xB7 ${numberText(r.total()[0]?.div(r.servings),0)}\
+        \ kcal/portion\",style=MaterialTheme.typography.bodySmall)')\ns=s[:start]+part+s[end:]\ns=change(s,'onAddToday:(Entry)->Unit={}){','onAddToday:(Entry)->Unit={},availableDates:Set<String>\
+        \ = emptySet()){')\ns=change(s,'val context=LocalContext.current;var expanded','val context=LocalContext.current;var calendarOpen by remember{mutableStateOf(false)};var\
+        \ expanded')\nold='OutlinedButton(onClick={DatePickerDialog(context,{_,y,m,d->onDate(LocalDate.of(y,m+1,d))},date.year,date.monthValue-1,date.dayOfMonth).apply{datePicker.maxDate=System.currentTimeMillis()}.show()}){Text(\"\
+        Calendar\")}'\ns=change(s,old,'OutlinedButton(enabled=availableDates.isNotEmpty(),onClick={calendarOpen=true}){Text(\"Calendar\")}')\n\
+        s=change(s,' val context=LocalContext.current;var calendarOpen',' if(false){}\\n val context=LocalContext.current;var calendarOpen') if\
+        \ False else s\n# Insert the dialog outside the scrolling Column, within DiaryScreen.\ns=change(s,' delete?.let{e->AlertDialog',' if(calendarOpen)DiaryCalendar(date,availableDates,onDate,{calendarOpen=false})\\\
+        n delete?.let{e->AlertDialog')\np.write_text(s)\n(pkg/'DiaryCalendar.kt').write_text(CALENDAR)\np=pkg/'MainActivity.kt';s=p.read_text()\n\
+        s=change(s,'onAddToday={e->addToday(e)},','onAddToday={e->addToday(e)},availableDates=remember(version){store.diaryDates()},')\ns=change(s,'val\
+        \ addSnackbar=remember{SnackbarHostState()};','var addMessageJob by remember{mutableStateOf<kotlinx.coroutines.Job?>(null)};val addSnackbar=remember{SnackbarHostState()};')\n\
+        s=change(s,'version++;addScope.launch{val result=addSnackbar.showSnackbar(\"Added ${e.food.name} to today\",actionLabel=\"Undo\",withDismissAction=true);if(result==SnackbarResult.ActionPerformed){store.deleteEntry(id);version++}}','version++;addMessageJob?.cancel();addMessageJob=addScope.launch{val\
+        \ closer=launch{kotlinx.coroutines.delay(2200);addSnackbar.currentSnackbarData?.dismiss()};try{val result=addSnackbar.showSnackbar(\"\
+        Added ${e.food.name} to today\",actionLabel=\"Undo\",withDismissAction=true,duration=SnackbarDuration.Indefinite);if(result==SnackbarResult.ActionPerformed){store.deleteEntry(id);version++}}finally{closer.cancel()}}')\n\
+        p.write_text(s)\np=root/'app/build.gradle.kts';s=p.read_text();m=re.search(r'versionCode\\s*=\\s*(\\d+)',s);v=max(38,int(m.group(1))+1)\n\
+        s=re.sub(r'versionCode\\s*=\\s*\\d+','versionCode = '+str(v),s);s=re.sub(r'versionName\\s*=\\s*\"[^\"]+\"','versionName = \"3.7-backup-layout-calendar\"\
+        ',s);p.write_text(s)\n\nPY\n"
+    - name: Test and build
+      run: gradle -p CalorieCounter testDebugUnitTest assembleDebug --console=plain
+    - name: Upload APK
+      uses: actions/upload-artifact@v4
+      with:
+        name: diet-tracker-3.7-backup-layout-calendar-apk
+        path: CalorieCounter/app/build/outputs/apk/debug/app-debug.apk
+        if-no-files-found: error
+    - name: Upload source and test reports
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: backup-layout-calendar-source-and-reports
+        path: |-
+          CalorieCounter/app/src/main
+          CalorieCounter/app/build/reports/tests
+        if-no-files-found: warn
