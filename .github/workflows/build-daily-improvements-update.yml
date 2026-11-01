@@ -1,0 +1,128 @@
+name: Build daily improvements update
+'on':
+  push:
+    branches:
+    - main
+    paths:
+    - .github/workflows/build-daily-improvements-update.yml
+  workflow_dispatch: null
+permissions:
+  contents: read
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-java@v4
+      with:
+        distribution: temurin
+        java-version: '17'
+    - uses: android-actions/setup-android@v3
+      with:
+        packages: platform-tools platforms;android-35 build-tools;35.0.0
+    - uses: gradle/actions/setup-gradle@v4
+      with:
+        gradle-version: '8.9'
+    - uses: actions/cache@v4
+      with:
+        path: ~/.android/debug.keystore
+        key: calorie-counter-debug-signing-v1
+    - name: Apply previous working updates
+      run: |
+        python3 -m pip install --quiet PyYAML Pillow
+        python3 - <<'PY'
+        from pathlib import Path
+        import yaml,subprocess
+        w=yaml.safe_load(Path('.github/workflows/build-recipe-favourites-update.yml').read_text())
+        for name in ['Apply working appearance updates','Add recipe favourite toggles']:
+         step=next(s for s in w['jobs']['update']['steps'] if s.get('name')==name)
+         subprocess.run(['bash','-e','-c',step['run']],check=True)
+        PY
+    - name: Apply daily use improvements
+      run: |
+        python3 - <<'PY'
+        COMMON='package com.example.caloriecounter\nimport androidx.compose.runtime.compositionLocalOf\nimport kotlin.math.abs\nval LocalFoodActionLabel=compositionLocalOf{"Add"}\nval LocalEditingFavourite=compositionLocalOf{false}\nfun weightDeltaText(kg:Double,unit:WeightUnit):String{\n val value=abs(kg)\n return when(unit){\n  WeightUnit.KG->numberText(value)+" kg"\n  WeightUnit.LB->numberText(value*2.2046226218487757)+" lb"\n  WeightUnit.ST->{val tenths=kotlin.math.round(value*2.2046226218487757*10).toLong();"${tenths/140}st ${numberText((tenths%140)/10.0)}lb"}\n }\n}\nfun isVisibleWeightChange(kg:Double,unit:WeightUnit):Boolean=abs(kg)*(if(unit==WeightUnit.KG)1.0 else 2.2046226218487757)>=0.05\nfun weightSaveNotice(records:List<WeightRecord>,r:WeightRecord,unit:WeightUnit):String{\n val latest=records.maxByOrNull{it.date}\n if(latest!=null&&r.date<latest.date)return "Measurement saved"\n val previous=records.filter{it.date<r.date&&it.id!=r.id}.maxByOrNull{it.date}\n if(previous==null)return if(records.none{it.id!=r.id})"Starting weight saved"else "Measurement saved"\n val delta=r.kg-previous.kg\n if(!isVisibleWeightChange(delta,unit))return "No change since ${previous.date}"\n return (if(delta<0)"Down "else "Up ")+weightDeltaText(delta,unit)+" since ${previous.date}"\n}\n'
+        from pathlib import Path
+        import re
+        root=Path('CalorieCounter');pkg=root/'app/src/main/java/com/example/caloriecounter'
+        def change(s,a,b,count=1):
+         if s.count(a)!=count:raise SystemExit('Daily improvements source mismatch: '+repr(a)+' found '+str(s.count(a)))
+         return s.replace(a,b)
+        # Context-sensitive action labels; favourite editing never mutates logged snapshots.
+        p=pkg/'FoodScreens.kt';s=p.read_text()
+        s=change(s,'Text("Slices / servings")','Text("Servings")')
+        s=change(s,'Text("Save")','Text(LocalFoodActionLabel.current)')
+        s=change(s,'OutlinedButton(onClick=onReplace){Text("Replace with a scanned / searched food")}','if(!LocalEditingFavourite.current)OutlinedButton(onClick=onReplace){Text("Replace with a scanned / searched food")}')
+        s=change(s,'OutlinedButton(enabled=name.isNotBlank()','if(!LocalEditingFavourite.current)OutlinedButton(enabled=name.isNotBlank()')
+        p.write_text(s)
+        for file in ['FavouritesScreen.kt','RestaurantScreen.kt']:
+         p=pkg/file;s=p.read_text();s=change(s,'Text("Save")','Text(LocalFoodActionLabel.current)')
+         s=change(s,'OutlinedButton(onClick=onReplace){Text("Choose another food")}','if(!LocalEditingFavourite.current)OutlinedButton(onClick=onReplace){Text("Choose another food")}')
+         s=change(s,'OutlinedButton(enabled=q!=null,onClick={onFavourite','if(!LocalEditingFavourite.current)OutlinedButton(enabled=q!=null,onClick={onFavourite')
+         p.write_text(s)
+        p=pkg/'FavouritesScreen.kt';s=p.read_text()
+        s=change(s,'import androidx.compose.material.icons.filled.Delete','import androidx.compose.material.icons.filled.Delete\nimport androidx.compose.material.icons.filled.Edit')
+        s=change(s,'fun FavouritesScreen(favourites:List<Favourite>,onUse:(Ingredient)->Unit,onRemove:(String)->Unit){','fun FavouritesScreen(favourites:List<Favourite>,onUse:(Ingredient)->Unit,onRemove:(String)->Unit,onEditFavourite:(Favourite)->Unit={}){')
+        s=change(s,'{Text("Add item")};IconButton','{Text("Add")};IconButton(onClick={onEditFavourite(f)}){Icon(Icons.Default.Edit,"Edit ${i.food.name}")};IconButton')
+        p.write_text(s)
+        p=pkg/'DiaryRecipes.kt';s=p.read_text()
+        s=change(s,'onToggleFavourite:(Entry)->Unit={}){','onToggleFavourite:(Entry)->Unit={},onAddToday:(Entry)->Unit={}){')
+        s=change(s,'IconButton(onClick={onEdit(e)})','if(history)Button(onClick={onAddToday(e)}){Text("Add")}\n IconButton(onClick={onEdit(e)})')
+        p.write_text(s)
+        # Return the exact inserted ID so Undo removes only the newly added record.
+        p=pkg/'Store.kt';s=p.read_text()
+        s=change(s,'fun saveEntry(e:Entry){','fun saveEntry(e:Entry):Long{')
+        s=change(s,'if(e.id==0L)writableDatabase.insertOrThrow("diary_entries",null,v)else writableDatabase.update("diary_entries",v,"id=?",arrayOf(e.id.toString()));CalorieWidget.refresh(context)}','val savedId=if(e.id==0L)writableDatabase.insertOrThrow("diary_entries",null,v)else{writableDatabase.update("diary_entries",v,"id=?",arrayOf(e.id.toString()));e.id};CalorieWidget.refresh(context);return savedId}')
+        pos=s.rfind('}')
+        s=s[:pos]+' fun replaceFavourite(oldId:String,i:Ingredient){require(validFavourite(i));val id=favouriteId(i);val items=favourites().filter{it.id!=oldId&&it.id!=id}+Favourite(id,i);prefs.edit().putString("favourites_v1",json.toJson(items)).commit()}\n'+s[pos:]
+        p.write_text(s)
+        p=pkg/'MainActivity.kt';s=p.read_text()
+        s=change(s,'import java.time.LocalDate','import java.time.LocalDate\nimport kotlinx.coroutines.launch')
+        s=change(s,' var noticeKey by remember',' val addSnackbar=remember{SnackbarHostState()};val addScope=rememberCoroutineScope();var editingFavourite by remember{mutableStateOf<Favourite?>(null)}\n fun addToday(e:Entry){val id=store.saveEntry(e.copy(id=0,date=LocalDate.now().toString()));version++;addScope.launch{val result=addSnackbar.showSnackbar("Added ${e.food.name} to today",actionLabel="Undo",withDismissAction=true);if(result==SnackbarResult.ActionPerformed){store.deleteEntry(id);version++}}}\n var noticeKey by remember')
+        s=change(s,'Scaffold(bottomBar=','Scaffold(snackbarHost={SnackbarHost(addSnackbar)},bottomBar=')
+        s=change(s,'if(screen=="Search"&&next=="Food")pendingReplacement=false;screen=next','if(screen=="Search"&&next=="Food")pendingReplacement=false;if(screen=="FavouriteEdit"){editingFavourite=null;screen="Favourites"}else screen=next')
+        s=change(s,'DiaryScreen(entries,profile,selected,screen=="History",','DiaryScreen(entries,profile,selected,screen=="History",onAddToday={e->addToday(e)},')
+        s=change(s,'onLog={r->store.saveEntry(Entry(date=LocalDate.now().toString(),food=r.servingFood().copy(barcode="recipe:${r.id}"),amount=1.0,unit="portion",unitGrams=100.0));version++;showNotice("Added one portion of ${r.name}")}','onLog={r->addToday(Entry(date=LocalDate.now().toString(),food=r.servingFood().copy(barcode="recipe:${r.id}"),amount=1.0,unit="portion",unitGrams=100.0))}')
+        old='store.saveEntry(Entry(date=LocalDate.now().toString(),food=i.food,amount=i.amount,unit=i.unit,unitGrams=i.unitGrams));version++;showNotice("Added ${i.food.name}")'
+        # One callback in the standalone favourites page and one retained unused AddScreen callback.
+        s=change(s,old,'addToday(Entry(date=LocalDate.now().toString(),food=i.food,amount=i.amount,unit=i.unit,unitGrams=i.unitGrams))',2)
+        s=change(s,'FavouritesScreen(remember(version){store.favourites()},','FavouritesScreen(remember(version){store.favourites()},onEditFavourite={f->editingFavourite=f;screen="FavouriteEdit"},')
+        anchor='   "Food"->FoodForm('
+        s=change(s,anchor,'   "FavouriteEdit"->{val f=editingFavourite;if(f!=null)CompositionLocalProvider(LocalFoodActionLabel provides "Save",LocalEditingFavourite provides true){FoodForm(f.ingredient,onCancel={editingFavourite=null;screen="Favourites"},onReplace={},onSave={i->store.replaceFavourite(f.id,i);editingFavourite=null;version++;screen="Favourites"})}}\n   "Food"->CompositionLocalProvider(LocalFoodActionLabel provides if(formEntryId!=0L||(formOrigin=="Recipe"&&ingredientIndex>=0))"Save"else "Add"){FoodForm(')
+        s=change(s,'store.saveEntry(Entry(formEntryId,formDate,i.food,i.amount,i.unit,i.unitGrams));version++;homeTab=0;screen=formOrigin','if(formEntryId==0L){addToday(Entry(date=formDate,food=i.food,amount=i.amount,unit=i.unit,unitGrams=i.unitGrams))}else{store.saveEntry(Entry(formEntryId,formDate,i.food,i.amount,i.unit,i.unitGrams));version++};homeTab=0;screen=formOrigin')
+        s=change(s,'screen=formOrigin}})','screen=formOrigin}})}')
+        p.write_text(s)
+        # Weight comparison uses a snapshot BEFORE saving; historical corrections have no latest-weight message.
+        p=pkg/'WeightScreen.kt';s=p.read_text()
+        s=change(s,'fun save(r:WeightRecord){runCatching{onSave(r)}.onSuccess{amount="";message="Saved"}.onFailure{message=it.message?:"Cannot save measurement"}}','fun save(r:WeightRecord){val notice=weightSaveNotice(records,r,unit);runCatching{onSave(r)}.onSuccess{amount="";message=notice;android.widget.Toast.makeText(context,notice,android.widget.Toast.LENGTH_LONG).show()}.onFailure{message=it.message?:"Cannot save measurement"}}')
+        s=change(s,'  val lost=if(current!=null)records.minByOrNull{it.date}!!.kg-current.kg else 0.0\n','')
+        s=change(s,'  Text(if(lost>=0)"Weight lost: ${weightDisplay(lost,unit)}"else "Weight gained: ${weightDisplay(-lost,unit)}",style=MaterialTheme.typography.titleMedium)\n','')
+        s=change(s,'Text("Progress",style=MaterialTheme.typography.titleLarge)','Text("Progress",style=MaterialTheme.typography.titleLarge)\n  val first=records.minByOrNull{it.date}\n  if(first!=null&&current!=null){val delta=current.kg-first.kg;Text(if(!isVisibleWeightChange(delta,unit))"No change since ${first.date}"else (if(delta<0)"Lost "else "Gained ")+weightDeltaText(delta,unit)+" since ${first.date}",style=MaterialTheme.typography.titleMedium);Text("Starting weight: ${weightDisplay(first.kg,unit)}",style=MaterialTheme.typography.bodySmall)}')
+        s=change(s,'onSave={onSave(it);selected=null}','onSave={r->val notice=weightSaveNotice(records,r,unit);onSave(r);selected=null;android.widget.Toast.makeText(context,notice,android.widget.Toast.LENGTH_LONG).show()}')
+        p.write_text(s)
+        (pkg/'DailyImprovements.kt').write_text(COMMON)
+        p=root/'app/build.gradle.kts';s=p.read_text();m=re.search(r'versionCode\s*=\s*(\d+)',s);v=max(36,int(m.group(1))+1)
+        s=re.sub(r'versionCode\s*=\s*\d+','versionCode = '+str(v),s);s=re.sub(r'versionName\s*=\s*"[^"]+"','versionName = "3.5-daily-improvements"',s);p.write_text(s)
+
+        p=root/"app/src/test/java/com/example/caloriecounter/DailyImprovementsTest.kt";p.parent.mkdir(parents=True,exist_ok=True);p.write_text('package com.example.caloriecounter\nimport org.junit.Test\nimport org.junit.Assert.*\nclass DailyImprovementsTest{\n private fun w(id:Long,date:String,kg:Double)=WeightRecord(id=id,date=date,kg=kg)\n @Test fun firstWeight(){assertEquals("Starting weight saved",weightSaveNotice(emptyList(),w(0,"2026-01-01",90.0),WeightUnit.KG))}\n @Test fun backdated(){assertEquals("Measurement saved",weightSaveNotice(listOf(w(1,"2026-01-03",90.0)),w(0,"2026-01-02",91.0),WeightUnit.KG))}\n @Test fun latestLoss(){assertEquals("Down 0.5 kg since 2026-01-01",weightSaveNotice(listOf(w(1,"2026-01-01",90.0)),w(0,"2026-01-02",89.5),WeightUnit.KG))}\n @Test fun latestGain(){assertEquals("Up 0.5 kg since 2026-01-01",weightSaveNotice(listOf(w(1,"2026-01-01",90.0)),w(0,"2026-01-02",90.5),WeightUnit.KG))}\n @Test fun correctedLatestComparesEarlierDate(){assertEquals("Down 1.0 kg since 2026-01-01",weightSaveNotice(listOf(w(1,"2026-01-01",90.0),w(2,"2026-01-02",92.0)),w(2,"2026-01-02",89.0),WeightUnit.KG))}\n @Test fun unchanged(){assertEquals("No change since 2026-01-01",weightSaveNotice(listOf(w(1,"2026-01-01",90.0)),w(0,"2026-01-02",90.0),WeightUnit.KG))}\n @Test fun smallChangeDoesNotSayLostZero(){assertFalse(isVisibleWeightChange(0.01,WeightUnit.KG))}\n @Test fun stoneDifferenceRetainsSmallChanges(){assertEquals("0st 1.0lb",weightDeltaText(1.0/2.2046226218487757,WeightUnit.ST))}\n}\n')
+
+        PY
+    - name: Test and build
+      run: gradle -p CalorieCounter testDebugUnitTest assembleDebug --console=plain
+    - name: Upload APK
+      uses: actions/upload-artifact@v4
+      with:
+        name: diet-tracker-3.5-daily-improvements-apk
+        path: CalorieCounter/app/build/outputs/apk/debug/app-debug.apk
+        if-no-files-found: error
+    - name: Upload source and test reports
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: daily-improvements-source-and-reports
+        path: |-
+          CalorieCounter/app/src/main
+          CalorieCounter/app/src/test
+          CalorieCounter/app/build/reports/tests
+        if-no-files-found: warn
