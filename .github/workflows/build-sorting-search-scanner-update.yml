@@ -1,0 +1,228 @@
+name: Build sorting search and scanner update
+'on':
+  push:
+    branches:
+    - main
+    paths:
+    - .github/workflows/build-sorting-search-scanner-update.yml
+  workflow_dispatch: null
+permissions:
+  contents: read
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-java@v4
+      with:
+        distribution: temurin
+        java-version: '17'
+    - uses: android-actions/setup-android@v3
+      with:
+        packages: platform-tools platforms;android-35 build-tools;35.0.0
+    - uses: gradle/actions/setup-gradle@v4
+      with:
+        gradle-version: '8.9'
+    - uses: actions/cache@v4
+      with:
+        path: ~/.android/debug.keystore
+        key: calorie-counter-debug-signing-v1
+    - name: Apply previous working updates
+      run: |
+        python3 -m pip install --quiet PyYAML Pillow
+        python3 - <<'PY'
+        from pathlib import Path
+        import yaml,subprocess
+        w=yaml.safe_load(Path('.github/workflows/build-unified-calendars-update.yml').read_text())
+        for name in ['Apply previous updates','Unify all app calendars']:
+         step=next(s for s in w['jobs']['update']['steps'] if s.get('name')==name)
+         subprocess.run(['bash','-e','-c',step['run']],check=True)
+        PY
+    - name: Apply sorting search and scanner update
+      run: "python3 - <<'PY'\nCOMMON='package com.example.caloriecounter\\nimport androidx.compose.foundation.layout.*\\nimport androidx.compose.material.icons.Icons\\\
+        nimport androidx.compose.material.icons.filled.Sort\\nimport androidx.compose.material.icons.filled.Check\\nimport androidx.compose.material3.*\\\
+        nimport androidx.compose.runtime.*\\nimport androidx.compose.ui.Modifier\\nimport java.util.Locale\\n\\ndata class UsageScore(val count:Int=0,val\
+        \ date:String=\"\",val id:Long=0)\\nfun usageScore(entries:List<Entry>):UsageScore{val last=entries.maxWithOrNull(compareBy<Entry>{it.date}.thenBy{it.id});return\
+        \ UsageScore(entries.size,last?.date?:\"\",last?.id?:0)}\\nfun normalizedName(s:String)=s.trim().lowercase(Locale.UK).replace(Regex(\"\
+        \\\\\\\\s+\"),\" \")\\nclass UsageIndex(entries:List<Entry>,recipes:List<Recipe>,favourites:List<Favourite>){\\n private val history=entries.filter{it.date<=java.time.LocalDate.now().toString()}\\\
+        n private val recipeNames=recipes.groupingBy{normalizedName(it.name)}.eachCount()\\n private val favouriteNames=favourites.groupingBy{normalizedName(it.ingredient.food.name)+\"\
+        |\"+normalizedName(it.ingredient.food.brand)}.eachCount()\\n fun recipe(r:Recipe):UsageScore=usageScore(history.filter{e->e.food.barcode==\"\
+        recipe:${r.id}\"||(e.unit==\"portion\"&&normalizedName(e.food.name)==normalizedName(r.name)&&recipeNames[normalizedName(r.name)]==1)})\\\
+        n fun favourite(f:Favourite):UsageScore{\\n  val i=f.ingredient;val name=normalizedName(i.food.name);val brand=normalizedName(i.food.brand)\\\
+        n  return usageScore(history.filter{e->favouriteId(Ingredient(e.food,e.amount,e.unit,e.unitGrams))==f.id||\\n   (i.food.barcode.startsWith(\"\
+        recipe:\")&&e.unit==\"portion\"&&normalizedName(e.food.name)==name&&recipeNames[name]==1)||\\n   (e.food.barcode.isBlank()&&!i.food.barcode.startsWith(\"\
+        recipe:\")&&normalizedName(e.food.name)==name&&normalizedName(e.food.brand)==brand&&favouriteNames[name+\"|\"+brand]==1)})\\n }\\n}\\\
+        nfun <T> sortedUsage(items:List<T>,order:String,name:(T)->String,score:(T)->UsageScore):List<T>{\\n val alpha=compareBy<T>{normalizedName(name(it))}\\\
+        n val comparator=when(order){\\n  \"za\"->alpha.reversed()\\n  \"popular\"->compareByDescending<T>{score(it).count}.then(alpha)\\n  \"\
+        recent\"->compareByDescending<T>{score(it).date}.thenByDescending{score(it).id}.then(alpha)\\n  else->alpha\\n }\\n return items.sortedWith(comparator)\\\
+        n}\\n@Composable\\nfun SortableHeading(title:String,order:String,onChange:(String)->Unit){\\n var open by remember{mutableStateOf(false)}\\\
+        n val options=listOf(\"az\" to \"Alphabetical A\u2013Z\",\"za\" to \"Alphabetical Z\u2013A\",\"popular\" to \"Most popular\",\"recent\"\
+        \ to \"Recently used\")\\n Row(Modifier.fillMaxWidth(),horizontalArrangement=Arrangement.SpaceBetween){\\n  Text(title,style=MaterialTheme.typography.headlineMedium,modifier=Modifier.weight(1f))\\\
+        n  Box{TextButton(onClick={open=true}){Icon(Icons.Default.Sort,\"Sort by\");Text(\"Sort by\")}\\n   DropdownMenu(expanded=open,onDismissRequest={open=false}){options.forEach{(id,label)->DropdownMenuItem(text={Text(label)},leadingIcon={if(order==id)Icon(Icons.Default.Check,\"\
+        Selected\")},onClick={onChange(id);open=false})}}\\n  }\\n }\\n}\\nclass ProductNotFoundException:Exception(\"Product not found\")\\nfun\
+        \ validGtin(code:String):Boolean{\\n if(code.length !in listOf(8,12,13,14)||code.any{!it.isDigit()})return false\\n val sum=code.dropLast(1).reversed().mapIndexed{index,c->(c-\\\
+        '0\\')*(if(index%2==0)3 else 1)}.sum()\\n return (10-sum%10)%10==code.last()-\\'0\\'\\n}\\nfun expandUpcE(code:String):String?{\\n if(code.length!=8||code.any{!it.isDigit()}||code.first()\
+        \ !in \"01\")return null\\n val n=code[0];val d=code.substring(1,7);val check=code[7]\\n return when(d[5]){\\n  \\'0\\',\\'1\\',\\'2\\\
+        '->\"$n${d.substring(0,2)}${d[5]}0000${d.substring(2,5)}$check\"\\n  \\'3\\'->\"$n${d.substring(0,3)}00000${d.substring(3,5)}$check\"\\\
+        n  \\'4\\'->\"$n${d.substring(0,4)}00000${d[4]}$check\"\\n  else->\"$n${d.substring(0,5)}0000${d[5]}$check\"\\n }.takeIf{validGtin(it)}\\\
+        n}\\nclass StableBarcodeGate{\\n private var candidate=\"\";private var count=0;private var since=0L;private var lastAccepted=\"\";private\
+        \ var acceptedAt= -2000L\\n fun reset(){candidate=\"\";count=0;since=0}\\n fun offer(code:String?,now:Long):String?{\\n  if(code==null||!validGtin(code)){reset();return\
+        \ null}\\n  if(code!=candidate){candidate=code;count=1;since=now}else count++\\n  if(count<3||now-since<180||(code==lastAccepted&&now-acceptedAt<1200))return\
+        \ null\\n  lastAccepted=code;acceptedAt=now;reset();return code\\n }\\n}\\n'\nSCANNER='@file:OptIn(androidx.compose.material3.ExperimentalMaterial3Api::class)\\\
+        npackage com.example.caloriecounter\\nimport android.Manifest\\nimport android.content.pm.PackageManager\\nimport androidx.activity.compose.rememberLauncherForActivityResult\\\
+        nimport androidx.activity.result.contract.ActivityResultContracts\\nimport androidx.camera.core.*\\nimport androidx.camera.lifecycle.ProcessCameraProvider\\\
+        nimport androidx.camera.view.PreviewView\\nimport androidx.compose.foundation.layout.*\\nimport androidx.compose.material3.*\\nimport\
+        \ androidx.compose.runtime.*\\nimport androidx.compose.ui.Modifier\\nimport androidx.compose.ui.platform.LocalContext\\nimport androidx.compose.ui.unit.dp\\\
+        nimport androidx.compose.ui.viewinterop.AndroidView\\nimport androidx.core.content.ContextCompat\\nimport androidx.lifecycle.compose.LocalLifecycleOwner\\\
+        nimport com.google.mlkit.vision.barcode.BarcodeScanning\\nimport com.google.mlkit.vision.barcode.BarcodeScannerOptions\\nimport com.google.mlkit.vision.barcode.common.Barcode\\\
+        nimport com.google.mlkit.vision.common.InputImage\\nimport java.util.concurrent.Executors\\nimport java.util.concurrent.atomic.AtomicBoolean\\\
+        n@Composable\\nfun Scanner(onCode:(String)->Unit,onCancel:()->Unit,enabled:Boolean=true){\\n val context=LocalContext.current;val owner=LocalLifecycleOwner.current\\\
+        n var allowed by remember{mutableStateOf(ContextCompat.checkSelfPermission(context,Manifest.permission.CAMERA)==PackageManager.PERMISSION_GRANTED)}\\\
+        n var error by remember{mutableStateOf(\"\")}\\n val permission=rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()){allowed=it}\\\
+        n LaunchedEffect(Unit){if(!allowed)permission.launch(Manifest.permission.CAMERA)}\\n val executor=remember{Executors.newSingleThreadExecutor()}\\\
+        n val scanner=remember{BarcodeScanning.getClient(BarcodeScannerOptions.Builder().setBarcodeFormats(Barcode.FORMAT_EAN_13,Barcode.FORMAT_EAN_8,Barcode.FORMAT_UPC_A,Barcode.FORMAT_UPC_E).build())}\\\
+        n val gate=remember{StableBarcodeGate()};val alive=remember{AtomicBoolean(true)};val processing=remember{AtomicBoolean(false)}\\n var\
+        \ provider by remember{mutableStateOf<ProcessCameraProvider?>(null)}\\n val callback by rememberUpdatedState(onCode);val active by rememberUpdatedState(enabled)\\\
+        n LaunchedEffect(enabled){gate.reset()}\\n DisposableEffect(Unit){onDispose{alive.set(false);provider?.unbindAll();scanner.close();executor.shutdown()}}\\\
+        n Column(Modifier.fillMaxSize()){\\n  TextButton(onClick=onCancel){Text(\"Back to search\")}\\n  if(!allowed){Text(\"Camera permission\
+        \ is needed to scan.\",Modifier.padding(16.dp));Button(onClick={permission.launch(Manifest.permission.CAMERA)}){Text(\"Grant camera permission\"\
+        )}}\\n  else AndroidView(modifier=Modifier.weight(1f).fillMaxWidth(),factory={ctx->\\n   val view=PreviewView(ctx);val future=ProcessCameraProvider.getInstance(ctx)\\\
+        n   future.addListener({if(alive.get())try{\\n    val camera=future.get();provider=camera\\n    val preview=Preview.Builder().build().also{it.setSurfaceProvider(view.surfaceProvider)}\\\
+        n    val analysis=ImageAnalysis.Builder().setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST).build()\\n    analysis.setAnalyzer(executor,object:ImageAnalysis.Analyzer{\\\
+        n     @androidx.annotation.OptIn(ExperimentalGetImage::class)\\n     override fun analyze(proxy:ImageProxy){\\n      val image=proxy.image\\\
+        n      if(image==null||!active||!alive.get()||!processing.compareAndSet(false,true)){proxy.close();return}\\n      scanner.process(InputImage.fromMediaImage(image,proxy.imageInfo.rotationDegrees))\\\
+        n       .addOnSuccessListener{codes->\\n        if(alive.get()&&active){\\n         val code=codes.mapNotNull{barcode->barcode.rawValue?.trim()?.let{raw->if(barcode.format==Barcode.FORMAT_UPC_E)expandUpcE(raw)else\
+        \ raw.takeIf{validGtin(it)}}}.firstOrNull()\\n         gate.offer(code,android.os.SystemClock.elapsedRealtime())?.let{callback(it)}\\\
+        n        }\\n       }.addOnFailureListener{gate.reset()}.addOnCompleteListener{processing.set(false);proxy.close()}\\n     }\\n    })\\\
+        n    camera.unbindAll();camera.bindToLifecycle(owner,CameraSelector.DEFAULT_BACK_CAMERA,preview,analysis)\\n   }catch(e:Exception){error=e.message?:\"\
+        Camera unavailable\"}},ContextCompat.getMainExecutor(ctx))\\n   view\\n  })\\n  if(error.isNotBlank())Text(error,Modifier.padding(16.dp))\\\
+        n }\\n}\\n'\nSCANLOOKUP='fun ScanLookup(onSelect:(Food)->Unit,onCancel:()->Unit,onManual:()->Unit=onCancel){\\n var busy by remember{mutableStateOf(false)};var\
+        \ blocked by remember{mutableStateOf(false)}\\n var message by remember{mutableStateOf(\"Hold the barcode steady inside the camera view.\"\
+        )}\\n var lastCode by remember{mutableStateOf(\"\")};val scope=rememberCoroutineScope()\\n fun lookup(code:String){\\n  if(busy)return\\\
+        n  busy=true;blocked=false;lastCode=code;message=\"Retrieving nutrition\u2026\"\\n  scope.launch{try{onSelect(FoodApi.product(code))}\\\
+        n   catch(e:CancellationException){throw e}\\n   catch(e:ProductNotFoundException){blocked=true;message=\"Barcode $code was read, but\
+        \ this product is not in the database. Try Search or Manual entry.\"}\\n   catch(e:Exception){blocked=true;message=\"Could not retrieve\
+        \ this product. Check your connection and try again.\"}\\n   finally{busy=false}\\n  }\\n }\\n Column(Modifier.fillMaxSize()){\\n  Box(Modifier.weight(1f)){Scanner(onCode={code->if(!blocked)lookup(code)},onCancel=onCancel,enabled=!busy&&!blocked)}\\\
+        n  Surface(tonalElevation=3.dp){Column(Modifier.fillMaxWidth().padding(12.dp),verticalArrangement=Arrangement.spacedBy(8.dp)){\\n   Text(message)\\\
+        n   if(busy)LinearProgressIndicator(Modifier.fillMaxWidth())\\n   if(blocked)Row(horizontalArrangement=Arrangement.spacedBy(8.dp)){\\\
+        n    TextButton(onClick={if(lastCode.isNotBlank())lookup(lastCode)}){Text(\"Retry\")}\\n    TextButton(onClick={blocked=false;message=\"\
+        Hold the barcode steady inside the camera view.\"}){Text(\"Scan again\")}\\n    TextButton(onClick=onCancel){Text(\"Search\")}\\n   }\\\
+        n   TextButton(enabled=!busy,onClick=onManual){Text(\"Manual entry\")}\\n  }}\\n }\\n}'\nfrom pathlib import Path\nimport re\nroot=Path('CalorieCounter');pkg=root/'app/src/main/java/com/example/caloriecounter'\n\
+        def change(s,a,b,count=1):\n if s.count(a)!=count:raise SystemExit('Sorting/search/scanner source mismatch: '+repr(a)+' found '+str(s.count(a)))\n\
+        \ return s.replace(a,b)\ndef skip_string(s,i):\n q=s[i];triple=q=='\"' and s.startswith('\"\"\"',i);i+=3 if triple else 1\n while i<len(s):\n\
+        \  if triple and s.startswith('\"\"\"',i):return i+3\n  if not triple and s[i]=='\\\\':i+=2;continue\n  if not triple and s[i]==q:return\
+        \ i+1\n  if q=='\"' and s.startswith('${',i):i=balanced(s,i+1,'{','}');continue\n  i+=1\n raise SystemExit('Unclosed source string')\n\
+        def balanced(s,i,left,right):\n depth=1;i+=1\n while i<len(s):\n  if s.startswith('//',i):\n   j=s.find('\\n',i);i=len(s) if j<0 else\
+        \ j+1;continue\n  if s.startswith('/*',i):\n   j=s.find('*/',i+2)\n   if j<0:raise SystemExit('Unclosed comment')\n   i=j+2;continue\n\
+        \  if s[i] in ('\"',\"'\"):i=skip_string(s,i);continue\n  if s[i]==left:depth+=1\n  elif s[i]==right:\n   depth-=1\n   if depth==0:return\
+        \ i+1\n  i+=1\n raise SystemExit('Unclosed source block')\ndef function_span(s,name):\n m=re.search(r'\\bfun\\s+'+name+r'\\s*\\(',s)\n\
+        \ if not m:raise SystemExit('Missing function '+name)\n close=balanced(s,m.end()-1,'(',')');body=s.find('{',close)\n return m.start(),close,body,balanced(s,body,'{','}')\n\
+        def add_params(s,name,params):\n _,close,_,_=function_span(s,name)\n return s[:close-1].rstrip().rstrip(',')+','+params+s[close-1:]\n\
+        # History-backed scores are calculated from saved diary entries, not new counters.\n(pkg/'SortingAndScan.kt').write_text(COMMON)\np=pkg/'Store.kt';s=p.read_text();pos=s.rfind('}')\n\
+        s=s[:pos]+\"\"\"\n fun listSort(key:String):String=prefs.getString(\"sort_\"+key,\"az\")?.takeIf{it in listOf(\"az\",\"za\",\"popular\"\
+        ,\"recent\")}?:\"az\"\n fun saveListSort(key:String,value:String){require(key in listOf(\"recipes\",\"favourites\"));require(value in\
+        \ listOf(\"az\",\"za\",\"popular\",\"recent\"));prefs.edit().putString(\"sort_\"+key,value).apply()}\n\"\"\"+s[pos:]\ns=change(s,'.put(\"\
+        weightUnit\",weightUnit().id)','.put(\"weightUnit\",weightUnit().id).put(\"listSort\",JSONObject().put(\"recipes\",listSort(\"recipes\"\
+        )).put(\"favourites\",listSort(\"favourites\")))')\na,c,b,e=function_span(s,'importBackup')\ns=s[:e-1]+';obj.optJSONObject(\"listSort\"\
+        )?.let{sorts->listOf(\"recipes\",\"favourites\").forEach{key->val choice=sorts.optString(key,\"\");if(choice in listOf(\"az\",\"za\",\"\
+        popular\",\"recent\"))saveListSort(key,choice)}}'+s[e-1:]\np.write_text(s)\nparams='usage:UsageIndex=UsageIndex(emptyList(),emptyList(),emptyList()),sortOrder:String=\"\
+        az\",onSortChange:(String)->Unit={}'\np=pkg/'DiaryRecipes.kt';s=p.read_text()\ns=change(s,'import androidx.compose.ui.Modifier','import\
+        \ androidx.compose.ui.Modifier\\nimport androidx.compose.ui.draw.rotate')\ns=add_params(s,'RecipesScreen',params)\ns=change(s,'Text(\"\
+        Recipes\",style=MaterialTheme.typography.headlineMedium)','SortableHeading(\"Recipes\",sortOrder,onSortChange)')\ns=change(s,'recipes.forEach{r->Card(','sortedUsage(recipes,sortOrder,{it.name},{usage.recipe(it)}).forEach{r->Card(')\n\
+        s=change(s,'var expanded by remember(date){mutableStateOf<Set<Long>>(emptySet())}','var expanded by remember(date){mutableStateOf<Long?>(null)};var\
+        \ nutritionOpen by remember(date){mutableStateOf(false)}')\ns=change(s,'val isOpen=e.id in expanded;Card(onClick={expanded=if(isOpen)expanded-e.id\
+        \ else expanded+e.id}','val isOpen=e.id==expanded;Card(onClick={expanded=if(isOpen)null else e.id;nutritionOpen=false}')\ns=change(s,'Text(\"\
+        Contribution to daily targets\",style=MaterialTheme.typography.titleSmall);NutrientBars(e.total(),profile);','')\nanchor='tint=if(fav)MaterialTheme.colorScheme.primary\
+        \ else MaterialTheme.colorScheme.onSurfaceVariant)}\\n}}'\nnew=\"\"\"tint=if(fav)MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant)}\n\
+        \ Spacer(Modifier.weight(1f))\n IconButton(onClick={nutritionOpen=!nutritionOpen}){Icon(Icons.Default.BarChart,modifier=Modifier.rotate(90f),contentDescription=if(nutritionOpen)\"\
+        Hide nutrition\"else \"Show nutrition\",tint=if(nutritionOpen)MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant)}\n\
+        \ }\n if(nutritionOpen){Text(\"Contribution to daily targets\",style=MaterialTheme.typography.titleSmall);NutrientBars(e.total(),profile)}\n\
+        \ }\"\"\"\ns=change(s,anchor,new)\np.write_text(s)\np=pkg/'FavouritesScreen.kt';s=p.read_text();s=add_params(s,'FavouritesScreen',params)\n\
+        s=change(s,'Text(\"Favourites\",style=MaterialTheme.typography.headlineMedium)','SortableHeading(\"Favourites\",sortOrder,onSortChange)')\n\
+        s=change(s,'val shown=favourites.filter{it.ingredient.food.name.contains(query,true)||it.ingredient.food.brand.contains(query,true)}','val\
+        \ shown=sortedUsage(favourites.filter{it.ingredient.food.name.contains(query,true)||it.ingredient.food.brand.contains(query,true)},sortOrder,{it.ingredient.food.name},{usage.favourite(it)})')\n\
+        p.write_text(s)\np=pkg/'MainActivity.kt';s=p.read_text()\ns=change(s,' val lifecycle=',' val searchStateHolder=androidx.compose.runtime.saveable.rememberSaveableStateHolder()\\\
+        n val usageIndex=remember(version){UsageIndex(store.diaryDates().sorted().flatMap{store.entries(it)},store.recipes(),store.favourites())}\\\
+        n val lifecycle=')\ns=change(s,'RecipesScreen(recipes,','RecipesScreen(recipes,usage=usageIndex,sortOrder=store.listSort(\"recipes\"),onSortChange={store.saveListSort(\"\
+        recipes\",it);version++},')\ns=change(s,'FavouritesScreen(remember(version){store.favourites()},','FavouritesScreen(remember(version){store.favourites()},usage=usageIndex,sortOrder=store.listSort(\"\
+        favourites\"),onSortChange={store.saveListSort(\"favourites\",it);version++},')\na=s.index('\"Search\"->AddScreen(');end=s.index(';\"\
+        Scan\"->',a)\ns=s[:a]+s[a:end].replace('\"Search\"->AddScreen(','\"Search\"->searchStateHolder.SaveableStateProvider(\"food-search\"){AddScreen(',1)+'}'+s[end:]\n\
+        s=change(s,'ScanLookup(onSelect={openFood(it)},onCancel={screen=\"Search\"})','ScanLookup(onSelect={openFood(it)},onCancel={screen=\"\
+        Search\"},onManual={openFood(Food())})')\np.write_text(s)\np=pkg/'FoodScreens.kt';s=p.read_text()\na,_,_,e=function_span(s,'ScanLookup');s=s[:a]+SCANLOOKUP+s[e:]\n\
+        a,_,_,e=function_span(s,'SearchScreen');part=s[a:e]\npart=change(part,'var results by remember{mutableStateOf<List<FoodApi.Hit>>(emptyList())}','var\
+        \ results by androidx.compose.runtime.saveable.rememberSaveable(stateSaver=androidx.compose.runtime.saveable.Saver<List<FoodApi.Hit>,String>(save={json.toJson(it)},restore={runCatching{json.fromJson(it,Array<FoodApi.Hit>::class.java).toList()}.getOrDefault(emptyList())})){mutableStateOf<List<FoodApi.Hit>>(emptyList())}')\n\
+        part=part.replace('remember{mutableStateOf(\"\")}','androidx.compose.runtime.saveable.rememberSaveable{mutableStateOf(\"\")}').replace('remember{mutableIntStateOf(0)}','androidx.compose.runtime.saveable.rememberSaveable{mutableIntStateOf(0)}').replace('var\
+        \ more by remember{','var more by androidx.compose.runtime.saveable.rememberSaveable{')\n# Busy is deliberately not restored: no request\
+        \ is active after returning.\npart=change(part,'val scope=rememberCoroutineScope()','val scope=rememberCoroutineScope();val searchScroll=rememberScrollState();LaunchedEffect(Unit){if(results.isNotEmpty())message=\"\
+        ${results.size} matches. Select one to load nutrition.\"}')\npart=change(part,'.verticalScroll(rememberScrollState())','.verticalScroll(searchScroll)')\n\
+        part=change(part,'if(!load){results=emptyList();','if(!load){searchScroll.scrollTo(0);results=emptyList();')\npart=change(part,'{Text(\"\
+        Search\")}','{Text(\"Search\")};TextButton(enabled=!busy,onClick={query=\"\";brand=\"\";activeQ=\"\";activeB=\"\";page=0;more=false;results=emptyList();message=\"\
+        \";failedCode=\"\";scope.launch{searchScroll.scrollTo(0)}}){Text(\"Clear\")}')\ns=s[:a]+part+s[e:];p.write_text(s)\n(pkg/'Scanner.kt').write_text(SCANNER)\n\
+        p=pkg/'FoodApi.kt';s=p.read_text();s=change(s,'?:error(\"Product not found. Search or enter manually.\")','?:throw ProductNotFoundException()');p.write_text(s)\n\
+        p=root/'app/build.gradle.kts';s=p.read_text();m=re.search(r'versionCode\\s*=\\s*(\\d+)',s);v=max(40,int(m.group(1))+1)\ns=re.sub(r'versionCode\\\
+        s*=\\s*\\d+','versionCode = '+str(v),s);s=re.sub(r'versionName\\s*=\\s*\"[^\"]+\"','versionName = \"3.9-sorting-search-scanner\"',s);p.write_text(s)\n\
+        \np=root/\"app/src/test/java/com/example/caloriecounter/SortingScannerTest.kt\";p.parent.mkdir(parents=True,exist_ok=True);p.write_text('package\
+        \ com.example.caloriecounter\\nimport org.junit.Assert.*\\nimport org.junit.Test\\nclass SortingScannerTest{\\n private fun entry(id:Long,date:String,food:Food,unit:String=\"\
+        g\",amount:Double=100.0)=Entry(id=id,date=date,food=food,amount=amount,unit=unit,unitGrams=if(unit==\"g\")1.0 else 100.0)\\n @Test fun\
+        \ existingDiaryCountsWithoutNewCounters(){\\n  val food=Food(name=\"Milk\",barcode=\"4006381333931\");val i=Ingredient(food);val f=Favourite(favouriteId(i),i)\\\
+        n  val past=listOf(entry(1,\"2026-01-01\",food),entry(2,\"2026-01-03\",food,amount=200.0))\\n  assertEquals(2,UsageIndex(past,emptyList(),listOf(f)).favourite(f).count)\\\
+        n }\\n @Test fun historicalRecipeNamesAreIncluded(){\\n  val r=Recipe(id=7,name=\"Porridge\");val old=entry(1,\"2026-01-01\",Food(name=\"\
+        Porridge\"),\"portion\")\\n  val current=entry(2,\"2026-01-02\",r.servingFood().copy(barcode=\"recipe:7\"),\"portion\")\\n  assertEquals(2,UsageIndex(listOf(old,current),listOf(r),emptyList()).recipe(r).count)\\\
+        n }\\n @Test fun ambiguousLegacyRecipeDoesNotGuess(){\\n  val a=Recipe(id=1,name=\"Soup\");val b=Recipe(id=2,name=\"Soup\")\\n  val old=entry(1,\"\
+        2026-01-01\",Food(name=\"Soup\"),\"portion\")\\n  assertEquals(0,UsageIndex(listOf(old),listOf(a,b),emptyList()).recipe(a).count)\\n }\\\
+        n @Test fun usageCountsAdditionsNotQuantity(){\\n  val r=Recipe(id=3,name=\"Soup\");val e=entry(1,\"2026-01-01\",r.servingFood().copy(barcode=\"\
+        recipe:3\"),\"portion\",5.0)\\n  assertEquals(1,UsageIndex(listOf(e),listOf(r),emptyList()).recipe(r).count)\\n }\\n @Test fun removedEntryStopsCounting(){\\\
+        n  val r=Recipe(id=3,name=\"Soup\");val e=entry(1,\"2026-01-01\",r.servingFood().copy(barcode=\"recipe:3\"),\"portion\")\\n  assertEquals(0,UsageIndex(emptyList(),listOf(r),emptyList()).recipe(r).count)\\\
+        n  assertEquals(1,UsageIndex(listOf(e),listOf(r),emptyList()).recipe(r).count)\\n }\\n @Test fun popularTiesAreAlphabetical(){\\n  val\
+        \ a=Recipe(id=1,name=\"Zoo\");val b=Recipe(id=2,name=\"apple\")\\n  val sorted=sortedUsage(listOf(a,b),\"popular\",{it.name},{UsageScore(2)})\\\
+        n  assertEquals(listOf(b,a),sorted)\\n }\\n @Test fun recentUsesDateBeforeInsertionId(){\\n  val sorted=sortedUsage(listOf(\"old\",\"\
+        recent\"),\"recent\",{it},{if(it==\"old\")UsageScore(2,\"2026-01-01\",99)else UsageScore(1,\"2026-01-02\",1)})\\n  assertEquals(\"recent\"\
+        ,sorted.first())\\n }\\n @Test fun checksumRejectsPartialOrIncorrectCodes(){\\n  assertTrue(validGtin(\"4006381333931\"));assertTrue(validGtin(\"\
+        036000291452\"));assertTrue(validGtin(\"96385074\"))\\n  assertFalse(validGtin(\"400638133393\"));assertFalse(validGtin(\"4006381333932\"\
+        ));assertFalse(validGtin(\"abcdefghi\"))\\n }\\n @Test fun stableFramesRequired(){\\n  val g=StableBarcodeGate();assertNull(g.offer(\"\
+        4006381333931\",0));assertNull(g.offer(\"4006381333931\",100));assertEquals(\"4006381333931\",g.offer(\"4006381333931\",200))\\n }\\n\
+        \ @Test fun unstableFramesResetCandidate(){\\n  val g=StableBarcodeGate();g.offer(\"4006381333931\",0);g.offer(null,100);assertNull(g.offer(\"\
+        4006381333931\",200));assertNull(g.offer(\"4006381333931\",300));assertEquals(\"4006381333931\",g.offer(\"4006381333931\",400))\\n }\\\
+        n @Test fun sameCodeHasCooldown(){\\n  val g=StableBarcodeGate();g.offer(\"4006381333931\",0);g.offer(\"4006381333931\",100);g.offer(\"\
+        4006381333931\",200)\\n  assertNull(g.offer(\"4006381333931\",300));assertNull(g.offer(\"4006381333931\",400));assertNull(g.offer(\"4006381333931\"\
+        ,500))\\n }\\n}\\n')\n\nPY\n"
+    - name: Test and build APK
+      run: gradle -p CalorieCounter testDebugUnitTest assembleDebug --console=plain
+    - name: Package complete updated source project
+      run: |
+        python3 - <<'PY'
+        from pathlib import Path
+        import zipfile,json
+        root=Path('CalorieCounter')
+        with zipfile.ZipFile('CalorieCounter-updated.zip','w',zipfile.ZIP_DEFLATED) as archive:
+         for p in sorted(root.rglob('*')):
+          if p.is_file() and not any(part in {'build','.gradle','.git'} for part in p.parts) and p.name!='local.properties':archive.write(p,p.as_posix())
+        with zipfile.ZipFile('CalorieCounter-updated.zip') as archive:
+         assert archive.testzip() is None
+        Path('sorting-search-scanner-report.json').write_text(json.dumps({'version':'3.9-sorting-search-scanner','popularity_source':'Existing retained diary records, including dates before this update','sorting':['Alphabetical A-Z','Alphabetical Z-A','Most popular','Recently used'],'scanner':'Three matching valid readings spanning at least 180ms; one lookup at a time; camera retained on lookup errors','tests_added':11},indent=2))
+        PY
+    - name: Upload APK
+      uses: actions/upload-artifact@v4
+      with:
+        name: diet-tracker-3.9-sorting-search-scanner-apk
+        path: CalorieCounter/app/build/outputs/apk/debug/app-debug.apk
+        if-no-files-found: error
+    - name: Upload complete updated project
+      uses: actions/upload-artifact@v4
+      with:
+        name: diet-tracker-3.9-source-project
+        path: |-
+          CalorieCounter-updated.zip
+          sorting-search-scanner-report.json
+        if-no-files-found: error
+    - name: Upload source and test reports
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: sorting-search-scanner-source-and-reports
+        path: |-
+          CalorieCounter/app/src/main
+          CalorieCounter/app/src/test
+          CalorieCounter/app/build/reports/tests
+        if-no-files-found: warn
