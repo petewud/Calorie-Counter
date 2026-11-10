@@ -1,0 +1,117 @@
+name: Build category settings and navigation update
+'on':
+  push:
+    branches:
+    - main
+    paths:
+    - .github/workflows/build-category-settings-navigation-update.yml
+  workflow_dispatch: null
+permissions:
+  contents: read
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-java@v4
+      with:
+        distribution: temurin
+        java-version: '17'
+    - uses: android-actions/setup-android@v3
+      with:
+        packages: platform-tools platforms;android-35 build-tools;35.0.0
+    - uses: gradle/actions/setup-gradle@v4
+      with:
+        gradle-version: '8.9'
+    - uses: actions/cache@v4
+      with:
+        path: ~/.android/debug.keystore
+        key: calorie-counter-debug-signing-v1
+    - name: Apply existing category and date updates
+      run: |
+        python3 -m pip install --quiet PyYAML Pillow
+        python3 - <<'PY'
+        from pathlib import Path
+        import yaml,subprocess
+        w=yaml.safe_load(Path('.github/workflows/build-categories-uk-dates-update.yml').read_text())
+        for name in ['Prepare the verified current app','Apply categories and UK dates']:
+         step=next(s for s in w['jobs']['update']['steps'] if s.get('name')==name)
+         subprocess.run(['bash','-e','-c',step['run']],check=True)
+        PY
+    - name: Apply category preferences and tab reset behaviour
+      run: |
+        python3 - <<'PY'
+        PREFERENCES='@Composable\nfun CategoryPreferences(){\n val context=androidx.compose.ui.platform.LocalContext.current\n val repo=remember{CategoryRepository(context)}\n var recipes by remember{mutableStateOf(repo.enabled("recipes"))}\n var favourites by remember{mutableStateOf(repo.enabled("favourites"))}\n Text("Categories",style=MaterialTheme.typography.titleLarge)\n Row(Modifier.fillMaxWidth(),verticalAlignment=androidx.compose.ui.Alignment.CenterVertically){Text("Use categories for recipes",Modifier.weight(1f));Switch(checked=recipes,onCheckedChange={recipes=it;repo.setEnabled("recipes",it)})}\n Row(Modifier.fillMaxWidth(),verticalAlignment=androidx.compose.ui.Alignment.CenterVertically){Text("Use categories for favourites",Modifier.weight(1f));Switch(checked=favourites,onCheckedChange={favourites=it;repo.setEnabled("favourites",it)})}\n Text("Switching categories off shows all items. Your categories and assignments are kept.",style=MaterialTheme.typography.bodySmall)\n}\n@Composable\nprivate fun FlatCategoryItems(title:String,kind:String,items:List<CategoryItem>,content:@Composable (Set<String>)->Unit){\n var query by rememberSaveable(kind){mutableStateOf("")}\n Column(Modifier.fillMaxSize()){\n  OutlinedTextField(query,{query=it},singleLine=true,label={Text("Search "+title.lowercase())},modifier=Modifier.fillMaxWidth().padding(horizontal=12.dp))\n  CompositionLocalProvider(LocalCategoryView provides true,LocalCategoryTitle provides title){Box(Modifier.weight(1f)){content(items.filter{it.searchText.contains(query,true)}.map{it.id}.toSet())}}\n }\n}\n'
+        NAVIGATION='package com.example.caloriecounter\nfun navigationTab(screen:String,foodReturn:String):String=when(screen){\n "Search","Scan","Restaurants"->"Add"\n "Recipe"->"Recipes"\n "FavouriteEdit"->"Favourites"\n "Food"->when(foodReturn){"Recipe"->"Recipes";"Home"->"Home";"History"->"History";else->"Add"}\n "Setup"->"Settings"\n else->screen\n}\nfun shouldResetTabs(currentScreen:String,foodReturn:String,targetTab:String)=navigationTab(currentScreen,foodReturn)!=targetTab\n'
+        from pathlib import Path
+        import re
+        root=Path('CalorieCounter');pkg=root/'app/src/main/java/com/example/caloriecounter'
+        def change(s,a,b,count=1):
+         if s.count(a)!=count:raise SystemExit('Category settings/navigation source mismatch: '+repr(a)+' found '+str(s.count(a)))
+         return s.replace(a,b)
+        p=pkg/'Categories.kt';s=p.read_text()
+        s=change(s,' fun exportData():JSONObject=read()',""" fun enabled(kind:String):Boolean{require(kind in listOf("recipes","favourites"));return read().optBoolean(kind+"Enabled",true)}
+         fun setEnabled(kind:String,enabled:Boolean){require(kind in listOf("recipes","favourites"));val data=read();data.put(kind+"Enabled",enabled);save(data)}
+         fun exportData():JSONObject=read()""")
+        s=change(s,'for(kind in listOf("recipes","favourites")){','for(kind in listOf("recipes","favourites")){\n   if(payload.has(kind+"Enabled"))setEnabled(kind,payload.optBoolean(kind+"Enabled",true))')
+        p.write_text(s)
+        p=pkg/'CategoryScreens.kt';s=p.read_text()
+        s=change(s,'fun ItemCategoryPicker(repo:CategoryRepository,kind:String,item:String,onChange:()->Unit){','fun ItemCategoryPicker(repo:CategoryRepository,kind:String,item:String,onChange:()->Unit){\n if(!repo.enabled(kind))return')
+        s=change(s,'fun DraftCategoryPicker(repo:CategoryRepository,selected:String?,onSelect:(String?)->Unit){','fun DraftCategoryPicker(repo:CategoryRepository,selected:String?,onSelect:(String?)->Unit){\n if(!repo.enabled("recipes"))return')
+        s=change(s,' var selected by rememberSaveable(kind){',' if(!repo.enabled(kind)){FlatCategoryItems(title,kind,items,content);return}\n var selected by rememberSaveable(kind){')
+        s+='\n'+PREFERENCES;p.write_text(s)
+        p=pkg/'ProfileScreen.kt';s=p.read_text()
+        s=change(s,'Text(if(onboarding)"Set up your profile"else "Settings",style=MaterialTheme.typography.headlineMedium)','Text(if(onboarding)"Set up your profile"else "Settings",style=MaterialTheme.typography.headlineMedium)\n  if(!onboarding)CategoryPreferences()')
+        p.write_text(s)
+        p=pkg/'MainActivity.kt';s=p.read_text()
+        s=change(s,' val searchStateHolder=',' var navigationEpoch by androidx.compose.runtime.saveable.rememberSaveable{mutableIntStateOf(0)}\n val searchStateHolder=')
+        anchor='tabs.forEachIndexed{i,tab->NavigationBarItem(selected=(screen==tab||(tab=="Add"&&screen=="Search")),onClick={'
+        replacement=anchor+'if(shouldResetTabs(screen,foodReturnScreen,tab)){listOf("food-search","recipe-categories","favourite-categories").forEach{searchStateHolder.removeState(it)};navigationEpoch++;homeTab=0;day=LocalDate.now()};'
+        s=change(s,anchor,replacement)
+        s=change(s,'  when(screen){','  key(navigationEpoch){when(screen){')
+        s=change(s,'  }\n }}\n}\n','  }}\n }}\n}\n')
+        p.write_text(s)
+        (pkg/'TabNavigation.kt').write_text(NAVIGATION)
+        p=root/'app/build.gradle.kts';s=p.read_text();m=re.search(r'versionCode\s*=\s*(\d+)',s);v=max(42,int(m.group(1))+1)
+        s=re.sub(r'versionCode\s*=\s*\d+','versionCode = '+str(v),s);s=re.sub(r'versionName\s*=\s*"[^"]+"','versionName = "4.1-category-settings-navigation"',s);p.write_text(s)
+
+        p=root/"app/src/test/java/com/example/caloriecounter/TabNavigationTest.kt";p.parent.mkdir(parents=True,exist_ok=True);p.write_text('package com.example.caloriecounter\nimport org.junit.Assert.*\nimport org.junit.Test\nclass TabNavigationTest{\n @Test fun productOpenedFromSearchBelongsToAdd(){assertEquals("Add",navigationTab("Food","Search"))}\n @Test fun searchResultBackDoesNotReset(){assertFalse(shouldResetTabs("Food","Search","Add"))}\n @Test fun leaveSearchForRecipesResets(){assertTrue(shouldResetTabs("Food","Search","Recipes"))}\n @Test fun favouritesToRecipesResets(){assertTrue(shouldResetTabs("Favourites","Search","Recipes"))}\n @Test fun recipeEditorIsRecipes(){assertEquals("Recipes",navigationTab("Recipe","Search"))}\n @Test fun favouriteEditorIsFavourites(){assertEquals("Favourites",navigationTab("FavouriteEdit","Search"))}\n @Test fun diaryEditorIsHome(){assertEquals("Home",navigationTab("Food","Home"))}\n @Test fun historyEditorIsHistory(){assertEquals("History",navigationTab("Food","History"))}\n @Test fun sameTabDoesNotDiscardState(){assertFalse(shouldResetTabs("Recipes","Search","Recipes"))}\n @Test fun scanBelongsToSearch(){assertEquals("Add",navigationTab("Scan","Search"))}\n @Test fun restaurantsBelongToSearch(){assertEquals("Add",navigationTab("Restaurants","Search"))}\n @Test fun homeToHistoryResets(){assertTrue(shouldResetTabs("Home","Home","History"))}\n}\n')
+
+        p=pkg/"FavouritesScreen.kt";s=p.read_text();s=s.replace("No favourites in this view. Use Organise in All items to move existing favourites here.","No favourites match this view.");p.write_text(s)
+
+        PY
+    - name: Test and build APK
+      run: gradle -p CalorieCounter testDebugUnitTest assembleDebug --console=plain
+    - name: Package updated project
+      run: |
+        python3 - <<'PY'
+        from pathlib import Path
+        import zipfile
+        with zipfile.ZipFile('CalorieCounter-updated.zip','w',zipfile.ZIP_DEFLATED) as archive:
+         for p in sorted(Path('CalorieCounter').rglob('*')):
+          if p.is_file() and not any(part in {'build','.gradle','.git'} for part in p.parts) and p.name!='local.properties':archive.write(p,p.as_posix())
+        with zipfile.ZipFile('CalorieCounter-updated.zip') as archive:assert archive.testzip() is None
+        PY
+    - name: Upload APK
+      uses: actions/upload-artifact@v4
+      with:
+        name: diet-tracker-4.1-category-settings-navigation-apk
+        path: CalorieCounter/app/build/outputs/apk/debug/app-debug.apk
+        if-no-files-found: error
+    - name: Upload complete updated project
+      uses: actions/upload-artifact@v4
+      with:
+        name: diet-tracker-4.1-source-project
+        path: CalorieCounter-updated.zip
+        if-no-files-found: error
+    - name: Upload source and test reports
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: category-settings-navigation-source-and-reports
+        path: |-
+          CalorieCounter/app/src/main
+          CalorieCounter/app/src/test
+          CalorieCounter/app/build/reports/tests
+        if-no-files-found: warn
